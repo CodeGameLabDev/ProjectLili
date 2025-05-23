@@ -12,11 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a9ea82b4d251934f95c62b64c308a6e, type: 3}
   m_Name: HierarchyHighlightSettings
   m_EditorClassIdentifier: 
-  rules:
-  - nameMatch: Manager
-    matchBySuffix: 1
-    backgroundColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-    textColor: {r: 1, g: 1, b: 1, a: 1}
-    selectedIconIndex: 0
-    iconName: d_UnityEditor.InspectorWindow
-    customIcon: {fileID: 0}
+  rules: []

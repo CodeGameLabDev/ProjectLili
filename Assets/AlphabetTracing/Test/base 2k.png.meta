@@ -1,0 +1,853 @@
+fileFormatVersion: 2
+guid: 2d621ffc852f9844886cf803e1942062
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 50
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: base 2k_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1707.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a48198a7ab5d67a4f81aa6b0eb011476
+      internalID: -1325164907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_1
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 1707.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e633243a0c4f9114cad91ff655b96bb6
+      internalID: -462570209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_2
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 1707.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33b5b5309403dcc4b8896ec45bcd0db1
+      internalID: -1177114916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_3
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 1707.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15c3c7bb868d20a40ab78a6951bc31e4
+      internalID: -872689784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_4
+      rect:
+        serializedVersion: 2
+        x: 1364
+        y: 1707.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d32804c7f65e8b49a2d9a325227878e
+      internalID: -2042021847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_5
+      rect:
+        serializedVersion: 2
+        x: 1705
+        y: 1707.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f293720c0729f84ebb17d02c9b49d14
+      internalID: -2075617229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1366.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15081e6bf63c91449bd569780633e2a0
+      internalID: -1642984521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_7
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 1366.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12052f7287229fd4fadfe5214c8c7188
+      internalID: -156752734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_8
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 1366.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed0af6bd69b563547bb703944c8d9e54
+      internalID: -760914241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_9
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 1366.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aefe7bcd678852a4e8feba2c5029363e
+      internalID: 576345735
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_10
+      rect:
+        serializedVersion: 2
+        x: 1364
+        y: 1366.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41df52b334a2b854f98b5d2dbb184ec5
+      internalID: 336260367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_11
+      rect:
+        serializedVersion: 2
+        x: 1705
+        y: 1366.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a3b571d447bffb41936168928398c60
+      internalID: -251195965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1025.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69ee51b44aa33b14a81acaa9bdb5e052
+      internalID: -487199293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_13
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 1025.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ad6ad83586680b4480319c3eb9ae430
+      internalID: -344292412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_14
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 1025.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9de407dc58f7e254e9976bec134feedd
+      internalID: 502306103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_15
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 1025.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff7b30387fb397d43b26209353c8d68c
+      internalID: -1850320402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_16
+      rect:
+        serializedVersion: 2
+        x: 1364
+        y: 1025.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a04da8a7fd427e4eb45a3afa7449d11
+      internalID: -760379578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_17
+      rect:
+        serializedVersion: 2
+        x: 1705
+        y: 1025.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5d22c85f78106e499704f9931f3ba9e
+      internalID: 787438518
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 684.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c1fece2780ac714d9ce99c2a654cfe3
+      internalID: -15698392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_19
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 684.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98082933d0f933d4f96c00a0a8c50138
+      internalID: -2040788783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_20
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 684.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9abb78be86fbac647a976264456cf5d9
+      internalID: -677035214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_21
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 684.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b8dd1c2a3ef8fa47a2b1ff57a738e94
+      internalID: 1768398147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_22
+      rect:
+        serializedVersion: 2
+        x: 1364
+        y: 684.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d462975aaf05ed48a292a188b08e0ec
+      internalID: -1471293961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_23
+      rect:
+        serializedVersion: 2
+        x: 1705
+        y: 684.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c0fa403f8212e73408455d1fe31588f3
+      internalID: -213577622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 343.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb2b49cd97eb9dc44b5ad44615004b5c
+      internalID: 1601814115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_25
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 343.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f716cd563a80034082330fd18e9a4c0
+      internalID: 351794143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_26
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 343.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0154fa478ca0bc4d889c7bd51ebf016
+      internalID: -80520027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_27
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 343.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d168db81f33d784a9acb72a38330f17
+      internalID: -981452315
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_28
+      rect:
+        serializedVersion: 2
+        x: 1364
+        y: 343.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9564767a1d558b240932facc9137167e
+      internalID: -805527715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_29
+      rect:
+        serializedVersion: 2
+        x: 1705
+        y: 343.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 112c5f6dc4ba2924e841b294416ce2b5
+      internalID: -4511197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_30
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d64585e45b834cc41b36f286330abd77
+      internalID: -818828886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_31
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 2.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0c1afd86ee8dc04980253d49aa7b8c0
+      internalID: -1056031829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: base 2k_32
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 2.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a5c0efda6e245f4094ce0b6aba16e17
+      internalID: 2120949673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      base 2k_0: -1325164907
+      base 2k_1: -462570209
+      base 2k_10: 336260367
+      base 2k_11: -251195965
+      base 2k_12: -487199293
+      base 2k_13: -344292412
+      base 2k_14: 502306103
+      base 2k_15: -1850320402
+      base 2k_16: -760379578
+      base 2k_17: 787438518
+      base 2k_18: -15698392
+      base 2k_19: -2040788783
+      base 2k_2: -1177114916
+      base 2k_20: -677035214
+      base 2k_21: 1768398147
+      base 2k_22: -1471293961
+      base 2k_23: -213577622
+      base 2k_24: 1601814115
+      base 2k_25: 351794143
+      base 2k_26: -80520027
+      base 2k_27: -981452315
+      base 2k_28: -805527715
+      base 2k_29: -4511197
+      base 2k_3: -872689784
+      base 2k_30: -818828886
+      base 2k_31: -1056031829
+      base 2k_32: 2120949673
+      base 2k_4: -2042021847
+      base 2k_5: -2075617229
+      base 2k_6: -1642984521
+      base 2k_7: -156752734
+      base 2k_8: -760914241
+      base 2k_9: 576345735
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
