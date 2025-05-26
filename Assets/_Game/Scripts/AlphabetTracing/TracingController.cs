@@ -47,6 +47,7 @@ public class TracingController : MonoBehaviour
             }
         }
 
+
         if (rootCanvas == null) {
              Debug.LogError("Kök Canvas bulunamadı! TracingManager'ın bir Canvas altında olması veya sahnede bir Kök Canvas olması gerekir.");
              this.enabled = false;
