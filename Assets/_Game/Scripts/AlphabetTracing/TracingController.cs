@@ -92,7 +92,8 @@ public class TracingController : MonoBehaviour
 
         if (!isDragging)
         {
-            if (Vector2.Distance(mousePos, startPos) <= detectionRadius && Input.GetMouseButtonDown(0)) {
+            // Fare basılı tutulurken başlangıç noktasının yakınından geçerse algıla
+            if (Input.GetMouseButton(0) && Vector2.Distance(mousePos, startPos) <= detectionRadius) {
                 isDragging = true;
                 Debug.Log($"Segment {currentIndex} BAŞLADI.");
             }
