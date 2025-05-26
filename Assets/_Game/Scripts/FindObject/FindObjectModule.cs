@@ -225,33 +225,6 @@ public class FindObjectModule : MonoBehaviour
         return ((float)foundObjectsCount / assetHolder.findObjects.Count) * 100f;
     }
     
-    [Button("Reset Progress", ButtonSizes.Medium)]
-    [GUIColor(1f, 0.6f, 0.6f)]
-    public void ResetProgress()
-    {
-        foundObjectsCount = 0;
-        if (assetHolder != null)
-        {
-            foreach (var findObj in assetHolder.findObjects)
-            {
-                findObj.isFound = false;
-                if (findObj.obj != null)
-                {
-                    findObj.obj.SetActive(true);
-                }
-                if (findObj.uiobj != null && findObj.uiobj.transform.childCount > 0)
-                {
-                    findObj.uiobj.transform.GetChild(0).gameObject.SetActive(false);
-                }
-            }
-        }
-        UpdateProgressBar();
-        
-        if (showDebugMessages)
-        {
-            Debug.Log("🔄 Progress sıfırlandı!");
-        }
-    }
     
     void StartShakingUnfoundObjects()
     {
