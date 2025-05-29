@@ -230,15 +230,24 @@ public class FindObjectModule : MonoBehaviour
     {
         if (assetHolder == null) return;
         
+        // Bulunamayan objeleri topla
+        List<FindObject> unfoundObjects = new List<FindObject>();
         foreach (FindObject findObj in assetHolder.findObjects)
         {
             if (!findObj.isFound && findObj.obj != null && findObj.obj.activeInHierarchy)
             {
-                if (shakeCoroutines.ContainsKey(findObj.obj) && shakeCoroutines[findObj.obj] == null)
-                {
-                    shakeCoroutines[findObj.obj] = StartCoroutine(ShakeObject(findObj.obj));
-                }
+                unfoundObjects.Add(findObj);
             }
+        }
+        
+        if (unfoundObjects.Count == 0) return;
+        
+        // Rastgele bir obje seç ve sadece onu shake et
+        FindObject selectedObj = unfoundObjects[Random.Range(0, unfoundObjects.Count)];
+        
+        if (!shakeCoroutines.ContainsKey(selectedObj.obj) || shakeCoroutines[selectedObj.obj] == null)
+        {
+            shakeCoroutines[selectedObj.obj] = StartCoroutine(ShakeObject(selectedObj.obj));
         }
     }
     
