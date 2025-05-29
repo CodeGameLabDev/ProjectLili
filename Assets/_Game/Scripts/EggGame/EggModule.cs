@@ -9,105 +9,138 @@ public class EggModule : MonoBehaviour
     [Header("Tab Buttons")]
     public Button colorButton;
     public Button patternButton;
+    public Button doneButton;
     
     [Header("Game Objects")]
     public GameObject colorGameObject;
     public GameObject patternGameObject;
     
     [Header("Egg")]
-    public Image eggImage; // Yumurta image referansı
-    public Image eggPatterns; // Yumurta desen image referansı
+    public Image eggImage;
+    public Image eggPatterns;
+    private Color initialEggColor;
+    private Sprite initialEggPatternSprite;
+    private Color initialEggPatternColor;
     
     [Header("Color Button System")]
-    public Transform colorButtonParent; // Color butonları parent'ı
+    public Transform colorButtonParent;
     
     [Button("Initialize Color Buttons")]
     public void InitializeColorButtons()
     {
         if (colorButtonParent == null) return;
-        
-        // Color parent altındaki tüm butonları al
         colorButtons = new List<Button>(colorButtonParent.GetComponentsInChildren<Button>());
         colorButtonImages = new Image[colorButtons.Count];
-        
-        // Image componentlerini al
         for (int i = 0; i < colorButtons.Count; i++)
-        {
             colorButtonImages[i] = colorButtons[i].GetComponent<Image>();
-        }
     }
     
     [ListDrawerSettings(ShowIndexLabels = true, ListElementLabelName = "name")]
-    public List<Button> colorButtons = new List<Button>(); // Color butonları listesi
-    private Image[] colorButtonImages; // Color butonların image componentleri
-    private int currentSelectedColorIndex = -1; // Şu an seçili olan color buton indexi
+    public List<Button> colorButtons = new List<Button>();
+    private Image[] colorButtonImages;
+    private int currentSelectedColorIndex = -1;
+    private bool colorSelected = false;
     
     [Header("Pattern Button System")]
-    public Transform patternButtonParent; // Pattern butonları parent'ı
+    public Transform patternButtonParent;
     
     [Button("Initialize Pattern Buttons")]
     public void InitializePatternButtons()
     {
         if (patternButtonParent == null) return;
-        
-        // Pattern parent altındaki tüm butonları al
         patternButtons = new List<Button>(patternButtonParent.GetComponentsInChildren<Button>());
         patternButtonImages = new Image[patternButtons.Count];
-        
-        // Image componentlerini al
         for (int i = 0; i < patternButtons.Count; i++)
-        {
             patternButtonImages[i] = patternButtons[i].GetComponent<Image>();
-        }
     }
     
     [ListDrawerSettings(ShowIndexLabels = true, ListElementLabelName = "name")]
-    public List<Button> patternButtons = new List<Button>(); // Pattern butonları listesi
-    private Image[] patternButtonImages; // Pattern butonların image componentleri
-    private int currentSelectedPatternIndex = -1; // Şu an seçili olan pattern buton indexi
+    public List<Button> patternButtons = new List<Button>();
+    private Image[] patternButtonImages;
+    private int currentSelectedPatternIndex = -1;
+    private bool patternSelected = false;
     
-    // Start is called before the first frame update
     void Start()
     {
-        // Buton event'lerini bağla
-        colorButton.onClick.AddListener(OnColorButtonClicked);
-        patternButton.onClick.AddListener(OnPatternButtonClicked);
+        colorButton.onClick.AddListener(ShowColorTab);
+        patternButton.onClick.AddListener(ShowPatternTab);
+        doneButton.onClick.AddListener(OnDoneButtonClicked);
         
-        // Child butonları setup et
         SetupColorButtons();
         SetupPatternButtons();
         
-        // Başlangıçta Color sekmesini aktif yap
+        StoreInitialEggState();
+        
         ShowColorTab();
         eggPatterns.enabled = false;
-
+        doneButton.gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void StoreInitialEggState()
     {
-        
+        if (eggImage != null) initialEggColor = eggImage.color;
+        if (eggPatterns != null)
+        {
+            initialEggPatternSprite = eggPatterns.sprite;
+            initialEggPatternColor = eggPatterns.color;
+        }
+    }
+
+    private void CheckDoneButtonState()
+    {
+        if (doneButton != null)
+        {
+            doneButton.gameObject.SetActive(colorSelected && patternSelected);
+        }
     }
     
-    // Color butonları setup et
+    private void OnDoneButtonClicked()
+    {
+        ResetEgg();
+        doneButton.gameObject.SetActive(false);
+        colorSelected = false;
+        patternSelected = false;
+
+        if (currentSelectedColorIndex != -1 && colorButtonImages[currentSelectedColorIndex] != null)
+        {
+            Color prevColor = colorButtonImages[currentSelectedColorIndex].color;
+            prevColor.a = 0f;
+            colorButtonImages[currentSelectedColorIndex].color = prevColor;
+        }
+        if (currentSelectedPatternIndex != -1 && patternButtonImages[currentSelectedPatternIndex] != null)
+        {
+            Color prevPattern = patternButtonImages[currentSelectedPatternIndex].color;
+            prevPattern.a = 0f;
+            patternButtonImages[currentSelectedPatternIndex].color = prevPattern;
+        }
+        currentSelectedColorIndex = -1;
+        currentSelectedPatternIndex = -1;
+        
+        ShowColorTab();
+    }
+
+    private void ResetEgg()
+    {
+        if (eggImage != null) eggImage.color = initialEggColor;
+        if (eggPatterns != null)
+        {
+            eggPatterns.sprite = initialEggPatternSprite;
+            eggPatterns.color = initialEggPatternColor;
+            eggPatterns.enabled = false;
+        }
+    }
+    
     private void SetupColorButtons()
     {
         if (colorButtons == null || colorButtons.Count == 0) return;
-        
         colorButtonImages = new Image[colorButtons.Count];
         
-        // Her color buton için image component'ini al ve event listener ekle
         for (int i = 0; i < colorButtons.Count; i++)
         {
             if (colorButtons[i] == null) continue;
-            
             colorButtonImages[i] = colorButtons[i].GetComponent<Image>();
-            
-            // Local variable kullanarak closure problemi çöz
             int index = i;
             colorButtons[i].onClick.AddListener(() => SelectColorButton(index));
-            
-            // Başlangıçta tüm butonların alpha'sını 0 yap
             if (colorButtonImages[i] != null)
             {
                 Color color = colorButtonImages[i].color;
@@ -117,25 +150,17 @@ public class EggModule : MonoBehaviour
         }
     }
     
-    // Pattern butonları setup et
     private void SetupPatternButtons()
     {
         if (patternButtons == null || patternButtons.Count == 0) return;
-        
         patternButtonImages = new Image[patternButtons.Count];
         
-        // Her pattern buton için image component'ini al ve event listener ekle
         for (int i = 0; i < patternButtons.Count; i++)
         {
             if (patternButtons[i] == null) continue;
-            
             patternButtonImages[i] = patternButtons[i].GetComponent<Image>();
-            
-            // Local variable kullanarak closure problemi çöz
             int index = i;
             patternButtons[i].onClick.AddListener(() => SelectPatternButton(index));
-            
-            // Başlangıçta tüm butonların alpha'sını 0 yap
             if (patternButtonImages[i] != null)
             {
                 Color color = patternButtonImages[i].color;
@@ -145,23 +170,17 @@ public class EggModule : MonoBehaviour
         }
     }
     
-    // Color buton seç
     public void SelectColorButton(int index)
     {
         if (index < 0 || index >= colorButtons.Count) return;
         
-        // Önceki seçili color butonun alpha'sını 0 yap
-        if (currentSelectedColorIndex >= 0 && currentSelectedColorIndex < colorButtonImages.Length)
+        if (currentSelectedColorIndex != -1 && colorButtonImages[currentSelectedColorIndex] != null)
         {
-            if (colorButtonImages[currentSelectedColorIndex] != null)
-            {
-                Color prevColor = colorButtonImages[currentSelectedColorIndex].color;
-                prevColor.a = 0f;
-                colorButtonImages[currentSelectedColorIndex].color = prevColor;
-            }
+            Color prevColor = colorButtonImages[currentSelectedColorIndex].color;
+            prevColor.a = 0f;
+            colorButtonImages[currentSelectedColorIndex].color = prevColor;
         }
         
-        // Yeni seçili color butonun alpha'sını 1 yap
         if (colorButtonImages[index] != null)
         {
             Color newColor = colorButtonImages[index].color;
@@ -169,30 +188,23 @@ public class EggModule : MonoBehaviour
             colorButtonImages[index].color = newColor;
         }
         
-        // Şu anki seçili color index'i güncelle
         currentSelectedColorIndex = index;
-        
-        // Renk uygula
+        colorSelected = true;
         ApplyColorToEgg(index);
+        CheckDoneButtonState();
     }
     
-    // Pattern buton seç
     public void SelectPatternButton(int index)
     {
         if (index < 0 || index >= patternButtons.Count) return;
         
-        // Önceki seçili pattern butonun alpha'sını 0 yap
-        if (currentSelectedPatternIndex >= 0 && currentSelectedPatternIndex < patternButtonImages.Length)
+        if (currentSelectedPatternIndex != -1 && patternButtonImages[currentSelectedPatternIndex] != null)
         {
-            if (patternButtonImages[currentSelectedPatternIndex] != null)
-            {
-                Color prevColor = patternButtonImages[currentSelectedPatternIndex].color;
-                prevColor.a = 0f;
-                patternButtonImages[currentSelectedPatternIndex].color = prevColor;
-            }
+            Color prevColor = patternButtonImages[currentSelectedPatternIndex].color;
+            prevColor.a = 0f;
+            patternButtonImages[currentSelectedPatternIndex].color = prevColor;
         }
         
-        // Yeni seçili pattern butonun alpha'sını 1 yap
         if (patternButtonImages[index] != null)
         {
             Color newColor = patternButtonImages[index].color;
@@ -200,41 +212,33 @@ public class EggModule : MonoBehaviour
             patternButtonImages[index].color = newColor;
         }
         
-        // Şu anki seçili pattern index'i güncelle
         currentSelectedPatternIndex = index;
-        
-        // Desen uygula
+        patternSelected = true;
         ApplyPatternToEgg(index);
+        CheckDoneButtonState();
     }
     
-    // Seçilen color butonun rengini yumurtaya uygula
     private void ApplyColorToEgg(int buttonIndex)
     {
-        if (eggImage == null || buttonIndex < 0 || buttonIndex >= colorButtons.Count) return;
-        if (colorButtons[buttonIndex] == null) return;
+        if (eggImage == null || buttonIndex < 0 || buttonIndex >= colorButtons.Count || colorButtons[buttonIndex] == null) return;
         
-        // Seçilen color butonun ilk child'ındaki Image component'ini al
         Transform buttonTransform = colorButtons[buttonIndex].transform;
         if (buttonTransform.childCount > 0)
         {
             Image childImage = buttonTransform.GetChild(0).GetComponent<Image>();
             if (childImage != null)
             {
-                // Child image'in rengini yumurtaya uygula
                 Color eggColor = childImage.color;
-                eggColor.a = eggImage.color.a; // Yumurtanın alpha'sını koru
+                eggColor.a = eggImage.color.a;
                 eggImage.color = eggColor;
             }
         }
     }
     
-    // Seçilen pattern butonun desenini yumurtaya uygula
     private void ApplyPatternToEgg(int buttonIndex)
     {
-        if (eggPatterns == null || buttonIndex < 0 || buttonIndex >= patternButtons.Count) return;
-        if (patternButtons[buttonIndex] == null) return;
+        if (eggPatterns == null || buttonIndex < 0 || buttonIndex >= patternButtons.Count || patternButtons[buttonIndex] == null) return;
         
-        // Seçilen pattern butonun child(0).child(0)'ındaki Image component'ini al
         Transform buttonTransform = patternButtons[buttonIndex].transform;
         if (buttonTransform.childCount > 0)
         {
@@ -245,36 +249,21 @@ public class EggModule : MonoBehaviour
                 if (patternImage != null)
                 {
                     eggPatterns.enabled = true;
-                    // Pattern image'in sprite'ını ve rengini yumurta desenine uygula
                     eggPatterns.sprite = patternImage.sprite;
                     Color patternColor = patternImage.color;
-                    patternColor.a = eggPatterns.color.a; // Yumurta deseninin alpha'sını koru
+                    patternColor.a = eggPatterns.color.a;
                     eggPatterns.color = patternColor;
                 }
             }
         }
     }
     
-    // Color butonuna tıklandığında çağrılır
-    public void OnColorButtonClicked()
-    {
-        ShowColorTab();
-    }
-    
-    // Pattern butonuna tıklandığında çağrılır
-    public void OnPatternButtonClicked()
-    {
-        ShowPatternTab();
-    }
-    
-    // Color sekmesini göster
     private void ShowColorTab()
     {
         colorGameObject.SetActive(true);
         patternGameObject.SetActive(false);
     }
     
-    // Pattern sekmesini göster
     private void ShowPatternTab()
     {
         colorGameObject.SetActive(false);
