@@ -1,0 +1,853 @@
+fileFormatVersion: 2
+guid: 672b04f1b534b664e8f767da2736b943
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: small  base_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1707.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb3a3ceaff9184446875157655c2c0b3
+      internalID: -154690149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_1
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 1707.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47bf3d78ab93a454db8870bd745971ca
+      internalID: -1625746440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_2
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 1707.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d97a603fe15ebc4b9ef9dc135a601bd
+      internalID: -1307792649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_3
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 1707.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54ef1a1a77c778a44a2e3163abcef1cb
+      internalID: -280303576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_4
+      rect:
+        serializedVersion: 2
+        x: 1364
+        y: 1707.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f3b67a9538f2a940823c717a471581d
+      internalID: -1983141889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_5
+      rect:
+        serializedVersion: 2
+        x: 1705
+        y: 1707.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7cd49929310c70043b9b85ba3b6fc661
+      internalID: 1600086444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1366.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64d45e08f5c74734f8dd47f4f5a72351
+      internalID: 1818946613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_7
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 1366.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23724c9e4a4316446b2459b87dc78ad8
+      internalID: -1605139273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_8
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 1366.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3bf996f2852a624587b8281510a5871
+      internalID: -1735426296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_9
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 1366.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1eba95b3753a35c4382a5abc4e0a2b72
+      internalID: -1015031975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_10
+      rect:
+        serializedVersion: 2
+        x: 1364
+        y: 1366.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e6bb3c2fd2b6f045a69d5b83ed30577
+      internalID: -1932680191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_11
+      rect:
+        serializedVersion: 2
+        x: 1705
+        y: 1366.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4579a0840872a384084637ed0aa1c667
+      internalID: -1015112124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1025.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 017954b531bc05d4c9a7154fdc7a100a
+      internalID: 1598203634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_13
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 1025.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a93c1cbefd4909d49a5f59568740a248
+      internalID: -1730523400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_14
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 1025.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a4d4c80b541bb34fb17007e6ff4b422
+      internalID: 1382300611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_15
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 1025.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5e7a405fe3604648b52203cf083281b
+      internalID: -416711903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_16
+      rect:
+        serializedVersion: 2
+        x: 1364
+        y: 1025.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e753293f79d268429686a2fd706158c
+      internalID: -505370844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_17
+      rect:
+        serializedVersion: 2
+        x: 1705
+        y: 1025.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac67a5f77e0f7f24eb7e4d38d6811e4d
+      internalID: 796226622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 684.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31535bd48842b8c4baf951ef2289aaf3
+      internalID: -2000650022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_19
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 684.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f731651ca7609af4f8a34242cc44dc54
+      internalID: 1690380926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_20
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 684.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a102fb0729d4a534dbb71b7867dea335
+      internalID: 313914287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_21
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 684.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 397ccbd324197c242b12f9b81d07a2ca
+      internalID: -1130453386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_22
+      rect:
+        serializedVersion: 2
+        x: 1364
+        y: 684.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df01024fefed2384683881dbe09c7b02
+      internalID: -719932969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_23
+      rect:
+        serializedVersion: 2
+        x: 1705
+        y: 684.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 112e1271762990b4d9ad66b3439148da
+      internalID: -1647862761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 343.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f8952ccc82f3dc40a4efd17541c260b
+      internalID: -1885535622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_25
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 343.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bdedefc71946b58498f00eaf6fa20018
+      internalID: -1864178619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_26
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 343.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38ee97340bd24b843b2e8f0653553865
+      internalID: -1069454707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_27
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 343.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c38a358c6366ad4f82e0ed62e7b73ac
+      internalID: -1895904682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_28
+      rect:
+        serializedVersion: 2
+        x: 1364
+        y: 343.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 236ec215c1ba77f4da5c30715b769a1b
+      internalID: -547647582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_29
+      rect:
+        serializedVersion: 2
+        x: 1705
+        y: 343.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: deb9bafe864b6f0428bb64ebccdb75f0
+      internalID: 1311989999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_30
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e518b24a241c99c4c9e6256b624a69c0
+      internalID: -472785106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_31
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 2.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 281734ed0f9b74445a8839f9eb63ae2c
+      internalID: 2007609637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small  base_32
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 2.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca6fe2bc14a951b4190c2ad09d802909
+      internalID: -642823951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      small  base_0: -154690149
+      small  base_1: -1625746440
+      small  base_10: -1932680191
+      small  base_11: -1015112124
+      small  base_12: 1598203634
+      small  base_13: -1730523400
+      small  base_14: 1382300611
+      small  base_15: -416711903
+      small  base_16: -505370844
+      small  base_17: 796226622
+      small  base_18: -2000650022
+      small  base_19: 1690380926
+      small  base_2: -1307792649
+      small  base_20: 313914287
+      small  base_21: -1130453386
+      small  base_22: -719932969
+      small  base_23: -1647862761
+      small  base_24: -1885535622
+      small  base_25: -1864178619
+      small  base_26: -1069454707
+      small  base_27: -1895904682
+      small  base_28: -547647582
+      small  base_29: 1311989999
+      small  base_3: -280303576
+      small  base_30: -472785106
+      small  base_31: 2007609637
+      small  base_32: -642823951
+      small  base_4: -1983141889
+      small  base_5: 1600086444
+      small  base_6: 1818946613
+      small  base_7: -1605139273
+      small  base_8: -1735426296
+      small  base_9: -1015031975
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

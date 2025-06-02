@@ -1,0 +1,919 @@
+fileFormatVersion: 2
+guid: fa9a3bf764e6c5b48b33f5d582441b0b
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: small strokes_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1707.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e81e9694655ba442a76fde6c53adc09
+      internalID: -1390927224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_1
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 1707.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98e74119d1f400c48abcac94af9b0de7
+      internalID: 1032149402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_2
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 1707.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3bf5d872d10826a43810007d86421373
+      internalID: -1161330843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_3
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 1707.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7fb4907a4a28c0a41980fca333490890
+      internalID: -741283207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_4
+      rect:
+        serializedVersion: 2
+        x: 1364
+        y: 1707.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f054f6ac8033b124da01887b627035da
+      internalID: -198217124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_5
+      rect:
+        serializedVersion: 2
+        x: 1705
+        y: 1707.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ef22b82a79dc3a4d9e0537e7ab5a660
+      internalID: 1243124130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1366.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d5995f6cca1c53438d8ddfa365d9382
+      internalID: -1125293467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_7
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 1366.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b3b7783d0ddb014d9fcba9c7f5cd41b
+      internalID: 1254936565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_8
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 1366.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f838ae8d5d3264545a768c2f690db4f7
+      internalID: -290782359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_9
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 1366.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69261c0348d0ffc47a19df16e1d08782
+      internalID: 1636434159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_10
+      rect:
+        serializedVersion: 2
+        x: 1364
+        y: 1366.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5900dd2884e9e994da9574e31a833f47
+      internalID: 1855666729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_11
+      rect:
+        serializedVersion: 2
+        x: 1705
+        y: 1366.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e13d61d4daa56aa498ce503e4bdc3697
+      internalID: 1751921242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1025.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c7290b5e32832041a05005c1b74cfad
+      internalID: 2063334070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_13
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 1025.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c134fdf5c6403d41bd9d40fa30e454e
+      internalID: 498877532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_14
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 1025.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d19cb1f40bf97f9458370920f0f46f9b
+      internalID: -1117180929
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_15
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 1025.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9296bd980ce0e344594f6ff08b2ad2f7
+      internalID: -1998572340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_16
+      rect:
+        serializedVersion: 2
+        x: 1364
+        y: 1025.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d93a4a4da27e40f4c96cb90ce3fe00d5
+      internalID: 964156049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_17
+      rect:
+        serializedVersion: 2
+        x: 1705
+        y: 1025.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3a06ebc028f3a64193aedc76b39a161
+      internalID: 612559871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 684.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3646ad7b14b04da4abc438303ad249b4
+      internalID: -959410809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_19
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 684.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57d142f0dbb1ff1478553d71d529d92c
+      internalID: -154715710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_20
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 684.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ffbb5ce3c19c4044896224fdf2624444
+      internalID: 2099246288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_21
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 684.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e8c406f7fdaed74980a1b0583df7e5d
+      internalID: 401253834
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_22
+      rect:
+        serializedVersion: 2
+        x: 1364
+        y: 684.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b90f6dd1c06b6d419d4b5920d676260
+      internalID: 1982565396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_23
+      rect:
+        serializedVersion: 2
+        x: 1705
+        y: 684.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6964e84c471cd1b47bf657132acc90b6
+      internalID: -1899767437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 343.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6848622631731e478298b2904a545b2
+      internalID: -1777420479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_25
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 343.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 658abb52bc74db947ae199097949116c
+      internalID: 578318761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_26
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 343.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c86a8ffc7b8b384ab00c9b872d7ca1c
+      internalID: 1198520333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_27
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 343.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 107ea48d6127e5743ab1fbb864431bf4
+      internalID: -1895765110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_28
+      rect:
+        serializedVersion: 2
+        x: 1364
+        y: 343.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49d063c723c927148a5146ac8766cf0f
+      internalID: -1917213722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_29
+      rect:
+        serializedVersion: 2
+        x: 1705
+        y: 343.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe844e4382dc93b47bee12262fcaedb8
+      internalID: 722779690
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_30
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b52d44f6ef59e744bd8434d41b35401
+      internalID: 728924999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_31
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 2.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60b6efe164824ab48a4db28180ac71f3
+      internalID: 1815157704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_32
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 2.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35e1cf5a6032c9449b55b75c2eb6e6b9
+      internalID: -1206094314
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_33
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 2.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af519e9e4f1e9aa40bfadd174aab6e6c
+      internalID: 1265373314
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_34
+      rect:
+        serializedVersion: 2
+        x: 1364
+        y: 2.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 455347f011791af40acd63c4c0b2c6cc
+      internalID: -154856143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: small strokes_35
+      rect:
+        serializedVersion: 2
+        x: 1705
+        y: 2.5
+        width: 341.5
+        height: 341.5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aae7a8aa6003a844d8fe0d4fb5d906eb
+      internalID: -1710631458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      small strokes_0: -1390927224
+      small strokes_1: 1032149402
+      small strokes_10: 1855666729
+      small strokes_11: 1751921242
+      small strokes_12: 2063334070
+      small strokes_13: 498877532
+      small strokes_14: -1117180929
+      small strokes_15: -1998572340
+      small strokes_16: 964156049
+      small strokes_17: 612559871
+      small strokes_18: -959410809
+      small strokes_19: -154715710
+      small strokes_2: -1161330843
+      small strokes_20: 2099246288
+      small strokes_21: 401253834
+      small strokes_22: 1982565396
+      small strokes_23: -1899767437
+      small strokes_24: -1777420479
+      small strokes_25: 578318761
+      small strokes_26: 1198520333
+      small strokes_27: -1895765110
+      small strokes_28: -1917213722
+      small strokes_29: 722779690
+      small strokes_3: -741283207
+      small strokes_30: 728924999
+      small strokes_31: 1815157704
+      small strokes_32: -1206094314
+      small strokes_33: 1265373314
+      small strokes_34: -154856143
+      small strokes_35: -1710631458
+      small strokes_4: -198217124
+      small strokes_5: 1243124130
+      small strokes_6: -1125293467
+      small strokes_7: 1254936565
+      small strokes_8: -290782359
+      small strokes_9: 1636434159
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
