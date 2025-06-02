@@ -6,13 +6,19 @@ using UnityEngine.Events; // UnityEvent için
 [System.Serializable]
 public class TracingObject
 {
-    public RectTransform startPointRect; // Başlangıç noktasının RectTransform'u
-    public RectTransform endPointRect;   // Bitiş noktasının RectTransform'u
+    [HideInInspector] private RectTransform startPointRect; // Başlangıç noktasının RectTransform'u
+    [HideInInspector] private RectTransform endPointRect;   // Bitiş noktasının RectTransform'u
     public GameObject arrow;
     public GameObject brush;
     [HideInInspector] public bool isCompleted = false;
 
-
+    public RectTransform GetStartPointRect() => startPointRect;
+    public RectTransform GetEndPointRect() => endPointRect;
+    public void SetRectTransforms(RectTransform start, RectTransform end)
+    {
+        startPointRect = start;
+        endPointRect = end;
+    }
 }
 
 public class TracingController : MonoBehaviour
@@ -57,16 +63,32 @@ public class TracingController : MonoBehaviour
         if (tracingObjects == null || tracingObjects.Count == 0) { this.enabled = false; return; }
         for (int i = 0; i < tracingObjects.Count; i++) {
             TracingObject obj = tracingObjects[i];
-            if (obj == null || obj.startPointRect == null || obj.endPointRect == null) {
+            if (obj == null || obj.arrow == null) {
                 Debug.LogError($"TracingObject {i} eksik atanmış!"); this.enabled = false; return;
             }
+
+            // Arrow'un child'larından RectTransform'ları al
+            if (obj.arrow.transform.childCount >= 2)
+            {
+                obj.SetRectTransforms(
+                    obj.arrow.transform.GetChild(0).GetComponent<RectTransform>(),
+                    obj.arrow.transform.GetChild(1).GetComponent<RectTransform>()
+                );
+            }
+            else
+            {
+                Debug.LogError($"Arrow objesi {i} için yeterli child yok! En az 2 child gerekli.");
+                this.enabled = false;
+                return;
+            }
+
             if (obj.brush != null) obj.brush.SetActive(false);
             if (obj.arrow != null) obj.arrow.SetActive(i == 0);
             obj.isCompleted = false;
         }
         Debug.Log($"TracingManager Başlatıldı. Canvas: {rootCanvas.name}, Algılama Yarıçapı (UI): {detectionRadius}");
         followerPen.gameObject.SetActive(true);
-        followerPen.TeleportToPositionAndHold(GetScreenPos(tracingObjects[0].startPointRect));
+        followerPen.TeleportToPositionAndHold(GetScreenPos(tracingObjects[0].GetStartPointRect()));
     }
 
     void UpdateVisuals()
@@ -89,7 +111,7 @@ public class TracingController : MonoBehaviour
 
         TracingObject current = tracingObjects[currentIndex];
         Vector2 mousePos = Input.mousePosition;
-        Vector2 startPos = GetScreenPos(current.startPointRect);
+        Vector2 startPos = GetScreenPos(current.GetStartPointRect());
 
         if (!isDragging)
         {
@@ -101,7 +123,7 @@ public class TracingController : MonoBehaviour
         }
         else // isDragging true ise
         {
-            Vector2 endPos = GetScreenPos(current.endPointRect);
+            Vector2 endPos = GetScreenPos(current.GetEndPointRect());
 
             if (Input.GetMouseButton(0)) { // Fare basılı tutuluyorsa
                 if (Vector2.Distance(mousePos, endPos) <= detectionRadius) {
@@ -120,7 +142,7 @@ public class TracingController : MonoBehaviour
                         followerPen.gameObject.SetActive(false);
                     } else {
                         UpdateVisuals();
-                        followerPen.TeleportToPositionAndHold(GetScreenPos(tracingObjects[currentIndex].startPointRect));
+                        followerPen.TeleportToPositionAndHold(GetScreenPos(tracingObjects[currentIndex].GetStartPointRect()));
                     }
                 }
             }
