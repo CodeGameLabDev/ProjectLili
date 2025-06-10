@@ -20,6 +20,15 @@
       },
       "hash": "e1c6b543124134b6ab3897b5fb42a3d577fe0384"
     },
+    "com.esotericsoftware.spine.spine-unity-examples": {
+      "version": "https://github.com/EsotericSoftware/spine-runtimes.git?path=spine-unity/Assets/Spine Examples#4.2",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.esotericsoftware.spine.spine-unity": "4.2.0"
+      },
+      "hash": "e1c6b543124134b6ab3897b5fb42a3d577fe0384"
+    },
     "com.unity.2d.animation": {
       "version": "9.2.0",
       "depth": 1,
