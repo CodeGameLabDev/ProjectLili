@@ -27,15 +27,19 @@ public class FindObjectAssetHolder : MonoBehaviour
         foundObjectsCount++;
         OnObjectFound?.Invoke();
         
+        Debug.Log($"[FindObjectAssetHolder] Obje bulundu! {foundObjectsCount}/{findObjects.Count}");
+        
         // Tüm objeler bulundu mu kontrol et
         if (foundObjectsCount >= findObjects.Count)
         {
+            Debug.Log("[FindObjectAssetHolder] Tüm objeler bulundu! GameWon tetikleniyor...");
             GameWon();
         }
     }
     
     void GameWon()
     {
+        Debug.Log("[FindObjectAssetHolder] GameWon event'i tetiklendi!");
         OnGameWon?.Invoke();
     }
     
@@ -52,6 +56,7 @@ public class FindObjectAssetHolder : MonoBehaviour
         {
             findObj.isFound = false;
         }
+        Debug.Log("[FindObjectAssetHolder] Progress sıfırlandı!");
     }
     
     public int GetFoundObjectsCount()

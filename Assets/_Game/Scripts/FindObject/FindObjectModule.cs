@@ -8,8 +8,15 @@ using Sirenix.OdinInspector;
 // Ana oyun mantığını yöneten class
 public class FindObjectModule : MonoBehaviour
 {
-    [Header("Prefab Settings")]
-    public GameObject assetHolderPrefab;
+    [Header("Level System")]
+    [SerializeField] private string[] levelPrefabNames = new string[] { 
+        "Level_1", "Level_2", "Level_3", "Level_4", "Level_5", "Level_6", "Level_7", "Level_8", "Level_9", "Level_10"
+    };
+    private int currentLevelIndex = 0;
+    private bool hasStarted = false;
+
+    [Header("Level Components")]
+    [SerializeField] private GameObject LevelParent;
     
     [Header("Progress Bar")]
     public Image progressBarImage;
@@ -23,6 +30,10 @@ public class FindObjectModule : MonoBehaviour
     [Header("Debug Settings")]
     public bool showDebugMessages = true;
     
+    [Header("Debug Info")]
+    [ReadOnly] public string currentLevelName;
+    [ReadOnly] public int debugCurrentLevelIndex;
+    
     private FindObjectAssetHolder assetHolder;
     private Dictionary<GameObject, FindObject> objectMap;
     private Dictionary<GameObject, Vector3> originalPositions;
@@ -31,7 +42,16 @@ public class FindObjectModule : MonoBehaviour
     private float lastInteractionTime;
     private int foundObjectsCount = 0;
 
-    [SerializeField] private GameObject LevelParent;
+    private const string LEVEL_PROGRESS_KEY = "CurrentLevelIndex";
+    
+    void Start()
+    {
+        Debug.Log($"[FindObjectModule] Start - currentLevelIndex (before LoadProgress): {currentLevelIndex}");
+        LoadProgress();
+        Debug.Log($"[FindObjectModule] Start - currentLevelIndex (after LoadProgress): {currentLevelIndex}");
+        UpdateCurrentLevelDisplay();
+        hasStarted = true;
+    }
     
     void Update()
     {
@@ -43,41 +63,151 @@ public class FindObjectModule : MonoBehaviour
         }
     }
     
-    [Button("Initialize Asset Holder", ButtonSizes.Large)]
+    [Button("Oyunu Başlat", ButtonSizes.Large)]
     [GUIColor(0.4f, 0.8f, 1f)]
-    void InitializeAssetHolder()
+    public void OyunuBaslat()
     {
-        if (assetHolderPrefab != null)
+        Debug.Log($"[FindObjectModule] OyunuBaslat called - hasStarted: {hasStarted}, currentLevelIndex: {currentLevelIndex}");
+        
+        // Eğer Start() henüz çalışmamışsa
+        if (!hasStarted)
         {
-            // Önceki instance'ı temizle
-            if (assetHolder != null)
-            {
-                DestroyImmediate(assetHolder.gameObject);
-            }
-            
-            GameObject instantiatedHolder = Instantiate(assetHolderPrefab,LevelParent.transform);
-            assetHolder = instantiatedHolder.GetComponent<FindObjectAssetHolder>();
-            
-            if (assetHolder == null)
-            {
-                Debug.LogError("AssetHolder prefab'ında FindObjectAssetHolder component'i bulunamadı!");
-                return;
-            }
-            
-            InitializeObjects();
-            foundObjectsCount = 0;
-            UpdateProgressBar();
-            lastInteractionTime = Time.time;
-            
-            if (showDebugMessages)
-            {
-                Debug.Log("✅ AssetHolder başarıyla initialize edildi!");
-            }
+            Debug.Log("[FindObjectModule] Start() henüz çalışmamış, LoadProgress() manuel olarak çağrılıyor...");
+            LoadProgress();
+            UpdateCurrentLevelDisplay();
+            hasStarted = true;
+        }
+
+        // Mevcut level'ı yükle
+        LoadCurrentLevel();
+    }
+
+    private void LoadCurrentLevel()
+    {
+        if (currentLevelIndex >= levelPrefabNames.Length)
+        {
+            Debug.Log("Tüm level'lar tamamlandı! Başa dönüyor...");
+            currentLevelIndex = 0;
+            SaveProgress();
+        }
+
+        string levelName = levelPrefabNames[currentLevelIndex];
+        string resourcePath = $"FindObject/{levelName}";
+
+        Debug.Log($"[FindObjectModule] Yüklenecek level: {levelName}, Resource Path: {resourcePath}");
+
+        GameObject levelPrefab = Resources.Load<GameObject>(resourcePath);
+        
+        if (levelPrefab == null)
+        {
+            Debug.LogError($"Level prefab'ı bulunamadı: {resourcePath}. Resources/FindObject/ klasöründe {levelName}.prefab dosyası olduğundan emin olun.");
+            return;
+        }
+
+        // Önceki level'ı temizle
+        if (assetHolder != null)
+        {
+            DestroyImmediate(assetHolder.gameObject);
+        }
+        
+        // Yeni level'ı instantiate et
+        GameObject instantiatedHolder = Instantiate(levelPrefab, LevelParent.transform);
+        assetHolder = instantiatedHolder.GetComponent<FindObjectAssetHolder>();
+        
+        if (assetHolder == null)
+        {
+            Debug.LogError($"Level prefab'ında FindObjectAssetHolder component'i bulunamadı! {levelName}");
+            return;
+        }
+        
+        // Level'a tamamlanma callback'ini ekle
+        assetHolder.OnGameWon.AddListener(OnLevelCompleted);
+        
+        InitializeObjects();
+        foundObjectsCount = 0;
+        UpdateProgressBar();
+        lastInteractionTime = Time.time;
+        
+        Debug.Log($"Level yüklendi: {levelName} (İndeks: {currentLevelIndex})");
+        
+        if (showDebugMessages)
+        {
+            Debug.Log("✅ Level başarıyla initialize edildi!");
+        }
+    }
+
+    private void OnLevelCompleted()
+    {
+        Debug.Log($"Level tamamlandı: {levelPrefabNames[currentLevelIndex]}");
+        
+        // Bir sonraki level'a geç
+        currentLevelIndex++;
+        SaveProgress();
+        UpdateCurrentLevelDisplay();
+        
+        if (currentLevelIndex < levelPrefabNames.Length)
+        {
+            Debug.Log($"Bir sonraki level hazır: {levelPrefabNames[currentLevelIndex]}");
         }
         else
         {
-            Debug.LogError("AssetHolder prefab'ı atanmamış!");
+            Debug.Log("Tüm level'lar tamamlandı! Tebrikler!");
         }
+    }
+
+    private void SaveProgress()
+    {
+        PlayerPrefs.SetInt(LEVEL_PROGRESS_KEY, currentLevelIndex);
+        PlayerPrefs.Save();
+        Debug.Log($"Level ilerlemesi kaydedildi: {currentLevelIndex}");
+    }
+
+    private void LoadProgress()
+    {
+        currentLevelIndex = PlayerPrefs.GetInt(LEVEL_PROGRESS_KEY, 0);
+        Debug.Log($"Level ilerlemesi yüklendi: {currentLevelIndex}");
+    }
+
+    private void UpdateCurrentLevelDisplay()
+    {
+        if (currentLevelIndex < levelPrefabNames.Length)
+        {
+            currentLevelName = levelPrefabNames[currentLevelIndex];
+        }
+        else
+        {
+            currentLevelName = "Tamamlandı";
+        }
+        debugCurrentLevelIndex = currentLevelIndex;
+        Debug.Log($"[FindObjectModule] UpdateCurrentLevelDisplay - currentLevelName: {currentLevelName}, currentLevelIndex: {currentLevelIndex}");
+    }
+
+    [Button("Reset Progress")]
+    public void ResetProgress()
+    {
+        currentLevelIndex = 0;
+        SaveProgress();
+        UpdateCurrentLevelDisplay();
+        Debug.Log("Level ilerlemesi sıfırlandı!");
+    }
+
+    [Button("Skip Current Level")]
+    public void SkipCurrentLevel()
+    {
+        if (assetHolder != null)
+        {
+            OnLevelCompleted();
+        }
+    }
+
+    public int GetCurrentLevelIndex()
+    {
+        return currentLevelIndex;
+    }
+
+    public string GetCurrentLevelName()
+    {
+        return currentLevelIndex < levelPrefabNames.Length ? levelPrefabNames[currentLevelIndex] : "Tamamlandı";
     }
     
     void InitializeObjects()
@@ -224,7 +354,6 @@ public class FindObjectModule : MonoBehaviour
         if (assetHolder == null || assetHolder.findObjects.Count == 0) return 0f;
         return ((float)foundObjectsCount / assetHolder.findObjects.Count) * 100f;
     }
-    
     
     void StartShakingUnfoundObjects()
     {
