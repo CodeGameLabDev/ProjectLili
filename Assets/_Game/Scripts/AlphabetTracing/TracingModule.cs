@@ -56,6 +56,14 @@ public class TracingModule : MonoBehaviour
         {
             // Level tamamlandıysa bir sonraki harfe geç
             currentLetterIndex++;
+            
+            // Eğer son harfe ulaştıysak başa dön
+            if (currentLetterIndex >= uppercaseLetterNames.Length)
+            {
+                currentLetterIndex = 0;
+                Debug.Log("Alfabe tamamlandı! Başa dönülüyor...");
+            }
+            
             isUppercase = true;
             isLevelCompleted = false;
             debugIsLevelCompleted = false;
