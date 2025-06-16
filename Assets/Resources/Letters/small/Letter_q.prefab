@@ -573,9 +573,6 @@ MonoBehaviour:
   - arrow: {fileID: 2890763637297748697}
     brush: {fileID: 7960980334290912996}
     isCompleted: 0
-  - arrow: {fileID: 0}
-    brush: {fileID: 0}
-    isCompleted: 0
   onAllSegmentsCompleted:
     m_PersistentCalls:
       m_Calls: []

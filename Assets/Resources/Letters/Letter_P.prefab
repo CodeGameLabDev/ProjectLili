@@ -203,25 +203,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tracingObjects:
-  - startPointRect: {fileID: 7548185789162053881}
-    endPointRect: {fileID: 5383999296999608146}
-    arrow: {fileID: 6464829595628029275}
+  - arrow: {fileID: 6464829595628029275}
     brush: {fileID: 174950166187836368}
     isCompleted: 0
-  - startPointRect: {fileID: 7929924517518317876}
-    endPointRect: {fileID: 4832203694443544644}
-    arrow: {fileID: 5254382854663327441}
+  - arrow: {fileID: 5254382854663327441}
     brush: {fileID: 7274200312212112956}
-    isCompleted: 0
-  - startPointRect: {fileID: 0}
-    endPointRect: {fileID: 0}
-    arrow: {fileID: 0}
-    brush: {fileID: 0}
-    isCompleted: 0
-  - startPointRect: {fileID: 0}
-    endPointRect: {fileID: 0}
-    arrow: {fileID: 0}
-    brush: {fileID: 0}
     isCompleted: 0
   onAllSegmentsCompleted:
     m_PersistentCalls:

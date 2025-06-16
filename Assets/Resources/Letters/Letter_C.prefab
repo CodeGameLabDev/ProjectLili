@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -462570209, guid: 2d621ffc852f9844886cf803e1942062, type: 3}
+  m_Sprite: {fileID: -1177114916, guid: 2d621ffc852f9844886cf803e1942062, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -497,9 +497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tracingObjects:
-  - startPointRect: {fileID: 8691781776220652238}
-    endPointRect: {fileID: 3656519585009544027}
-    arrow: {fileID: 5315982053428736904}
+  - arrow: {fileID: 5315982053428736904}
     brush: {fileID: 6477341363114262070}
     isCompleted: 0
   onAllSegmentsCompleted:

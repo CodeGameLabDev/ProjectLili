@@ -51,14 +51,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tracingObjects:
-  - startPointRect: {fileID: 2402386041180338278}
-    endPointRect: {fileID: 7950288004771428213}
-    arrow: {fileID: 7970291468446890453}
+  - arrow: {fileID: 7970291468446890453}
     brush: {fileID: 6437459422404553938}
     isCompleted: 0
-  - startPointRect: {fileID: 5092923049841485605}
-    endPointRect: {fileID: 3573535383348116519}
-    arrow: {fileID: 3703664396114367189}
+  - arrow: {fileID: 3703664396114367189}
     brush: {fileID: 725833789296956225}
     isCompleted: 0
   onAllSegmentsCompleted:
@@ -324,8 +320,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -22, y: -18}
-  m_SizeDelta: {x: 488.18, y: 488.1766}
+  m_AnchoredPosition: {x: 20.2, y: -11.224}
+  m_SizeDelta: {x: 480.6271, y: 480.62}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3560138485893647375
 CanvasRenderer:
@@ -355,7 +351,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -2075617229, guid: 2d621ffc852f9844886cf803e1942062, type: 3}
+  m_Sprite: {fileID: -1642984521, guid: 2d621ffc852f9844886cf803e1942062, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

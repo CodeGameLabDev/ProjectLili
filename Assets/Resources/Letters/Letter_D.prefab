@@ -205,15 +205,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tracingObjects:
-  - startPointRect: {fileID: 7902679055966557227}
-    endPointRect: {fileID: 1477093491389681948}
-    arrow: {fileID: 1868121545035728569}
-    brush: {fileID: 5537769426436739197}
-    isCompleted: 0
-  - startPointRect: {fileID: 9047286745665555445}
-    endPointRect: {fileID: 3504175358031560814}
-    arrow: {fileID: 1682896093602672986}
+  - arrow: {fileID: 1868121545035728569}
     brush: {fileID: 7859585517430071388}
+    isCompleted: 0
+  - arrow: {fileID: 1682896093602672986}
+    brush: {fileID: 5537769426436739197}
     isCompleted: 0
   onAllSegmentsCompleted:
     m_PersistentCalls:
@@ -530,7 +526,7 @@ GameObject:
   - component: {fileID: 6245936453191364748}
   - component: {fileID: 4405253441726360301}
   m_Layer: 5
-  m_Name: 1
+  m_Name: 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -675,7 +671,7 @@ GameObject:
   - component: {fileID: 3185873841119740219}
   - component: {fileID: 8375488580028642037}
   m_Layer: 5
-  m_Name: 1 (1)
+  m_Name: 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

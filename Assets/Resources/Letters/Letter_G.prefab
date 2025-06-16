@@ -540,14 +540,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tracingObjects:
-  - startPointRect: {fileID: 8118453499055957697}
-    endPointRect: {fileID: 7583601598126774641}
-    arrow: {fileID: 2390839989546084455}
+  - arrow: {fileID: 2390839989546084455}
     brush: {fileID: 8987081457136877080}
     isCompleted: 0
-  - startPointRect: {fileID: 1112589170826277562}
-    endPointRect: {fileID: 6320101135343428625}
-    arrow: {fileID: 8788904529693665436}
+  - arrow: {fileID: 8788904529693665436}
     brush: {fileID: 6303250227787977249}
     isCompleted: 0
   onAllSegmentsCompleted:
@@ -624,7 +620,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 200}
+  m_AnchoredPosition: {x: 141, y: -86}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8788904529693665436
@@ -736,7 +732,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -9, y: -197}
+  m_AnchoredPosition: {x: 111, y: 171}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8987081457136877080

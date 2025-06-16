@@ -8,10 +8,10 @@ public class TracingModule : MonoBehaviour
 {
     [Header("Letter System")]
     [SerializeField] private string[] uppercaseLetterNames = new string[] { 
-        "A", "B", "C", "Ç", "D", "E", "Ə", "F", "G", "Ğ", "H", "X", "I", "İ", "J", "K", "Q", "L", "M", "N", "O", "Ö", "P", "R", "S", "Ş", "T", "U", "Ü", "V", "Y", "Z"
+        "A", "B", "C", "Ç", "D", "E", "Ə", "F", "G", "Ğ", "H", "X", "I", "İ", "J", "K", "Q", "L", "M", "N", "O", "Ö", "P", "R", "S", "Ş", "T", "U", "Ü", "V", "Y", "Z","W"
     };
     [SerializeField] private string[] lowercaseLetterNames = new string[] { 
-        "a", "b", "c", "ç", "d", "e", "ə", "f", "g", "ğ", "h", "x", "ı", "i", "j", "k", "q", "l", "m", "n", "o", "ö", "p", "r", "s", "ş", "t", "u", "ü", "v", "y", "z"
+        "a", "b", "c", "ç", "d", "e", "ə", "f", "g", "ğ", "h", "x", "ı", "i", "j", "k", "q", "l", "m", "n", "o", "ö", "p", "r", "s", "ş", "t", "u", "ü", "v", "y", "z","w"
     };
     private int currentLetterIndex = 0;
     private bool hasStarted = false;
@@ -54,8 +54,14 @@ public class TracingModule : MonoBehaviour
     {
         if (isLevelCompleted)
         {
-            Debug.Log("Level tamamlandı! Yeni level başlatmak için Reset Progress'e basın.");
-            return;
+            // Level tamamlandıysa bir sonraki harfe geç
+            currentLetterIndex++;
+            isUppercase = true;
+            isLevelCompleted = false;
+            debugIsLevelCompleted = false;
+            SaveProgress();
+            UpdateCurrentLetterDisplay();
+            Debug.Log($"Yeni harf yükleniyor: {uppercaseLetterNames[currentLetterIndex]}");
         }
 
         Debug.Log($"[TracingModule] StartTracing called - hasStarted: {hasStarted}, currentLetterIndex: {currentLetterIndex}");
@@ -68,9 +74,21 @@ public class TracingModule : MonoBehaviour
             hasStarted = true;
         }
         
+        // Tüm mevcut harfleri yok et
         if (currentLetterObject != null)
         {
-            DestroyImmediate(currentLetterObject);
+            Destroy(currentLetterObject);
+            currentLetterObject = null;
+        }
+
+        // Sahnedeki tüm TracingController'ları bul ve yok et
+        TracingController[] existingLetters = FindObjectsOfType<TracingController>();
+        foreach (TracingController letter in existingLetters)
+        {
+            if (letter.gameObject != currentLetterObject)
+            {
+                Destroy(letter.gameObject);
+            }
         }
 
         LoadCurrentLetter();
