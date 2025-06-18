@@ -239,6 +239,7 @@ public class WordSpawner : MonoBehaviour
 
         var obj = Instantiate(letterData.prefab, parent);
         obj.name = $"Spine_{letterId}_{index}";
+        obj.SetActive(true); // Spine'ı aktif yap
 
         var rect = obj.GetComponent<RectTransform>();
         if (rect != null)

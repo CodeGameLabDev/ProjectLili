@@ -54,7 +54,7 @@ public class WordGameManager : Singleton<WordGameManager>
             wordSpawner.shadows[i]?.HideImage();
         }
 
-        // Sprite'ları gizle ve spine blink başlat
+        // Sprite'ları gizle, spine'ları göster ve blink başlat
         for (int i = 0; i < wordSpawner.sprites.Count; i++)
         {
             var sprite = wordSpawner.sprites[i];

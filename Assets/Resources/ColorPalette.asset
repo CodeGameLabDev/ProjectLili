@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: ColorPalette
   m_EditorClassIdentifier: 
   colors:
-  - {r: 0.001354222, g: 0, b: 0.3679245, a: 1}
-  - {r: 1, g: 0.9370693, b: 0, a: 1}
+  - {r: 1, g: 0.15225321, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0.76034164, a: 1}
+  - {r: 0.20624185, g: 1, b: 0, a: 1}
