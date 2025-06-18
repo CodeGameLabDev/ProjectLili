@@ -177,17 +177,53 @@ public class LetterController : MonoBehaviour, IPointerDownHandler, IDragHandler
         
         isDragging = false;
         Vector2 currentPos = rectTransform.anchoredPosition;
+        
+        Debug.Log($"OnPointerUp - Harf {letterId} bırakıldı, pozisyon: {currentPos}");
+        
         Vector2 correctShadowPos = FindNearestEmptySameIdShadow(currentPos);
+        
+        Debug.Log($"Bulunan shadow pozisyonu: {correctShadowPos}");
 
-        if (correctShadowPos != Vector2.zero)
+        bool shadowFound = false;
+        
+        // Shadow bulundu mu kontrol et
+        var wordSpawner = WordGameManager.Instance.wordSpawner;
+        var validShadow = wordSpawner.shadows
+            .Where(s => s.GetId() == letterId)
+            .FirstOrDefault(s => Vector2.Distance(currentPos, s.GetComponent<RectTransform>().anchoredPosition) < 100f && IsShadowEmpty(s.GetComponent<RectTransform>().anchoredPosition));
+        
+        shadowFound = validShadow != null;
+        
+        if (shadowFound)
+        {
+            Debug.Log($"Doğru shadow bulundu! SnapToCorrectShadow çağrılıyor");
             SnapToCorrectShadow(correctShadowPos);
+        }
         else
+        {
+            Debug.Log($"Doğru shadow bulunamadı! GoToNearestEmptyTarget çağrılıyor");
             GoToNearestEmptyTarget();
+        }
     }
 
     Vector2 FindNearestEmptySameIdShadow(Vector2 currentPos)
     {
         var wordSpawner = WordGameManager.Instance.wordSpawner;
+        
+        Debug.Log($"FindNearestEmptySameIdShadow - Aranan ID: {letterId}");
+        Debug.Log($"Toplam shadow sayısı: {wordSpawner.shadows.Count}");
+        
+        // Aynı ID'ye sahip shadow'ları bul
+        var sameIdShadows = wordSpawner.shadows.Where(s => s.GetId() == letterId).ToList();
+        Debug.Log($"Aynı ID'ye sahip shadow sayısı: {sameIdShadows.Count}");
+        
+        foreach (var shadow in sameIdShadows)
+        {
+            var pos = shadow.GetComponent<RectTransform>().anchoredPosition;
+            var distance = Vector2.Distance(currentPos, pos);
+            var isEmpty = IsShadowEmpty(pos);
+            Debug.Log($"Shadow ID: {shadow.GetId()}, Pos: {pos}, Distance: {distance:F1}, Empty: {isEmpty}");
+        }
         
         var nearestShadow = wordSpawner.shadows
             .Where(s => s.GetId() == letterId)
@@ -196,7 +232,9 @@ public class LetterController : MonoBehaviour, IPointerDownHandler, IDragHandler
             .OrderBy(s => Vector2.Distance(currentPos, s.Pos))
             .FirstOrDefault();
 
-        return nearestShadow?.Pos ?? Vector2.zero;
+        var result = nearestShadow?.Pos ?? Vector2.zero;
+        Debug.Log($"Final sonuç: {result}");
+        return result;
     }
 
     bool IsShadowEmpty(Vector2 shadowPos)
