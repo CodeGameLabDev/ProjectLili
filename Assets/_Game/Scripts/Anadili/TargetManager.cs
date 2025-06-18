@@ -14,67 +14,33 @@ public class AnadiliTarget
         isOccupied = false;
     }
     
-    public void SetOccupied(bool occupied)
-    {
-        isOccupied = occupied;
-    }
-    
-    public bool IsEmpty()
-    {
-        return !isOccupied;
-    }
+    public void SetOccupied(bool occupied) => isOccupied = occupied;
+    public bool IsEmpty() => !isOccupied;
 }
 
 public class TargetManager : MonoBehaviour
 {
     [TabGroup("Settings")]
-    [LabelText("Parent RectTransform")]
     public RectTransform parentRectTransform;
 
     [TabGroup("Settings")]
-    [Range(0.3f, 0.9f)]
-    public float widthRatio = 0.6f;
-
-    [TabGroup("Settings")]
-    [Range(0.1f, 0.5f)]
-    public float topRowRatio = 0.3f;
-
-    [TabGroup("Settings")]
-    [Range(0.1f, 0.5f)]
-    public float bottomRowRatio = 0.3f;
-
-    [TabGroup("Settings")]
-    [Range(50f, 300f)]
-    public float snapDistance = 140f;
+    [Range(0.3f, 0.9f)] public float widthRatio = 0.6f;
+    [Range(0.1f, 0.5f)] public float topRowRatio = 0.3f;
+    [Range(0.1f, 0.5f)] public float bottomRowRatio = 0.3f;
+    [Range(50f, 300f)] public float snapDistance = 140f;
 
     [TabGroup("Debug"), ReadOnly]
     public List<AnadiliTarget> targets = new List<AnadiliTarget>();
 
-    private static UnityEngine.Sprite circleSprite; // Cache edilmiş sprite
+    private static Sprite circleSprite;
 
-    private void Awake()
+    void Awake()
     {
         if (parentRectTransform == null)
             parentRectTransform = GetComponent<RectTransform>();
     }
 
-    private void OnEnable()
-    {
-        LetterGameEvents.onTargetsSpawned += SetupTargets;
-    }
-
-    private void OnDisable()
-    {
-        LetterGameEvents.onTargetsSpawned -= SetupTargets;
-    }
-
-    [TabGroup("Actions")]
-    [Button("Test", ButtonSizes.Medium)]
-    [GUIColor(0.4f, 0.8f, 1f)]
-    public void TestTargetPositions()
-    {
-        SetupTargets(3); // Test için 3 harf
-    }
+    // Event sistemi kaldırıldı
 
     [TabGroup("Actions")]
     [Button("Göster", ButtonSizes.Medium), GUIColor(0.4f, 1f, 0.4f)]
@@ -121,7 +87,6 @@ public class TargetManager : MonoBehaviour
         targets.Clear();
         if (!parentRectTransform) return;
         
-        // En az 4, herzaman harf sayısından 2 fazla
         int targetCount = Mathf.Max(4, letterCount + 2);
         int rowCount = targetCount / 2;
         
@@ -133,15 +98,11 @@ public class TargetManager : MonoBehaviour
         float[] rowY = { rect.height * topRowRatio, -rect.height * bottomRowRatio };
         
         for (int row = 0; row < 2; row++)
-        {
             for (int i = 0; i < rowCount; i++)
             {
                 Vector2 pos = new Vector2(startX + i * spacingX, rowY[row]);
                 targets.Add(new AnadiliTarget(pos));
             }
-        }
-        
-        Debug.Log($"Target'lar oluşturuldu: {targets.Count} adet ({letterCount} harf için)");
     }
 
     public Vector2 GetNearestEmptyTarget(Vector2 pos)
@@ -165,12 +126,11 @@ public class TargetManager : MonoBehaviour
         if (nearest == -1)
             return targets.Count > 0 ? targets[0].position : Vector2.zero;
 
-        // Target'ı işgal et ve pozisyonunu döndür
         targets[nearest].SetOccupied(true);
         return targets[nearest].position;
     }
 
-    private static UnityEngine.Sprite CreateCircleSprite()
+    private static Sprite CreateCircleSprite()
     {
         int size = 32;
         var tex = new Texture2D(size, size);
@@ -193,10 +153,10 @@ public class TargetManager : MonoBehaviour
         tex.SetPixels(pixels);
         tex.Apply();
         
-        return UnityEngine.Sprite.Create(tex, new Rect(0, 0, size, size), Vector2.one * 0.5f);
+        return Sprite.Create(tex, new Rect(0, 0, size, size), Vector2.one * 0.5f);
     }
 
-    private void OnValidate()
+    void OnValidate()
     {
         if (parentRectTransform == null)
             parentRectTransform = GetComponent<RectTransform>();

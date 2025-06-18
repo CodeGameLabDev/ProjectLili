@@ -8,62 +8,38 @@ public class WordSpawner : MonoBehaviour
 {
     [TabGroup("Database")]
     public LetterPathDatabase letterDatabase;
-    
-    [TabGroup("Database")]
     public ColorPalette colorPalette;
 
     [TabGroup("Settings")]
     public CanvasScaler canvasScaler;
-
-    [TabGroup("Settings")]
     public Transform spawnParent;
+    [Range(-100f, 200f)] public float letterSpacing = 0f;
+    [Range(0.5f, 3f)] public float maxSize = 1.5f;
 
-    [TabGroup("Settings")]
-    [Range(-100f, 200f)]
-    public float letterSpacing = 0f;
-
-    [TabGroup("Settings")]
-    [Range(0.5f, 3f)]
-    public float maxSize = 1.5f;
-
-    [TabGroup("Debug")]
-    [ReadOnly]
+    [TabGroup("Debug"), ReadOnly]
     public List<Vector2> letterPositions = new List<Vector2>();
-
-    [TabGroup("Debug")]
-    [ReadOnly]
     public Vector3 letterScale = Vector3.one;
 
-    [TabGroup("Generated Lists")]
-    [ReadOnly]
+    [TabGroup("Generated Lists"), ReadOnly]
     public List<ShadowComponent> shadows = new List<ShadowComponent>();
-
-    [TabGroup("Generated Lists")]
-    [ReadOnly]
     public List<LetterController> sprites = new List<LetterController>();
-
-    [TabGroup("Generated Lists")]
-    [ReadOnly]
     public List<GameObject> spines = new List<GameObject>();
 
     [TabGroup("Actions")]
     public string wordToSpawn = "MERHABA";
 
     [TabGroup("Actions")]
-    [Button("Kelime Yarat", ButtonSizes.Large)]
-    [GUIColor(0.4f, 0.8f, 1f)]
+    [Button("Kelime Yarat", ButtonSizes.Large), GUIColor(0.4f, 0.8f, 1f)]
     public void SpawnWord()
     {
         if (!ValidateReferences()) return;
-
         ClearAll();
         CalculateLetterPositions();
         CreateLetterObjects();
     }
 
     [TabGroup("Actions")]
-    [Button("Temizle", ButtonSizes.Medium)]
-    [GUIColor(1f, 0.6f, 0.6f)]
+    [Button("Temizle", ButtonSizes.Medium), GUIColor(1f, 0.6f, 0.6f)]
     public void ClearAll()
     {
         for (int i = 0; i < shadows.Count; i++)
@@ -77,13 +53,12 @@ public class WordSpawner : MonoBehaviour
 #endif
             }
         }
-        
         shadows.Clear();
         sprites.Clear();
         spines.Clear();
     }
 
-    private bool ValidateReferences()
+    bool ValidateReferences()
     {
         if (letterDatabase == null || canvasScaler == null || spawnParent == null || string.IsNullOrEmpty(wordToSpawn))
         {
@@ -93,13 +68,13 @@ public class WordSpawner : MonoBehaviour
         return true;
     }
 
-    private void CalculateLetterPositions()
+    void CalculateLetterPositions()
     {
         letterPositions.Clear();
         
         float totalWidth = CalculateWordWidth();
         float res = canvasScaler.referenceResolution.x;
-        float availableWidth = res - (res * 0.16f); // %8 padding her yandan
+        float availableWidth = res - (res * 0.16f);
         
         float scaleFactor = Mathf.Min(availableWidth / totalWidth, maxSize);
         letterScale = Vector3.one * scaleFactor;
@@ -123,7 +98,7 @@ public class WordSpawner : MonoBehaviour
         }
     }
 
-    private float CalculateWordWidth()
+    float CalculateWordWidth()
     {
         float totalWidth = 0f;
         int letterCount = 0;
@@ -146,7 +121,7 @@ public class WordSpawner : MonoBehaviour
         return totalWidth;
     }
 
-    private void CreateLetterObjects()
+    void CreateLetterObjects()
     {
         int positionIndex = 0;
 
@@ -162,11 +137,9 @@ public class WordSpawner : MonoBehaviour
             CreateLetterHierarchy(letterData, letterPositions[positionIndex], letterId, i);
             positionIndex++;
         }
-
-        Debug.Log($"Kelime '{wordToSpawn}' yaratıldı! {shadows.Count} shadow, {sprites.Count} sprite, {spines.Count} spine.");
     }
 
-    private void CreateLetterHierarchy(LetterData letterData, Vector2 position, string letterId, int index)
+    void CreateLetterHierarchy(LetterData letterData, Vector2 position, string letterId, int index)
     {
         // Shadow (Parent)
         var shadowObj = CreateShadowObject(letterData, position, letterId, index);
@@ -190,13 +163,11 @@ public class WordSpawner : MonoBehaviour
         {
             letterController.SetSpineChild(spineObj);
             spines.Add(spineObj);
-            
-            // Renkleri ayarla
             ApplyColors(spriteObj, spineObj, index);
         }
     }
 
-    private GameObject CreateShadowObject(LetterData letterData, Vector2 position, string letterId, int index)
+    GameObject CreateShadowObject(LetterData letterData, Vector2 position, string letterId, int index)
     {
         if (letterData.letterShadowSprite == null) return null;
 
@@ -210,12 +181,12 @@ public class WordSpawner : MonoBehaviour
         var rect = obj.GetComponent<RectTransform>();
         rect.anchoredPosition = position;
         rect.localScale = letterScale;
-        rect.localPosition = new Vector3(rect.localPosition.x, rect.localPosition.y, 1f); // Shadow arkada
+        rect.localPosition = new Vector3(rect.localPosition.x, rect.localPosition.y, 1f);
 
         return obj;
     }
 
-    private GameObject CreateSpriteObject(LetterData letterData, Vector2 position, string letterId, int index, Transform parent)
+    GameObject CreateSpriteObject(LetterData letterData, Vector2 position, string letterId, int index, Transform parent)
     {
         if (letterData.letterSprite == null) return null;
 
@@ -233,13 +204,13 @@ public class WordSpawner : MonoBehaviour
         return obj;
     }
 
-    private GameObject CreateSpineObject(LetterData letterData, Vector2 position, string letterId, int index, Transform parent)
+    GameObject CreateSpineObject(LetterData letterData, Vector2 position, string letterId, int index, Transform parent)
     {
         if (letterData.prefab == null) return null;
 
         var obj = Instantiate(letterData.prefab, parent);
         obj.name = $"Spine_{letterId}_{index}";
-        obj.SetActive(true); // Spine'ı aktif yap
+        obj.SetActive(true);
 
         var rect = obj.GetComponent<RectTransform>();
         if (rect != null)
@@ -256,73 +227,66 @@ public class WordSpawner : MonoBehaviour
         return obj;
     }
 
-    private Vector2 GetSpinePosition(GameObject spriteObj)
+    Vector2 GetSpinePosition(GameObject spriteObj)
     {
         var rect = spriteObj.GetComponent<RectTransform>();
         float height = rect != null ? rect.rect.height : 0f;
         return new Vector2(0, -height * 0.5f);
     }
 
-    private void ApplyColors(GameObject spriteObj, GameObject spineObj, int index)
+    void ApplyColors(GameObject spriteObj, GameObject spineObj, int index)
     {
         if (colorPalette == null || colorPalette.ColorCount == 0) return;
 
         Color currentColor = colorPalette.GetColor(index);
 
-        // Sprite'ın rengini değiştir
+        // Sprite rengi
         var spriteImage = spriteObj.GetComponent<Image>();
         if (spriteImage != null)
-        {
             spriteImage.color = currentColor;
-        }
 
-        // Spine'ın rengini SkeletonGraphic CustomMaterialOverride ile değiştir
+        // Spine rengi - Düzeltilmiş
         var skeletonGraphic = spineObj.GetComponent<SkeletonGraphic>();
-        
         if (skeletonGraphic != null)
         {
-            // Her spine için ayrı material instance'ları oluştur
-            var newOverrides = new Dictionary<Texture, Material>();
-            
-            foreach (var kvp in skeletonGraphic.CustomMaterialOverride)
+            // Önce CustomMaterialOverride'ları kontrol et
+            if (skeletonGraphic.CustomMaterialOverride.Count > 0)
             {
-                Material originalMaterial = kvp.Value;
-                if (originalMaterial != null)
+                var newOverrides = new Dictionary<Texture, Material>();
+                
+                foreach (var kvp in skeletonGraphic.CustomMaterialOverride)
                 {
-                    // Her spine için yeni material instance oluştur
-                    Material materialInstance = new Material(originalMaterial);
-                    materialInstance.name = $"{originalMaterial.name}_Spine_{index}";
-                    
-                    if (materialInstance.HasProperty("_FillColor"))
+                    if (kvp.Value != null)
                     {
-                        materialInstance.SetColor("_FillColor", currentColor);
-                        Debug.Log($"Spine {index} material {materialInstance.name} _FillColor ayarlandı: {currentColor}");
+                        var materialInstance = new Material(kvp.Value);
+                        materialInstance.name = $"{kvp.Value.name}_Spine_{index}";
+                        
+                        if (materialInstance.HasProperty("_FillColor"))
+                            materialInstance.SetColor("_FillColor", currentColor);
+                        
+                        newOverrides[kvp.Key] = materialInstance;
                     }
-                    
-                    newOverrides[kvp.Key] = materialInstance;
                 }
+                
+                skeletonGraphic.CustomMaterialOverride.Clear();
+                foreach (var kvp in newOverrides)
+                    skeletonGraphic.CustomMaterialOverride[kvp.Key] = kvp.Value;
             }
-            
-            // Eski override'ları temizle ve yenilerini ekle
-            skeletonGraphic.CustomMaterialOverride.Clear();
-            foreach (var kvp in newOverrides)
+            // Eğer CustomMaterialOverride boşsa ana material'ı değiştir
+            else if (skeletonGraphic.material != null)
             {
-                skeletonGraphic.CustomMaterialOverride[kvp.Key] = kvp.Value;
-            }
-            
-            // Eğer CustomMaterialOverride boşsa, ana material'ı değiştir
-            if (newOverrides.Count == 0 && skeletonGraphic.material != null)
-            {
-                Material materialInstance = new Material(skeletonGraphic.material);
+                var materialInstance = new Material(skeletonGraphic.material);
                 materialInstance.name = $"{skeletonGraphic.material.name}_Spine_{index}";
-                materialInstance.SetColor("_FillColor", currentColor);
+                
+                if (materialInstance.HasProperty("_FillColor"))
+                    materialInstance.SetColor("_FillColor", currentColor);
+                
                 skeletonGraphic.material = materialInstance;
-                Debug.Log($"Spine {index} ana material _FillColor ayarlandı: {currentColor}");
             }
         }
     }
 
-    private void OnValidate()
+    void OnValidate()
     {
         if (spawnParent == null) spawnParent = transform;
         if (canvasScaler == null) canvasScaler = FindObjectOfType<CanvasScaler>();

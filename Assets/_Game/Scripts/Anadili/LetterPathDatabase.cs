@@ -7,13 +7,11 @@ using static VHierarchy.Libs.VUtils;
 public class LetterPathDatabase : ScriptableObject
 {
     [TabGroup("Database")]
-    [LabelText("Harf Yolları Sözlüğü")]
     [Tooltip("Harf ID'si ve Resources yolu eşleşmeleri")]
     public SerializableDictionary<string, string> letterPaths = new SerializableDictionary<string, string>();
 
     [TabGroup("Settings")]
-    [LabelText("Resources Klasör Yolu")]
-    [Tooltip("Otomatik doldurma için kullanılacak Resources klasör yolu (örn: LetterAll)")]
+    [Tooltip("Otomatik doldurma için kullanılacak Resources klasör yolu")]
     public string resourcesFolderPath = "LetterAll";
 
     /// <summary>
@@ -22,9 +20,7 @@ public class LetterPathDatabase : ScriptableObject
     public string GetLetterPath(string letterId)
     {
         if (letterPaths.ContainsKey(letterId))
-        {
             return letterPaths[letterId];
-        }
         
         Debug.LogWarning($"Harf ID '{letterId}' için yol bulunamadı!");
         return null;
@@ -36,17 +32,11 @@ public class LetterPathDatabase : ScriptableObject
     public LetterData LoadLetterData(string letterId)
     {
         string path = GetLetterPath(letterId);
-        if (string.IsNullOrEmpty(path))
-            return null;
-
-        return Resources.Load<LetterData>(path);
+        return string.IsNullOrEmpty(path) ? null : Resources.Load<LetterData>(path);
     }
 
     /// <summary>
     /// Tüm harf ID'lerini döndürür
     /// </summary>
-    public List<string> GetAllLetterIds()
-    {
-        return new List<string>(letterPaths.Keys);
-    }
+    public List<string> GetAllLetterIds() => new List<string>(letterPaths.Keys);
 } 
