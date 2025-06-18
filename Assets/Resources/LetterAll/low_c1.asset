@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4855a3eca9ea7ac4bbf306fd4105cb91, type: 3}
   m_Name: low_c1
   m_EditorClassIdentifier: 
-  letter: 99
-  letterId: c
+  letter: 231
+  letterId: "\xE7"
   prefab: {fileID: 1168869766878489672, guid: 553ceda641d31094b9c033872ba7ff6c, type: 3}
-  letterSprite: {fileID: -280303576, guid: 672b04f1b534b664e8f767da2736b943, type: 3}
-  letterShadowSprite: {fileID: -741283207, guid: fa9a3bf764e6c5b48b33f5d582441b0b, type: 3}
-  letterWidth: 1
+  letterSprite: {fileID: 335331529, guid: 24cdc093dc8d2354db3b44ee17c69031, type: 3}
+  letterShadowSprite: {fileID: -1245804339, guid: 5ea10686edcb4424abcae5186e693ab5, type: 3}
+  letterWidth: 242.88141
   _soundDict:
     keys: []
     values: []

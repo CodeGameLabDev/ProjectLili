@@ -59,12 +59,4 @@ public class LetterData : ScriptableObject
     }
 
 
-    [Button("Harf ID'sini Güncelle")]
-    private void UpdateLetterId()
-    {
-        letterId = letter.ToString();
-#if UNITY_EDITOR
-        UnityEditor.EditorUtility.SetDirty(this);
-#endif
-    }
 } 

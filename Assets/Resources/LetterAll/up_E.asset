@@ -15,9 +15,9 @@ MonoBehaviour:
   letter: 69
   letterId: E
   prefab: {fileID: 2635973962310020494, guid: 5724121bb65355640bf43ea019c5f6c4, type: 3}
-  letterSprite: {fileID: -2075617229, guid: 2d621ffc852f9844886cf803e1942062, type: 3}
-  letterShadowSprite: {fileID: 760392738, guid: 4792a8b3ad7f51447a0213bb31a05c37, type: 3}
-  letterWidth: 1
+  letterSprite: {fileID: 841185497, guid: 701eb7af18dd0cc469f906cedde2ab10, type: 3}
+  letterShadowSprite: {fileID: 1033968090, guid: 664e85c2fe0e22848a09836f0b771733, type: 3}
+  letterWidth: 215.89458
   _soundDict:
     keys: []
     values: []

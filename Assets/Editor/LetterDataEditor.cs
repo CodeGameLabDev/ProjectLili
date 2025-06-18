@@ -4,7 +4,6 @@ using UnityEditor;
 [CustomEditor(typeof(LetterData))]
 public class LetterDataEditor : Editor
 {
-    private GameObject tempLetterObj;
 
     public override void OnInspectorGUI()
     {
@@ -25,45 +24,21 @@ public class LetterDataEditor : Editor
 
     private void CalculateLetterWidth(LetterData letterData)
     {
-        if (letterData.prefab == null)
+        if (letterData.letterSprite == null)
         {
-            Debug.LogWarning($"Harf {letterData.letter} için prefab atanmamış!");
+            Debug.LogWarning($"Harf {letterData.letter} için letterSprite atanmamış!");
             return;
         }
 
-        // Prefabdan geçici obje oluştur
-        tempLetterObj = Instantiate(letterData.prefab);
-        var rectTransform = tempLetterObj.GetComponent<RectTransform>();
+        // Sprite'ın native size'ından genişliği al
+        float letterWidth = letterData.letterSprite.rect.width;
+        letterData.letterWidth = letterWidth;
         
-        if (rectTransform != null)
-        {
-            float letterWidth = rectTransform.rect.width;
-            letterData.letterWidth = letterWidth;
-            
-            Debug.Log($"Harf '{letterData.letter}' genişliği: {letterWidth}");
-            
-            EditorUtility.SetDirty(letterData);
-            AssetDatabase.SaveAssets();
-        }
-        else
-        {
-            Debug.LogWarning($"Harf {letterData.letter} prefabında RectTransform bulunamadı!");
-        }
-
-        // Geçici objeyi temizle
-        if (tempLetterObj != null)
-        {
-            DestroyImmediate(tempLetterObj);
-            tempLetterObj = null;
-        }
+        Debug.Log($"Harf '{letterData.letter}' genişliği (native size): {letterWidth}");
+        
+        EditorUtility.SetDirty(letterData);
+        AssetDatabase.SaveAssets();
     }
 
-    private void OnDisable()
-    {
-        if (tempLetterObj != null)
-        {
-            DestroyImmediate(tempLetterObj);
-            tempLetterObj = null;
-        }
-    }
+
 } 

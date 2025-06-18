@@ -17,7 +17,7 @@ MonoBehaviour:
   prefab: {fileID: 2426676755960747924, guid: 3148489d5bab06845bfbde7a3b788d5b, type: 3}
   letterSprite: {fileID: 312310168, guid: 4cb4d3481846b4258b737fbd1ae4906e, type: 3}
   letterShadowSprite: {fileID: -1349280619, guid: e208d0467013540a898b1e15e3e3bde4, type: 3}
-  letterWidth: 1
+  letterWidth: 328
   _soundDict:
     keys: []
     values: []
