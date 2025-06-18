@@ -1,0 +1,9 @@
+eyeframe_eyelid.png
+size:175,105
+filter:Linear,Linear
+pma:true
+eyes/eye_frame
+bounds:2,2,101,101
+eyes/eyelid_mid
+bounds:105,11,92,68
+rotate:90
