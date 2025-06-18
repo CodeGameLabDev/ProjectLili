@@ -90,43 +90,63 @@ public class LetterController : MonoBehaviour, IPointerDownHandler, IDragHandler
         float distance = Vector2.Distance(currentPos, targetPos);
         if (distance < 10f)
         {
-            rectTransform.DORotate(new Vector3(0, 0, Random.Range(-30f, 30f)), 0.5f, RotateMode.LocalAxisAdd);
+            // Kısa mesafe için hafif dönüş + rastgele açı (başlangıçta)
+            float spinRotation = (0.5f / 2f) * 360f; // Yarıya indirdik: 0.5 saniye = 90°
+            float rotationDirection = Random.Range(0, 2) == 0 ? 1f : -1f;
+            float finalRandomRotation = Random.Range(-30f, 30f);
+            float totalRotation = (spinRotation * rotationDirection) + finalRandomRotation;
+            
+            rectTransform.DORotate(new Vector3(0, 0, totalRotation), 0.5f, RotateMode.LocalAxisAdd).SetEase(Ease.OutSine);
             return;
         }
 
-        AnimateToTarget(targetPos, distance);
+        AnimateToTarget(targetPos, distance, true); // Başlangıçta takla atsın
     }
-
-    void AnimateToTarget(Vector2 targetPos, float distance)
-    {
-        float finalRotation = Random.Range(-30f, 30f);
-        float rotations = distance / 400f;
-        float rotationDirection = Random.Range(0, 2) == 0 ? 1f : -1f;
-        float spinRotation = rotations * 360f * rotationDirection;
-        float duration = Mathf.Clamp(distance / 200f, 0.8f, 2.5f);
-
         Sequence moveSequence = DOTween.Sequence();
-        moveSequence.Append(rectTransform.DOAnchorPos(targetPos, duration).SetEase(Ease.OutQuad));
-        moveSequence.Join(rectTransform.DORotate(new Vector3(0, 0, spinRotation), duration * 0.8f, RotateMode.LocalAxisAdd).SetEase(Ease.OutQuad));
-        moveSequence.Append(rectTransform.DORotate(new Vector3(0, 0, finalRotation), duration * 0.2f, RotateMode.LocalAxisAdd).SetEase(Ease.OutBack));
 
-        moveSequence.OnComplete(() => {
-            float currentZ = rectTransform.eulerAngles.z;
-            if (currentZ > 180f) currentZ -= 360f;
+    void AnimateToTarget(Vector2 targetPos, float distance, bool shouldSpin = true)
+    {
+        // Duration hesapla
+        float duration = Mathf.Clamp(distance / 200f, 0.8f, 2f);
+        
+        float totalRotation = 0f;
+        
+        if (shouldSpin)
+        {
+            // Takla miktarını yarıya indirdik (2 saniye = 1 takla = 360°)
+            float spinRotation = (duration / 2f) * 360f;
+            
+            // Rastgele yön
+            float rotationDirection = Random.Range(0, 2) == 0 ? 1f : -1f;
+            spinRotation *= rotationDirection;
+            
+            // Final rastgele açı (-30° ile +30° arası)
+            float finalRandomRotation = Random.Range(-30f, 30f);
+            
+            totalRotation = spinRotation + finalRandomRotation;
+        }
+        else
+        {
+            // Sadece final rastgele açı
+            totalRotation = Random.Range(-30f, 30f);
+        }
 
-            if (Mathf.Abs(currentZ) > 90f)
-            {
-                float correctAngle = Random.Range(-30f, 30f);
-                float angleDifference = Mathf.Abs(currentZ - correctAngle);
-                float correctionDuration = Mathf.Clamp((angleDifference / 180f) * (duration * 0.2f), 0.3f, 1.5f);
-                rectTransform.DORotate(new Vector3(0, 0, correctAngle), correctionDuration).SetEase(Ease.InOutSine);
-            }
-        });
+        
+        // Pozisyon ve rotation beraber
+        moveSequence.Append(rectTransform.DOAnchorPos(targetPos, duration).SetEase(Ease.OutCubic));
+        moveSequence.Join(rectTransform.DORotate(new Vector3(0, 0, totalRotation), duration, RotateMode.LocalAxisAdd).SetEase(Ease.OutSine));
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         if (isLocked) return;
+
+        // Tüm DOTween animasyonlarını ve sequence'ları hemen durdur
+        DOTween.Kill(rectTransform);
+        DOTween.Kill(transform);
+        DOTween.Kill(this);
+        moveSequence.Kill();
+        transform.rotation = Quaternion.identity;
 
         isDragging = true;
         transform.SetAsLastSibling();
@@ -134,7 +154,6 @@ public class LetterController : MonoBehaviour, IPointerDownHandler, IDragHandler
 
         ShowSpine();
         HideImage();
-        transform.DORotate(Vector3.zero, 0.2f);
         skeletonGraphic?.AnimationState?.SetAnimation(0, "rage", true);
     }
 
@@ -220,16 +239,16 @@ public class LetterController : MonoBehaviour, IPointerDownHandler, IDragHandler
         }
     }
 
-    void GoToNearestEmptyTarget()
+        void GoToNearestEmptyTarget()
     {
         HideSpine();
         ShowImage();
 
         Vector2 nearestEmptyTarget = FindNearestEmptyTarget();
+        float distance = Vector2.Distance(rectTransform.anchoredPosition, nearestEmptyTarget);
         
-        Sequence wrongSequence = DOTween.Sequence();
-        wrongSequence.Append(rectTransform.DOAnchorPos(nearestEmptyTarget, 0.5f).SetEase(Ease.OutQuad));
-        wrongSequence.Join(transform.DORotate(new Vector3(0, 0, Random.Range(-30f, 30f)), 0.5f));
+        // Drag & drop sonrası - takla atmasın
+        AnimateToTarget(nearestEmptyTarget, distance, false);
     }
 
     Vector2 FindNearestEmptyTarget()

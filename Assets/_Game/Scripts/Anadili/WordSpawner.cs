@@ -84,7 +84,7 @@ public class WordSpawner : MonoBehaviour
 
         for (int i = 0; i < wordToSpawn.Length; i++)
         {
-            if (!char.IsLetter(wordToSpawn[i])) continue;
+            if (!char.IsLetterOrDigit(wordToSpawn[i])) continue;
             
             var letterData = letterDatabase.LoadLetterData(wordToSpawn[i].ToString());
             if (letterData == null) continue;
@@ -105,7 +105,7 @@ public class WordSpawner : MonoBehaviour
         
         for (int i = 0; i < wordToSpawn.Length; i++)
         {
-            if (!char.IsLetter(wordToSpawn[i])) continue;
+            if (!char.IsLetterOrDigit(wordToSpawn[i])) continue;
             
             var letterData = letterDatabase.LoadLetterData(wordToSpawn[i].ToString());
             if (letterData != null)
@@ -127,7 +127,7 @@ public class WordSpawner : MonoBehaviour
 
         for (int i = 0; i < wordToSpawn.Length; i++)
         {
-            if (!char.IsLetter(wordToSpawn[i])) continue;
+            if (!char.IsLetterOrDigit(wordToSpawn[i])) continue;
             if (positionIndex >= letterPositions.Count) break;
 
             string letterId = wordToSpawn[i].ToString();
