@@ -22,9 +22,17 @@ public class LetterData : ScriptableObject
     [ReadOnly] public string letterId;
     
     [TabGroup("Prefabs")]
-    [LabelText("Harf Prefabı")]
+    [LabelText("Harf Spine")]
     public GameObject prefab; 
-    
+
+    [TabGroup("Prefabs")]
+    [LabelText("Harf Sprite")]
+    public Sprite letterSprite;
+
+    [TabGroup("Prefabs")]
+    [LabelText("Harf Shadow Sprite")]
+    public Sprite letterShadowSprite;
+
 
     [TabGroup("Letter Info")]
     [LabelText("Harf Genişliği")]

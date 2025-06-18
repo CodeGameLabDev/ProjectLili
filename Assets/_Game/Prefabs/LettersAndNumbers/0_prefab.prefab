@@ -88,6 +88,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 652838655814141437, guid: 1951f6840f0e9404b8e8b5ae19b37a8a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2442372204591835087, guid: 1951f6840f0e9404b8e8b5ae19b37a8a, type: 3}
       propertyPath: skeletonDataAsset
       value: 
@@ -95,6 +99,10 @@ PrefabInstance:
     - target: {fileID: 5238818854849156000, guid: 1951f6840f0e9404b8e8b5ae19b37a8a, type: 3}
       propertyPath: m_Name
       value: 0_prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 8038058403239699198, guid: 1951f6840f0e9404b8e8b5ae19b37a8a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
