@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4855a3eca9ea7ac4bbf306fd4105cb91, type: 3}
   m_Name: number_9
   m_EditorClassIdentifier: 
-  letter: 80
-  letterId: P
+  letter: 57
+  letterId: 9
   prefab: {fileID: 4365259415898252749, guid: 3a1f03a198a3c7342997350a3722e4d5, type: 3}
   letterSprite: {fileID: 1723048580, guid: 4cb4d3481846b4258b737fbd1ae4906e, type: 3}
   letterShadowSprite: {fileID: -1363346633, guid: e208d0467013540a898b1e15e3e3bde4, type: 3}

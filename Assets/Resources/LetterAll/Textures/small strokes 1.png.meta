@@ -126,9 +126,9 @@ TextureImporter:
       name: a
       rect:
         serializedVersion: 2
-        x: 32
-        y: 1723
-        width: 256
+        x: 34
+        y: 1722
+        width: 289
         height: 320
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -252,10 +252,10 @@ TextureImporter:
       name: a1
       rect:
         serializedVersion: 2
-        x: 24
-        y: 1368
-        width: 283
-        height: 337
+        x: 0
+        y: 1360
+        width: 307
+        height: 350
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -273,10 +273,10 @@ TextureImporter:
       name: f
       rect:
         serializedVersion: 2
-        x: 413
+        x: 404
         y: 1375
-        width: 230
-        height: 332
+        width: 239
+        height: 331
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -588,9 +588,9 @@ TextureImporter:
       name: p
       rect:
         serializedVersion: 2
-        x: 1497
+        x: 1459
         y: 687
-        width: 140
+        width: 178
         height: 331
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -609,9 +609,9 @@ TextureImporter:
       name: r
       rect:
         serializedVersion: 2
-        x: 1796
+        x: 1730
         y: 686
-        width: 232
+        width: 298
         height: 333
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -630,9 +630,9 @@ TextureImporter:
       name: s
       rect:
         serializedVersion: 2
-        x: 64
+        x: 0
         y: 344
-        width: 208
+        width: 272
         height: 336
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -651,9 +651,9 @@ TextureImporter:
       name: s1
       rect:
         serializedVersion: 2
-        x: 424
+        x: 368
         y: 342
-        width: 177
+        width: 233
         height: 338
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -672,9 +672,9 @@ TextureImporter:
       name: t
       rect:
         serializedVersion: 2
-        x: 769
+        x: 716
         y: 344
-        width: 159
+        width: 212
         height: 331
       alignment: 0
       pivot: {x: 0.5, y: 0.5}

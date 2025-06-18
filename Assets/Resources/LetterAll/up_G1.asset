@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4855a3eca9ea7ac4bbf306fd4105cb91, type: 3}
   m_Name: up_G1
   m_EditorClassIdentifier: 
-  letter: 71
-  letterId: G1
+  letter: 286
+  letterId: "\u011E"
   prefab: {fileID: 8858391960757942081, guid: 4e3219cc330b1a247a707c84d238b9d9, type: 3}
   letterSprite: {fileID: -390224282, guid: 701eb7af18dd0cc469f906cedde2ab10, type: 3}
   letterShadowSprite: {fileID: 930695822, guid: 664e85c2fe0e22848a09836f0b771733, type: 3}

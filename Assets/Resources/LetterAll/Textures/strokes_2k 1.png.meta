@@ -147,10 +147,10 @@ TextureImporter:
       name: B
       rect:
         serializedVersion: 2
-        x: 424
+        x: 406
         y: 1706
-        width: 218
-        height: 343
+        width: 239
+        height: 326
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -210,10 +210,10 @@ TextureImporter:
       name: D
       rect:
         serializedVersion: 2
-        x: 1433
+        x: 1418
         y: 1709
-        width: 241
-        height: 340
+        width: 256
+        height: 323
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -252,10 +252,10 @@ TextureImporter:
       name: A1
       rect:
         serializedVersion: 2
-        x: 74
-        y: 1369
-        width: 230
-        height: 320
+        x: 64
+        y: 1365
+        width: 254
+        height: 324
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -462,9 +462,9 @@ TextureImporter:
       name: L
       rect:
         serializedVersion: 2
-        x: 1753
+        x: 1725
         y: 1033
-        width: 256
+        width: 286
         height: 320
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -567,9 +567,9 @@ TextureImporter:
       name: O1
       rect:
         serializedVersion: 2
-        x: 1089
+        x: 1053
         y: 696
-        width: 206
+        width: 242
         height: 328
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -588,9 +588,9 @@ TextureImporter:
       name: P
       rect:
         serializedVersion: 2
-        x: 1465
+        x: 1380
         y: 701
-        width: 176
+        width: 261
         height: 331
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -609,9 +609,9 @@ TextureImporter:
       name: R
       rect:
         serializedVersion: 2
-        x: 1761
+        x: 1657
         y: 696
-        width: 221
+        width: 337
         height: 321
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -630,10 +630,10 @@ TextureImporter:
       name: S
       rect:
         serializedVersion: 2
-        x: 80
+        x: 1
         y: 366
-        width: 225
-        height: 325
+        width: 304
+        height: 313
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -672,10 +672,10 @@ TextureImporter:
       name: T
       rect:
         serializedVersion: 2
-        x: 733
+        x: 671
         y: 366
-        width: 240
-        height: 324
+        width: 302
+        height: 316
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

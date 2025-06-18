@@ -147,9 +147,9 @@ TextureImporter:
       name: B
       rect:
         serializedVersion: 2
-        x: 432
+        x: 413
         y: 1713
-        width: 209
+        width: 230
         height: 336
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -210,9 +210,9 @@ TextureImporter:
       name: D
       rect:
         serializedVersion: 2
-        x: 1438
+        x: 1404
         y: 1714
-        width: 243
+        width: 264
         height: 335
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -252,10 +252,10 @@ TextureImporter:
       name: A1
       rect:
         serializedVersion: 2
-        x: 54
-        y: 1369
-        width: 242
-        height: 336
+        x: 37
+        y: 1361
+        width: 272
+        height: 356
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -462,9 +462,9 @@ TextureImporter:
       name: L
       rect:
         serializedVersion: 2
-        x: 1749
+        x: 1707
         y: 1027
-        width: 260
+        width: 302
         height: 337
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -588,9 +588,9 @@ TextureImporter:
       name: P
       rect:
         serializedVersion: 2
-        x: 1433
+        x: 1380
         y: 684
-        width: 184
+        width: 237
         height: 336
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -609,9 +609,9 @@ TextureImporter:
       name: R
       rect:
         serializedVersion: 2
-        x: 1761
+        x: 1646
         y: 686
-        width: 232
+        width: 350
         height: 335
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -630,9 +630,9 @@ TextureImporter:
       name: S
       rect:
         serializedVersion: 2
-        x: 56
+        x: 0
         y: 344
-        width: 248
+        width: 300
         height: 336
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -672,9 +672,9 @@ TextureImporter:
       name: T
       rect:
         serializedVersion: 2
-        x: 720
+        x: 653
         y: 346
-        width: 264
+        width: 331
         height: 335
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
