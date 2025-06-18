@@ -93,23 +93,29 @@ public class LetterController : MonoBehaviour, IPointerDownHandler, IDragHandler
             // Kısa mesafe için hafif dönüş + rastgele açı (başlangıçta)
             float spinRotation = (0.5f / 2f) * 360f; // Yarıya indirdik: 0.5 saniye = 90°
             float rotationDirection = Random.Range(0, 2) == 0 ? 1f : -1f;
-            float finalRandomRotation = Random.Range(-30f, 30f);
-            float totalRotation = (spinRotation * rotationDirection) + finalRandomRotation;
+            float finalRandomRotation = Random.Range(-50f, 50f);
             
-            rectTransform.DORotate(new Vector3(0, 0, totalRotation), 0.5f, RotateMode.LocalAxisAdd).SetEase(Ease.OutSine);
+            shortSequence = DOTween.Sequence();
+            shortSequence.Append(rectTransform.DORotate(new Vector3(0, 0, spinRotation * rotationDirection), 0.4f, RotateMode.LocalAxisAdd).SetEase(Ease.OutSine));
+            shortSequence.Append(rectTransform.DORotate(new Vector3(0, 0, finalRandomRotation), 0.1f, RotateMode.Fast).SetEase(Ease.OutSine));
             return;
         }
 
         AnimateToTarget(targetPos, distance, true); // Başlangıçta takla atsın
     }
-        Sequence moveSequence = DOTween.Sequence();
+    Sequence shortSequence = DOTween.Sequence();
+
+    Sequence moveSequence = DOTween.Sequence();
 
     void AnimateToTarget(Vector2 targetPos, float distance, bool shouldSpin = true)
     {
         // Duration hesapla
         float duration = Mathf.Clamp(distance / 200f, 0.8f, 2f);
         
-        float totalRotation = 0f;
+        // Final rastgele açı (-30° ile +30° arası)
+        float finalRandomRotation = Random.Range(-50f, 50f);
+        
+        moveSequence = DOTween.Sequence();
         
         if (shouldSpin)
         {
@@ -120,21 +126,19 @@ public class LetterController : MonoBehaviour, IPointerDownHandler, IDragHandler
             float rotationDirection = Random.Range(0, 2) == 0 ? 1f : -1f;
             spinRotation *= rotationDirection;
             
-            // Final rastgele açı (-30° ile +30° arası)
-            float finalRandomRotation = Random.Range(-30f, 30f);
+            // Pozisyon ve spin beraber
+            moveSequence.Append(rectTransform.DOAnchorPos(targetPos, duration).SetEase(Ease.OutCubic));
+            moveSequence.Join(rectTransform.DORotate(new Vector3(0, 0, spinRotation), duration * 0.8f, RotateMode.LocalAxisAdd).SetEase(Ease.OutSine));
             
-            totalRotation = spinRotation + finalRandomRotation;
+            // Son olarak final açıya git (LocalAxisAdd değil, Fast)
+            moveSequence.Append(rectTransform.DORotate(new Vector3(0, 0, finalRandomRotation), duration * 0.2f, RotateMode.Fast).SetEase(Ease.OutSine));
         }
         else
         {
-            // Sadece final rastgele açı
-            totalRotation = Random.Range(-30f, 30f);
+            // Sadece pozisyon ve final açı
+            moveSequence.Append(rectTransform.DOAnchorPos(targetPos, duration).SetEase(Ease.OutCubic));
+            moveSequence.Join(rectTransform.DORotate(new Vector3(0, 0, finalRandomRotation), duration, RotateMode.Fast).SetEase(Ease.OutSine));
         }
-
-        
-        // Pozisyon ve rotation beraber
-        moveSequence.Append(rectTransform.DOAnchorPos(targetPos, duration).SetEase(Ease.OutCubic));
-        moveSequence.Join(rectTransform.DORotate(new Vector3(0, 0, totalRotation), duration, RotateMode.LocalAxisAdd).SetEase(Ease.OutSine));
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -146,6 +150,7 @@ public class LetterController : MonoBehaviour, IPointerDownHandler, IDragHandler
         DOTween.Kill(transform);
         DOTween.Kill(this);
         moveSequence.Kill();
+        shortSequence.Kill();
         transform.rotation = Quaternion.identity;
 
         isDragging = true;
