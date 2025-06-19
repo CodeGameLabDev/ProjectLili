@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4855a3eca9ea7ac4bbf306fd4105cb91, type: 3}
+  m_Name: low_v
+  m_EditorClassIdentifier: 
+  letter: 118
+  letterId: v
+  prefab: {fileID: 5779001878119226301, guid: ffaeb2bc2eaa892468491faab6d18871, type: 3}
+  letterSprite: {fileID: 1343866, guid: 24cdc093dc8d2354db3b44ee17c69031, type: 3}
+  letterShadowSprite: {fileID: 1710634534, guid: 5ea10686edcb4424abcae5186e693ab5, type: 3}
+  letterWidth: 286.85992
+  _soundDict:
+    keys: []
+    values: []

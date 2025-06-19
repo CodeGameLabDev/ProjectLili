@@ -5,32 +5,52 @@ using UnityEngine.UI;
 using Sirenix.OdinInspector;
 using Cysharp.Threading.Tasks;
 using System;
+
 public class PuzzleModule : MonoBehaviour
 {
+    [Header("Puzzle System")]
+    [SerializeField] private string[] puzzleImageNames = new string[] { 
+        "Puzzle_1", "Puzzle_2", "Puzzle_3", "Puzzle_4", "Puzzle_5", "Puzzle_6", "Puzzle_7", "Puzzle_8", "Puzzle_9", "Puzzle_10"
+    };
+    private int currentPuzzleIndex = 0;
+    private bool hasStarted = false;
+
+    [Header("Puzzle Components")]
     [SerializeField] private List<PuzzlePiece> puzzleParcalari = new List<PuzzlePiece>();
     [SerializeField] private Image arkaplanGolgesi;
     [SerializeField] private List<Transform> targets = new List<Transform>(); // Puzzle parçalarının gideceği hedef noktalar
+    
+    [Header("Debug Info")]
+    [ReadOnly] public string currentPuzzleName;
+    [ReadOnly] public int debugCurrentPuzzleIndex;
+    
     public static Action OnPuzzleCompleted;
     public static Action<PuzzlePiece> OnPiecePlaced;
-    // Start is called before the first frame update
+
+    private const string PUZZLE_PROGRESS_KEY = "CurrentPuzzleIndex";
+    private int puzzlePieceCount = 0;
+
     void Start()
     {
-
+        Debug.Log($"[PuzzleModule] Start - currentPuzzleIndex (before LoadProgress): {currentPuzzleIndex}");
+        LoadProgress();
+        Debug.Log($"[PuzzleModule] Start - currentPuzzleIndex (after LoadProgress): {currentPuzzleIndex}");
+        UpdateCurrentPuzzleDisplay();
+        hasStarted = true;
     }
 
     private void OnEnable()
     {
         OnPiecePlaced += PiecePlaced;
+        OnPuzzleCompleted += OnPuzzleCompletedHandler;
     }
 
     private void OnDisable()
     {
         OnPiecePlaced -= PiecePlaced;
+        OnPuzzleCompleted -= OnPuzzleCompletedHandler;
     }
 
- 
-
-    int puzzlePieceCount = 0;
     private void PiecePlaced(PuzzlePiece puzzlePiece)
     {
         Debug.Log("Puzzle parçası yerleştirildi");
@@ -40,14 +60,80 @@ public class PuzzleModule : MonoBehaviour
             Debug.Log("Puzzle tamamlandı");
             OnPuzzleCompleted?.Invoke();
         }
-    }   
-    
+    }
 
+    private void OnPuzzleCompletedHandler()
+    {
+        Debug.Log($"Puzzle tamamlandı: {puzzleImageNames[currentPuzzleIndex]}");
+        
+        // Bir sonraki puzzle'a geç
+        currentPuzzleIndex++;
+        SaveProgress();
+        UpdateCurrentPuzzleDisplay();
+        
+        if (currentPuzzleIndex < puzzleImageNames.Length)
+        {
+            Debug.Log($"Bir sonraki puzzle hazır: {puzzleImageNames[currentPuzzleIndex]}");
+        }
+        else
+        {
+            Debug.Log("Tüm puzzle'lar tamamlandı! Tebrikler!");
+        }
+    }
 
-    [Button("OyunuBaslat")]
+    [Button("Oyunu Başlat")]
     public void OyunuBaslat()
     {
+        Debug.Log($"[PuzzleModule] OyunuBaslat called - hasStarted: {hasStarted}, currentPuzzleIndex: {currentPuzzleIndex}");
+        
+        // Eğer Start() henüz çalışmamışsa
+        if (!hasStarted)
+        {
+            Debug.Log("[PuzzleModule] Start() henüz çalışmamış, LoadProgress() manuel olarak çağrılıyor...");
+            LoadProgress();
+            UpdateCurrentPuzzleDisplay();
+            hasStarted = true;
+        }
+
+        // Mevcut puzzle resmini yükle
+        LoadCurrentPuzzleImage();
+        
+        // Puzzle parçalarını karıştır ve başlat
+        StartPuzzleGame();
+    }
+
+    private void LoadCurrentPuzzleImage()
+    {
+        if (currentPuzzleIndex >= puzzleImageNames.Length)
+        {
+            Debug.Log("Tüm puzzle'lar tamamlandı! Başa dönüyor...");
+            currentPuzzleIndex = 0;
+            SaveProgress();
+        }
+
+        string puzzleName = puzzleImageNames[currentPuzzleIndex];
+        string resourcePath = $"Puzzle/{puzzleName}";
+
+        Debug.Log($"[PuzzleModule] Yüklenecek puzzle: {puzzleName}, Resource Path: {resourcePath}");
+
+        Sprite puzzleSprite = Resources.Load<Sprite>(resourcePath);
+        
+        if (puzzleSprite == null)
+        {
+            Debug.LogError($"Puzzle resmi bulunamadı: {resourcePath}. Resources/Puzzle/ klasöründe {puzzleName}.png/jpg dosyası olduğundan emin olun.");
+            return;
+        }
+
+        // Resmi güncelle
+        ResmiGuncelle(puzzleSprite);
+        
+        Debug.Log($"Puzzle yüklendi: {puzzleName} (İndeks: {currentPuzzleIndex})");
+    }
+
+    private void StartPuzzleGame()
+    {
         puzzlePieceCount = 0;
+        
         if (puzzleParcalari.Count == 0 || targets.Count == 0)
         {
             Debug.LogWarning("Puzzle parçaları veya hedefler tanımlanmamış!");
@@ -69,9 +155,59 @@ public class PuzzleModule : MonoBehaviour
             Transform hedef = karistirilmisHedefler[i];
             
             ParcayiTasi(puzzleParcasi.transform, hedef.position, 1f);
-
-
         }
+    }
+
+    private void SaveProgress()
+    {
+        PlayerPrefs.SetInt(PUZZLE_PROGRESS_KEY, currentPuzzleIndex);
+        PlayerPrefs.Save();
+        Debug.Log($"Puzzle ilerlemesi kaydedildi: {currentPuzzleIndex}");
+    }
+
+    private void LoadProgress()
+    {
+        currentPuzzleIndex = PlayerPrefs.GetInt(PUZZLE_PROGRESS_KEY, 0);
+        Debug.Log($"Puzzle ilerlemesi yüklendi: {currentPuzzleIndex}");
+    }
+
+    private void UpdateCurrentPuzzleDisplay()
+    {
+        if (currentPuzzleIndex < puzzleImageNames.Length)
+        {
+            currentPuzzleName = puzzleImageNames[currentPuzzleIndex];
+        }
+        else
+        {
+            currentPuzzleName = "Tamamlandı";
+        }
+        debugCurrentPuzzleIndex = currentPuzzleIndex;
+        Debug.Log($"[PuzzleModule] UpdateCurrentPuzzleDisplay - currentPuzzleName: {currentPuzzleName}, currentPuzzleIndex: {currentPuzzleIndex}");
+    }
+
+    [Button("Reset Progress")]
+    public void ResetProgress()
+    {
+        currentPuzzleIndex = 0;
+        SaveProgress();
+        UpdateCurrentPuzzleDisplay();
+        Debug.Log("Puzzle ilerlemesi sıfırlandı!");
+    }
+
+    [Button("Skip Current Puzzle")]
+    public void SkipCurrentPuzzle()
+    {
+        OnPuzzleCompleted?.Invoke();
+    }
+
+    public int GetCurrentPuzzleIndex()
+    {
+        return currentPuzzleIndex;
+    }
+
+    public string GetCurrentPuzzleName()
+    {
+        return currentPuzzleIndex < puzzleImageNames.Length ? puzzleImageNames[currentPuzzleIndex] : "Tamamlandı";
     }
     
     // Liste karıştırma yardımcı fonksiyonu (Fisher-Yates algoritması)
@@ -107,8 +243,7 @@ public class PuzzleModule : MonoBehaviour
         parca.position = hedefPozisyon;
     }
 
-    [Button("ResmiGuncelle")]
-    public void ResmiGuncelle(Sprite yeniResim)
+    private void ResmiGuncelle(Sprite yeniResim)
     {
         // Arkaplan gölgesi resmini güncelle
         if (arkaplanGolgesi != null)
@@ -120,7 +255,6 @@ public class PuzzleModule : MonoBehaviour
         // Her puzzle parçasına resmi alt obje olarak ekle
         foreach (PuzzlePiece puzzleParcasi in puzzleParcalari)
         {
-
             // Puzzle parçasının RectTransform'ını al
             RectTransform parcaRect = puzzleParcasi.GetComponent<RectTransform>();
             if (parcaRect == null) continue;
@@ -158,8 +292,6 @@ public class PuzzleModule : MonoBehaviour
             resimObjesi.transform.position = arkaplanGolgesi.transform.position;
             resimObjesi.transform.rotation = arkaplanGolgesi.transform.rotation;
             resimObjesi.transform.localScale = arkaplanGolgesi.transform.localScale;
-            
-
 
             // Mask bileşeninin puzzle parçasında olduğundan emin ol
             if (puzzleParcasi.GetComponent<Mask>() == null)
