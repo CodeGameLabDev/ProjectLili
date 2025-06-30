@@ -1793,7 +1793,7 @@ MonoBehaviour:
   shadows: []
   sprites: []
   spines: []
-  wordToSpawn: ABCDeeee
+  wordToSpawn: A
 --- !u!114 &7955839600194341959
 MonoBehaviour:
   m_ObjectHideFlags: 0
