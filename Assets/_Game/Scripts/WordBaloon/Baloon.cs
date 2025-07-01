@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using Spine.Unity;
 
 public class Baloon : MonoBehaviour, IPointerClickHandler
 {
@@ -24,7 +25,7 @@ public class Baloon : MonoBehaviour, IPointerClickHandler
     // isPopped için public property
     public bool IsPopped => isPopped;
 
-    public void SetLetter(char c, bool isTargetLetter, LetterData letterData)
+    public void SetLetter(char c, bool isTargetLetter, LetterData letterData, Color letterColor)
     {
         letter = c;
         isTarget = isTargetLetter;
@@ -41,6 +42,7 @@ public class Baloon : MonoBehaviour, IPointerClickHandler
             var image = spriteObj.AddComponent<Image>();
             image.sprite = letterData.letterSprite;
             image.SetNativeSize();
+            image.color = letterColor;
             var rect = spriteObj.GetComponent<RectTransform>();
             rect.anchorMin = new Vector2(0.5f, 0.5f);
             rect.anchorMax = new Vector2(0.5f, 0.5f);
@@ -58,6 +60,51 @@ public class Baloon : MonoBehaviour, IPointerClickHandler
             currentSpineInstance.transform.localScale = Vector3.one;
             // Spine başlangıçta kapalı olmalı
             currentSpineInstance.SetActive(false);
+
+            // Spine renk uygula
+            ApplyColorToSpine(currentSpineInstance, letterColor);
+        }
+
+        // LetterPrefab'in kendi Image rengini ayarla (balon içindeki harf görseli)
+        var lpImage = letterPrefab.GetComponent<Image>();
+        if (lpImage != null)
+        {
+            lpImage.color = letterColor;
+        }
+    }
+
+    private void ApplyColorToSpine(GameObject spineObj, Color color)
+    {
+        if (spineObj == null) return;
+        var skeletonGraphic = spineObj.GetComponent<SkeletonGraphic>();
+        if (skeletonGraphic != null)
+        {
+            if (skeletonGraphic.CustomMaterialOverride.Count > 0)
+            {
+                var newOverrides = new System.Collections.Generic.Dictionary<UnityEngine.Texture, UnityEngine.Material>();
+                foreach (var kvp in skeletonGraphic.CustomMaterialOverride)
+                {
+                    if (kvp.Value != null)
+                    {
+                        var mat = new UnityEngine.Material(kvp.Value);
+                        if (mat.HasProperty("_FillColor"))
+                        {
+                            mat.SetColor("_FillColor", color);
+                        }
+                        newOverrides[kvp.Key] = mat;
+                    }
+                }
+                skeletonGraphic.CustomMaterialOverride.Clear();
+                foreach (var kvp in newOverrides)
+                    skeletonGraphic.CustomMaterialOverride[kvp.Key] = kvp.Value;
+            }
+            else if (skeletonGraphic.material != null)
+            {
+                var mat = new UnityEngine.Material(skeletonGraphic.material);
+                if (mat.HasProperty("_FillColor"))
+                    mat.SetColor("_FillColor", color);
+                skeletonGraphic.material = mat;
+            }
         }
     }
 
@@ -114,43 +161,48 @@ public class Baloon : MonoBehaviour, IPointerClickHandler
 
     private void ExtractLetterToHolder()
     {
-        if (letterPrefab != null && manager != null)
-        {
-            // LetterPrefab'i parent'tan çıkar (Canvas'ta bağımsız hareket edebilsin)
-            letterPrefab.transform.SetParent(null);
+        if (manager == null) return;
 
-            // Canvas ekle (eğer yoksa)
-            Canvas canvas = letterPrefab.GetComponent<Canvas>();
-            if (canvas == null)
-            {
-                canvas = letterPrefab.AddComponent<Canvas>();
-                canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-                canvas.sortingOrder = 1000;
-            }
+        // LetterPrefab'i gizle
+        if (letterPrefab != null)
+            letterPrefab.SetActive(false);
 
-            // RectTransform ayarları
-            var rect = letterPrefab.GetComponent<RectTransform>();
-            if (rect != null)
-            {
-                rect.anchorMin = new Vector2(0.5f, 0.5f);
-                rect.anchorMax = new Vector2(0.5f, 0.5f);
-                rect.pivot = new Vector2(0.5f, 0.5f);
-                rect.localScale = Vector3.one;
-                // İsteğe bağlı: letterHolder boyutuna göre sizeDelta ayarla
-                // rect.sizeDelta = new Vector2(manager.GetLetterHolderSize(), manager.GetLetterHolderSize());
-            }
+        // Spine container objesi (spinePrefab) hareket edecek
+        GameObject movingObj = spinePrefab != null ? spinePrefab : letterPrefab;
 
-            letterPrefab.SetActive(true);
-
-            // Manager'a LetterPrefab'i gönder
-            manager.OnBaloonPopped(this, letterPrefab);
-        }
-        else if (currentSpineInstance != null && manager != null)
-        {
+        // SpinePrefab ve child spine'i aktif et
+        movingObj.SetActive(true);
+        if (currentSpineInstance != null)
             currentSpineInstance.SetActive(true);
-            currentSpineInstance.transform.SetParent(null);
-            manager.OnBaloonPopped(this, currentSpineInstance);
+
+        // Rage animasyonu oynat
+        PlaySpineAnimation(currentSpineInstance, "rage");
+
+        // Overlay canvas'a taşı
+        Canvas overlay = manager.GetOverlayCanvas();
+        if (overlay == null)
+        {
+            Debug.LogError("Overlay canvas bulunamadı!");
+            return;
         }
+
+        movingObj.transform.SetParent(overlay.transform, false);
+
+        // Başlangıç pozisyonu: balonun ekran pozisyonu
+        var rect = movingObj.GetComponent<RectTransform>();
+        if (rect != null)
+        {
+            rect.anchorMin = new Vector2(0.5f, 0.5f);
+            rect.anchorMax = new Vector2(0.5f, 0.5f);
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.localScale = Vector3.one;
+
+            Vector2 startScreenPos = RectTransformUtility.WorldToScreenPoint(null, transform.position);
+            rect.position = startScreenPos;
+        }
+
+        // Manager'a hareket edecek objeyi gönder
+        manager.OnBaloonPopped(this, movingObj);
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -209,6 +261,22 @@ public class Baloon : MonoBehaviour, IPointerClickHandler
     void Update()
     {
         
+    }
+
+    private void PlaySpineAnimation(GameObject spineObj, string animName)
+    {
+        if (spineObj == null) return;
+        var graphic = spineObj.GetComponent<SkeletonGraphic>();
+        if (graphic != null && graphic.AnimationState != null)
+        {
+            graphic.AnimationState.SetAnimation(0, animName, true);
+            return;
+        }
+        var skeletonAnim = spineObj.GetComponent<SkeletonAnimation>();
+        if (skeletonAnim != null && skeletonAnim.AnimationState != null)
+        {
+            skeletonAnim.AnimationState.SetAnimation(0, animName, true);
+        }
     }
 }
 

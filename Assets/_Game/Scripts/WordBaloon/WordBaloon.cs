@@ -50,6 +50,7 @@ public class WordBaloon : MonoBehaviour
     [Header("Harf Hareket Animasyonu")]
     public float letterMoveDuration = 0.8f;
     public Ease letterMoveEase = Ease.OutQuart;
+    [Range(0.1f,1f)] public float letterEndScale = 0.4f;
     public float letterRotationSpeed = 3f;
     public float letterScaleEffect = 1.2f;
     public float letterTrailEffect = 0.1f;
@@ -62,8 +63,8 @@ public class WordBaloon : MonoBehaviour
     public int baloonSpawnCountPerTick = 1;
     public bool useRandomInterval = true;
 
-    // [Header("Progres Bar")]
-    // public Image progressBar; // şimdilik kullanılmıyor
+    [Header("Progress Bar")]
+    public Image progressBar;
 
     private List<GameObject> letterShadows = new List<GameObject>();
     private List<Baloon> activeBaloons = new List<Baloon>();
@@ -79,6 +80,33 @@ public class WordBaloon : MonoBehaviour
     // Object Pooling
     private Queue<Baloon> baloonPool = new Queue<Baloon>();
     public int poolSize = 10;
+
+    // Overlay canvas for floating letters
+    [HideInInspector] public Canvas overlayCanvas;
+
+    [Header("Renk Ayarları")]
+    public ColorPalette colorPalette;
+    private int colorIndex = 0;
+
+    void Awake()
+    {
+        // Ensure overlay canvas exists
+        overlayCanvas = FindObjectsOfType<Canvas>().FirstOrDefault(c => c.renderMode == RenderMode.ScreenSpaceOverlay);
+        if (overlayCanvas == null)
+        {
+            GameObject canvasGO = new GameObject("FloatingLetterCanvas");
+            overlayCanvas = canvasGO.AddComponent<Canvas>();
+            overlayCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvasGO.AddComponent<GraphicRaycaster>();
+        }
+        // Her durumda yüksek sorting order ver
+        overlayCanvas.sortingOrder = 1000;
+    }
+
+    public Canvas GetOverlayCanvas()
+    {
+        return overlayCanvas;
+    }
 
     void Start()
     {
@@ -416,7 +444,10 @@ public class WordBaloon : MonoBehaviour
             baloonPool.Enqueue(baloon);
             return;
         }
-        baloon.SetLetter(letter, IsTargetLetter(letter), letterData);
+        // Rastgele canlı renk seçimi
+        Color currentColor = Random.ColorHSV(0f, 1f, 0.6f, 1f, 0.6f, 1f);
+
+        baloon.SetLetter(letter, IsTargetLetter(letter), letterData, currentColor);
         var rect = baloon.GetComponent<RectTransform>();
         float x = Random.Range(-300, 300);
         float startY = -Screen.height * 0.5f;
@@ -469,7 +500,7 @@ public class WordBaloon : MonoBehaviour
         Debug.Log($"OnBaloonTapped çağrıldı! isGameActive: {isGameActive}, isTarget: {baloon.isTarget}, letter: {baloon.letter}");
         
         if (!isGameActive) return;
-        if (baloon.isTarget)
+        if (baloon.isTarget && HasAvailableShadow(baloon.letter))
         {
             Debug.Log("Doğru balon tıklandı, patlama animasyonu başlatılıyor...");
             // Doğru balon patlama animasyonu başlat
@@ -477,7 +508,7 @@ public class WordBaloon : MonoBehaviour
         }
         else
         {
-            Debug.Log("Yanlış balon tıklandı, zıplama animasyonu başlatılıyor...");
+            Debug.Log("Yanlış balon tıklandı veya slot kalmadı, zıplama animasyonu başlatılıyor...");
             // (YORUM: Yanlış balon, bulp sesi burada çalınacak)
             // (YORUM: Yanlış balon hafifçe zıplatılabilir)
             // Yanlış balon için hafif zıplama animasyonu
@@ -497,7 +528,7 @@ public class WordBaloon : MonoBehaviour
 
     IEnumerator MoveLetterToShadow(Baloon baloon, GameObject letterPrefab)
     {
-        int shadowIndex = FindFirstAvailableShadowIndex(baloon.letter);
+        int shadowIndex = FindAndReserveShadowIndex(baloon.letter);
         if (shadowIndex == -1)
         {
             Destroy(letterPrefab);
@@ -507,33 +538,46 @@ public class WordBaloon : MonoBehaviour
 
         GameObject letterHolder = letterShadows[shadowIndex];
 
-        // Hedef pozisyonu Canvas space'e çevir
-        Canvas canvas = letterPrefab.GetComponent<Canvas>();
-        RectTransform canvasRect = canvas.GetComponent<RectTransform>();
-        Vector3 worldTarget = letterHolder.transform.position;
-        Vector2 screenTarget = RectTransformUtility.WorldToScreenPoint(Camera.main, worldTarget);
-        Vector2 localPoint;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenTarget, Camera.main, out localPoint);
+        // Overlay canvas referansı
+        Canvas overlay = GetOverlayCanvas();
+        RectTransform overlayRect = overlay.GetComponent<RectTransform>();
 
-        // LetterPrefab'in RectTransform'unu al
-        var letterRect = letterPrefab.GetComponent<RectTransform>();
-        if (letterRect != null)
-        {
-            // Animasyon: Canvas'taki local pozisyondan hedefe hareket
-            letterRect.DOKill();
-            letterRect.DOMove(worldTarget, letterMoveDuration)
-                .SetEase(letterMoveEase)
-                .OnComplete(() => {
-                    Destroy(letterPrefab);
-                    letterPlacedStatus[shadowIndex] = true;
-                    HighlightShadow(letterHolder);
-                });
-        }
+        // LetterPrefab'in RectTransform'u
+        RectTransform letterRect = letterPrefab.GetComponent<RectTransform>();
+
+        // Hedef LetterHolder'ın ekran pozisyonunu al
+        Vector2 targetScreen = RectTransformUtility.WorldToScreenPoint(null, letterHolder.transform.position);
+
+        // Animasyon: position -> targetScreen
+        letterRect.DOKill();
+
+        // Hareket ve küçülme animasyonunu aynı anda yap
+        Sequence seq = DOTween.Sequence();
+        seq.Join(letterRect.DOMove(targetScreen, letterMoveDuration)
+                    .SetEase(letterMoveEase));
+
+        Vector3 endScale = Vector3.one * Mathf.Clamp01(letterEndScale);
+        seq.Join(letterRect.DOScale(endScale, letterMoveDuration)
+                    .SetEase(Ease.InOutQuad));
+
+        seq.OnComplete(() => {
+            // LetterPrefab'i balona geri taşı ve pasifleştir
+            letterPrefab.transform.SetParent(baloon.transform, false);
+            letterPrefab.SetActive(false);
+
+            // Yerleştirme sayısını güncelle
+            placedCount++;
+
+            UpdateProgressBar();
+
+            HighlightShadow(letterHolder);
+
+            if (placedCount >= targetLetterList.Count)
+                OnAllLettersPlaced();
+
+        });
 
         RecycleBaloon(baloon);
-        placedCount++;
-        if (placedCount >= targetLetterList.Count)
-            OnAllLettersPlaced();
 
         yield return null;
     }
@@ -573,7 +617,7 @@ public class WordBaloon : MonoBehaviour
         Debug.Log("Harf başarıyla yerleştirildi!");
     }
 
-    int FindFirstAvailableShadowIndex(char c)
+    int FindAndReserveShadowIndex(char c)
     {
         // Bu harfin kaçıncı kez geldiğini bul
         int currentPlacementIndex = 0;
@@ -606,6 +650,7 @@ public class WordBaloon : MonoBehaviour
                 if (letterOccurrence == currentPlacementIndex + 1)
                 {
                     Debug.Log($"Harf '{c}' için uygun pozisyon bulundu: {i} (sıra: {currentPlacementIndex + 1})");
+                    letterPlacedStatus[i] = true;
                     return i;
                 }
             }
@@ -655,6 +700,26 @@ public class WordBaloon : MonoBehaviour
         Debug.Log($"- Dönme Hızı: {letterRotationSpeed}");
         Debug.Log($"- Highlight Scale: {shadowHighlightScale}");
         Debug.Log($"- Highlight Duration: {shadowHighlightDuration}");
+    }
+
+    // Seçilen harf için henüz yerleştirilmemiş bir gölge var mı?
+    private bool HasAvailableShadow(char c)
+    {
+        for (int i = 0; i < targetLetterList.Count; i++)
+        {
+            if (targetLetterList[i] == c && !letterPlacedStatus[i])
+                return true;
+        }
+        return false;
+    }
+
+    // --- Progress Bar ---
+    private void UpdateProgressBar()
+    {
+        if (progressBar == null) return;
+        float ratio = targetLetterList.Count == 0 ? 0f : (float)placedCount / targetLetterList.Count;
+        ratio = Mathf.Clamp01(ratio);
+        progressBar.fillAmount = ratio;
     }
 
     // --- Balon Component ---
