@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 
 public class WordBaloon : MonoBehaviour
 {
@@ -87,6 +88,10 @@ public class WordBaloon : MonoBehaviour
     [Header("Renk Ayarları")]
     public ColorPalette colorPalette;
     private int colorIndex = 0;
+
+    // ADDED: Event that will be invoked when level is completed
+    [Header("Events")]
+    public UnityEvent onLevelCompleted;
 
     void Awake()
     {
@@ -444,8 +449,17 @@ public class WordBaloon : MonoBehaviour
             baloonPool.Enqueue(baloon);
             return;
         }
-        // Rastgele canlı renk seçimi
-        Color currentColor = Random.ColorHSV(0f, 1f, 0.6f, 1f, 0.6f, 1f);
+        // ColorPalette üzerinden renk seçimi (palet yoksa rastgele renk kullan)
+        Color currentColor;
+        if (colorPalette != null && colorPalette.ColorCount > 0)
+        {
+            currentColor = colorPalette.GetColor(colorIndex++);
+        }
+        else
+        {
+            // Fallback – rastgele canlı renk
+            currentColor = Random.ColorHSV(0f, 1f, 0.6f, 1f, 0.6f, 1f);
+        }
 
         baloon.SetLetter(letter, IsTargetLetter(letter), letterData, currentColor);
         var rect = baloon.GetComponent<RectTransform>();
@@ -460,7 +474,6 @@ public class WordBaloon : MonoBehaviour
                 .SetEase(baloonRiseEase)
                 .OnComplete(() => {
                     RecycleBaloon(baloon);
-                    activeBaloons.Remove(baloon);
                 });
         }
         else
@@ -471,7 +484,6 @@ public class WordBaloon : MonoBehaviour
                 .SetEase(baloonRiseEase)
                 .OnComplete(() => {
                     RecycleBaloon(baloon);
-                    activeBaloons.Remove(baloon);
                 });
         }
         baloon.gameObject.SetActive(true);
@@ -570,6 +582,17 @@ public class WordBaloon : MonoBehaviour
 
             UpdateProgressBar();
 
+            // LetterHolder içindeki SpriteLetter'ın rengini, balondaki harf renginden al
+            Transform spriteLetterTf = letterHolder.transform.Find("SpriteLetter");
+            if (spriteLetterTf != null)
+            {
+                var img = spriteLetterTf.GetComponent<Image>();
+                if (img != null)
+                {
+                    img.color = baloon.letterColor;
+                }
+            }
+
             HighlightShadow(letterHolder);
 
             if (placedCount >= targetLetterList.Count)
@@ -667,12 +690,16 @@ public class WordBaloon : MonoBehaviour
         else baloon.transform.DOKill();
         baloon.gameObject.SetActive(false);
         baloonPool.Enqueue(baloon);
+        // Ensure the balloon is removed from the active list
+        activeBaloons.Remove(baloon);
     }
 
     void OnAllLettersPlaced()
     {
         isGameActive = false;
-        Debug.Log("Tüm harfler yerleştirildi! Oyun tamamlandı.");
+        Debug.Log("Level bitti");
+        // Invoke level complete event if any listeners are attached
+        onLevelCompleted?.Invoke();
         // (YORUM: Tüm harflerin sevinç animasyonu burada oynatılacak)
         // (YORUM: Progress bar güncellemesi burada yapılabilir)
         // (YORUM: Görev tamamlandı, diğer işlemler yapılabilir)

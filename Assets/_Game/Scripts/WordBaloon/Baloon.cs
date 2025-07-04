@@ -9,6 +9,7 @@ public class Baloon : MonoBehaviour, IPointerClickHandler
     [HideInInspector] public WordBaloon manager;
     [HideInInspector] public char letter;
     [HideInInspector] public bool isTarget;
+    [HideInInspector] public Color letterColor;
     public float riseSpeed = 120f;
 
     [SerializeField] private GameObject letterPrefab;
@@ -29,6 +30,7 @@ public class Baloon : MonoBehaviour, IPointerClickHandler
     {
         letter = c;
         isTarget = isTargetLetter;
+        this.letterColor = letterColor;
         isPopped = false;
         // Eski objeleri sil
         if (currentSpineInstance != null) { Destroy(currentSpineInstance); currentSpineInstance = null; }
