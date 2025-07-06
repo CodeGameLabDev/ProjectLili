@@ -7,9 +7,36 @@ using TMPro;
 using DG.Tweening;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using System;
 
-public class WordBaloon : MonoBehaviour
+public class WordBaloon : MonoBehaviour, IGameLevel
 {
+    // IGameLevel implementation
+    public event Action OnGameStart;
+    public event Action OnGameComplete;
+    public bool IsCompleted { get; private set; }
+    public string LevelName => "Word Balloon Game";
+    
+    public void StartGame()
+    {
+        IsCompleted = false;
+
+        AlfabeModuleData alfabeModuleData = GameManager.Instance.GetAlfabeModuleData();
+        targetLetters = alfabeModuleData.BaloonWord;
+
+        OnGameStart?.Invoke();
+        GameStart();
+    }
+    
+    public void CompleteGame()
+    {
+        if (!IsCompleted)
+        {
+            IsCompleted = true;
+            OnGameComplete?.Invoke();
+        }
+    }
+    
     [Header("Oyun Ayarları")]
     public string targetLetters;
     [Range(0.1f, 5f)] public float baloonSpawnInterval = 1.2f;
@@ -113,16 +140,9 @@ public class WordBaloon : MonoBehaviour
         return overlayCanvas;
     }
 
-    void Start()
+
+    void GameStart()
     {
-        // EventSystem kontrolü ve otomatik ekleme
-        if (FindObjectOfType<EventSystem>() == null)
-        {
-            Debug.LogWarning("EventSystem bulunamadı! Otomatik olarak ekleniyor...");
-            GameObject eventSystem = new GameObject("EventSystem");
-            eventSystem.AddComponent<EventSystem>();
-            eventSystem.AddComponent<StandaloneInputModule>();
-        }
         
         if (letterDatabase == null || baloonParent == null || letterShadowParent == null || string.IsNullOrEmpty(targetLetters))
         {
@@ -431,7 +451,7 @@ public class WordBaloon : MonoBehaviour
                     SpawnBaloon();
                 }
             }
-            float wait = useRandomInterval ? Random.Range(baloonSpawnIntervalMin, baloonSpawnIntervalMax) : baloonSpawnIntervalMin;
+            float wait = useRandomInterval ? UnityEngine.Random.Range(baloonSpawnIntervalMin, baloonSpawnIntervalMax) : baloonSpawnIntervalMin;
             yield return new WaitForSeconds(wait);
         }
     }
@@ -458,12 +478,12 @@ public class WordBaloon : MonoBehaviour
         else
         {
             // Fallback – rastgele canlı renk
-            currentColor = Random.ColorHSV(0f, 1f, 0.6f, 1f, 0.6f, 1f);
+            currentColor = UnityEngine.Random.ColorHSV(0f, 1f, 0.6f, 1f, 0.6f, 1f);
         }
 
         baloon.SetLetter(letter, IsTargetLetter(letter), letterData, currentColor);
         var rect = baloon.GetComponent<RectTransform>();
-        float x = Random.Range(-300, 300);
+        float x = UnityEngine.Random.Range(-300, 300);
         float startY = -Screen.height * 0.5f;
         float endY = Screen.height * 0.6f;
         if (rect != null)
@@ -492,13 +512,13 @@ public class WordBaloon : MonoBehaviour
 
     char GetRandomBaloonLetter()
     {
-        if (Random.value < wrongBaloonChance && wrongLetterPool.Count > 0)
+        if (UnityEngine.Random.value < wrongBaloonChance && wrongLetterPool.Count > 0)
         {
-            return wrongLetterPool[Random.Range(0, wrongLetterPool.Count)];
+            return wrongLetterPool[UnityEngine.Random.Range(0, wrongLetterPool.Count)];
         }
         else
         {
-            return targetLetterList[Random.Range(0, targetLetterList.Count)];
+            return targetLetterList[UnityEngine.Random.Range(0, targetLetterList.Count)];
         }
     }
 
@@ -698,11 +718,13 @@ public class WordBaloon : MonoBehaviour
     {
         isGameActive = false;
         Debug.Log("Level bitti");
+  
         // Invoke level complete event if any listeners are attached
         onLevelCompleted?.Invoke();
         // (YORUM: Tüm harflerin sevinç animasyonu burada oynatılacak)
         // (YORUM: Progress bar güncellemesi burada yapılabilir)
         // (YORUM: Görev tamamlandı, diğer işlemler yapılabilir)
+              CompleteGame();
     }
 
     // Debug için: Mevcut yerleştirme durumunu göster

@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 using Cysharp.Threading.Tasks;
 using System;
 
-public class PuzzleModule : MonoBehaviour
+public class PuzzleModule : MonoBehaviour, IGameLevel
 {
     [Header("Puzzle System")]
     [SerializeField] private string[] puzzleImageNames = new string[] { 
@@ -23,9 +23,16 @@ public class PuzzleModule : MonoBehaviour
     [Header("Debug Info")]
     [ReadOnly] public string currentPuzzleName;
     [ReadOnly] public int debugCurrentPuzzleIndex;
+    [ReadOnly] public bool isLevelCompleted;
     
     public static Action OnPuzzleCompleted;
     public static Action<PuzzlePiece> OnPiecePlaced;
+    
+    // IGameLevel interface implementation
+    public event Action OnGameStart;
+    public event Action OnGameComplete;
+    public bool IsCompleted => isLevelCompleted;
+    public string LevelName => currentPuzzleName;
 
     private const string PUZZLE_PROGRESS_KEY = "CurrentPuzzleIndex";
     private int puzzlePieceCount = 0;
@@ -66,6 +73,9 @@ public class PuzzleModule : MonoBehaviour
     {
         Debug.Log($"Puzzle tamamlandı: {puzzleImageNames[currentPuzzleIndex]}");
         
+        // IGameLevel interface metodunu çağır
+        CompleteGame();
+        
         // Bir sonraki puzzle'a geç
         currentPuzzleIndex++;
         SaveProgress();
@@ -84,7 +94,13 @@ public class PuzzleModule : MonoBehaviour
     [Button("Oyunu Başlat")]
     public void OyunuBaslat()
     {
-        Debug.Log($"[PuzzleModule] OyunuBaslat called - hasStarted: {hasStarted}, currentPuzzleIndex: {currentPuzzleIndex}");
+        StartGame();
+    }
+    
+    // IGameLevel interface implementation
+    public void StartGame()
+    {
+        Debug.Log($"[PuzzleModule] StartGame called - hasStarted: {hasStarted}, currentPuzzleIndex: {currentPuzzleIndex}");
         
         // Eğer Start() henüz çalışmamışsa
         if (!hasStarted)
@@ -95,11 +111,24 @@ public class PuzzleModule : MonoBehaviour
             hasStarted = true;
         }
 
+        isLevelCompleted = false;
+        OnGameStart?.Invoke();
+        
         // Mevcut puzzle resmini yükle
         LoadCurrentPuzzleImage();
         
         // Puzzle parçalarını karıştır ve başlat
         StartPuzzleGame();
+    }
+    
+    public void CompleteGame()
+    {
+        if (!isLevelCompleted)
+        {
+            isLevelCompleted = true;
+            OnGameComplete?.Invoke();
+            Debug.Log($"[PuzzleModule] Game completed: {currentPuzzleName}");
+        }
     }
 
     private void LoadCurrentPuzzleImage()

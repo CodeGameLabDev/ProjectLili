@@ -22,6 +22,10 @@ public class LetterController : MonoBehaviour, IPointerDownHandler, IDragHandler
         imageComponent = GetComponent<Image>();
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
+        
+        // DOTween sequence'ları initialize et
+        shortSequence = DOTween.Sequence();
+        moveSequence = DOTween.Sequence();
     }
 
     public void SetId(string id) => letterId = id;
@@ -103,9 +107,8 @@ public class LetterController : MonoBehaviour, IPointerDownHandler, IDragHandler
 
         AnimateToTarget(targetPos, distance, true); // Başlangıçta takla atsın
     }
-    Sequence shortSequence = DOTween.Sequence();
-
-    Sequence moveSequence = DOTween.Sequence();
+    Sequence shortSequence;
+    Sequence moveSequence;
 
     void AnimateToTarget(Vector2 targetPos, float distance, bool shouldSpin = true)
     {
