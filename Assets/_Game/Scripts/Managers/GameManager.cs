@@ -15,6 +15,10 @@ public class GameManager : Singleton<GameManager>
     [ReadOnly] public GameObject currentGameObject;
     [ReadOnly] public IGameLevel currentGameLevel;
     
+    [Header("UI References")]
+    public GameObject levelSelectCanvas;
+    
+
 
     
     
@@ -29,6 +33,7 @@ public class GameManager : Singleton<GameManager>
         if (currentIndex >= gameData.GameLevels.Count)
         {
             Debug.Log("All levels completed!");
+            ShowLevelSelectCanvas();
             return;
         }
         
@@ -104,6 +109,43 @@ public class GameManager : Singleton<GameManager>
     {
         gameData = newGameData;
         CreateCurrentLevel();
+    }
+    
+    public void StartLevel(IGameData data, GameObject canvas)
+    {
+        gameData = data;
+        levelSelectCanvas = canvas;
+        currentIndex = 0;
+        CreateCurrentLevel();
+    }
+    
+    public void StartLevel(AlfabeModuleData data, GameObject canvas)
+    {
+        gameData = data;
+        levelSelectCanvas = canvas;
+        currentIndex = 0;
+        CreateCurrentLevel();
+    }
+    
+    public void StartLevel(NumberModuleData data, GameObject canvas)
+    {
+        gameData = data;
+        levelSelectCanvas = canvas;
+        currentIndex = 0;
+        CreateCurrentLevel();
+    }
+    
+    private void ShowLevelSelectCanvas()
+    {
+        if (levelSelectCanvas != null)
+        {
+            levelSelectCanvas.gameObject.SetActive(true);
+            Debug.Log("Level select canvas açıldı - tüm leveller tamamlandı!");
+        }
+        else
+        {
+            Debug.LogWarning("Level select canvas referansı bulunamadı!");
+        }
     }
     
     
