@@ -13,11 +13,10 @@ MonoBehaviour:
   m_Name: up_K
   m_EditorClassIdentifier: 
   letter: 75
+  letterNameSound: {fileID: 8300000, guid: 509ad293fc2d83f4ba1d08911cc5f666, type: 3}
+  letterSongSound: {fileID: 8300000, guid: d095a424c04f7894a884d044332a20c9, type: 3}
   letterId: K
   prefab: {fileID: 1444163129966140220, guid: 1f2baf2792624b749af4384ae61857fb, type: 3}
   letterSprite: {fileID: -1345712185, guid: 701eb7af18dd0cc469f906cedde2ab10, type: 3}
   letterShadowSprite: {fileID: 1265167795, guid: 664e85c2fe0e22848a09836f0b771733, type: 3}
   letterWidth: 224.8902
-  _soundDict:
-    keys: []
-    values: []
