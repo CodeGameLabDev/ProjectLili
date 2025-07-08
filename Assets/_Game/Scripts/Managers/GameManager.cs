@@ -137,15 +137,7 @@ public class GameManager : Singleton<GameManager>
     
     private void ShowLevelSelectCanvas()
     {
-        if (levelSelectCanvas != null)
-        {
-            levelSelectCanvas.gameObject.SetActive(true);
-            Debug.Log("Level select canvas açıldı - tüm leveller tamamlandı!");
-        }
-        else
-        {
-            Debug.LogWarning("Level select canvas referansı bulunamadı!");
-        }
+        MainMenu.Instance.ModuleMenuSetActive(true);
     }
     
     

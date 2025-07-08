@@ -19,6 +19,8 @@ public class MainMenu : Singleton<MainMenu>
     [Header("Main Category Buttons")]
     [SerializeField] private Button alfabeButton;
     [SerializeField] private Button numaraButton;
+
+    [SerializeField] private Button backButton;
     
     private void Start()
     {
@@ -35,6 +37,10 @@ public class MainMenu : Singleton<MainMenu>
         if (numaraButton != null)
         {
             numaraButton.onClick.AddListener(() => LoadCategoryLevels("Rakamlar"));
+        }
+        if (backButton != null)
+        {
+            backButton.onClick.AddListener(() => BackButton());
         }
     }
     
@@ -64,6 +70,7 @@ public class MainMenu : Singleton<MainMenu>
         // ✅ Levels objesini aç  
         if (levelsObject != null)
         {
+            Debug.Log("Levels objesi açıldı");
             levelsObject.SetActive(true);
         }
     }
@@ -90,6 +97,20 @@ public class MainMenu : Singleton<MainMenu>
         {
             menuObjects[i].SetActive(menuActive);
         }
+    }
+
+
+    public void ModuleMenuSetActive(bool menuActive)
+    {
+        MenuSetActive(menuActive);
+        modulesObject.SetActive(false);
+        levelsObject.SetActive(menuActive);
+    }
+
+    public void BackButton()
+    {
+        modulesObject.SetActive(true);
+        levelsObject.SetActive(false);
     }
     
     private void ClearLevelButtons()
