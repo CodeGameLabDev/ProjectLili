@@ -22,8 +22,11 @@ public class AlfabeModuleData : ScriptableObject, IGameData
     [TabGroup("Word Settings")]
     [SerializeField] private string baloonWord = "";
 
+    [TabGroup("Level Settings")]
+    [SerializeField] private string levelName = "";
     
     // IGameData interface implementation
+    public string LevelName => levelName;
     public List<GameClass> GameLevels => gameLevels;
     
     // Alfabe modülüne özel özellikler

@@ -11,7 +11,11 @@ public class NumberModuleData : ScriptableObject, IGameData
     [TabGroup("Number Data")]
     [SerializeField] private LetterData numberData;
     
+    [TabGroup("Level Settings")]
+    [SerializeField] private string levelName = "";
+    
     // IGameData interface implementation
+    public string LevelName => levelName;
     public List<GameClass> GameLevels => gameLevels;
     
     // Number modülüne özel özellikler
