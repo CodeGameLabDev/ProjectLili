@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "ProjectLili.sln"
+    "dotnet.defaultSolution": "ProjectLili.sln" 
 }

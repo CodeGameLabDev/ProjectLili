@@ -1,0 +1,6 @@
+{121aca64-7b9b-4832-9297-f170d92a789b} bank:/Master
+{8a07eab0-0ae0-0470-14de-7b8e28d97e03} bank:/Master.strings
+{2ae63f66-1ff3-4ea4-a0e3-d6b9fef24a44} bus:/
+{bd2632a7-8b76-484b-8f40-96d4988564ea} bus:/Reverb
+{198954b5-d781-41b3-9335-71134cfc32f2} event:/Kicks
+{d8554354-85db-46c9-8935-b1cc65df5ef5} event:/Piano

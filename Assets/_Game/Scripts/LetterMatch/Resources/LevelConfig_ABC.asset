@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12b95876757071c45be98c673718cdd5, type: 3}
+  m_Name: LevelConfig_ABC
+  m_EditorClassIdentifier: 
+  levelId: ABC
+  levelName: Alphabet ABC
+  description: Match capital letters A, B, C with their small counterparts
+  musicBPM: 120
+  letters:
+  - capitalLetter: A
+    smallLetter: a
+    letterId: A_a
+    channelId: Bump
+    channelType: 0
+    koreography: {fileID: 11400000, guid: 5afb2a184c76f4773b8a529426f04a94, type: 2}
+    kickAnimationName: kick
+    pianoAnimationName: piano
+    otherAnimationName: other
+    completionAnimationName: completion
+    idleAnimationName: idle
+    letterColor: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    useCustomSprite: 0
+    customCapitalSprite: {fileID: 0}
+    customSmallSprite: {fileID: 0}
+    channelVolume: 1
+    sampleVolume: 0.8
+    loopChannel: 0
+    loopSample: 0
+  - capitalLetter: B
+    smallLetter: b
+    letterId: B_b
+    channelId: piano_channel
+    channelType: 1
+    koreography: {fileID: 11400000, guid: 1151c2cf518d2524d87edcceb5199ceb, type: 2}
+    kickAnimationName: kick
+    pianoAnimationName: piano
+    otherAnimationName: other
+    completionAnimationName: completion
+    idleAnimationName: idle
+    letterColor: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    useCustomSprite: 0
+    customCapitalSprite: {fileID: 0}
+    customSmallSprite: {fileID: 0}
+    channelVolume: 1
+    sampleVolume: 0.8
+    loopChannel: 0
+    loopSample: 0
+  - capitalLetter: C
+    smallLetter: c
+    letterId: C_c
+    channelId: bass_channel
+    channelType: 2
+    koreography: {fileID: 11400000, guid: 7d82659235b764a418abb6db111f0bf0, type: 2}
+    kickAnimationName: kick
+    pianoAnimationName: piano
+    otherAnimationName: other
+    completionAnimationName: completion
+    idleAnimationName: idle
+    letterColor: {r: 1, g: 1, b: 1, a: 1}
+    scale: 1
+    useCustomSprite: 0
+    customCapitalSprite: {fileID: 0}
+    customSmallSprite: {fileID: 0}
+    channelVolume: 1
+    sampleVolume: 0.8
+    loopChannel: 0
+    loopSample: 0
+  letterSpacing: 50
+  maxSize: 1.5
+  capitalRowPosition: {x: 0, y: 100}
+  smallRowPosition: {x: 0, y: -100}
+  matchThreshold: 50
+  drawingSpeed: 1
+  requireExactMatch: 0

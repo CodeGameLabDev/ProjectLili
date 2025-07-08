@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{1688e736-3e19-4744-81c1-2c266153846b}">
+		<property name="assetPath">
+			<value>Other - instrumental_-_Dolya_vorovskaya_(Azeri)_-_www.BiG.AZ.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>265.76979591836732</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{1143a1cd-6160-4d63-814b-cbe5f0baf154}</destination>
+		</relationship>
+	</object>
+</objects>

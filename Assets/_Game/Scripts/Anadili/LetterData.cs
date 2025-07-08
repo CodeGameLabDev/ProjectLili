@@ -23,5 +23,7 @@ public class LetterData : ScriptableObject
     [Tooltip("Harfin genişliği")]
     public float letterWidth = 1f;
 
+    public GameObject letterSpinePrefab;
+
     public GameObject GetPrefab() => prefab;
 } 
