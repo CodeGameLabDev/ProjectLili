@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class MemoryCardManager : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class MemoryCardManager : MonoBehaviour
     [SerializeField] private float cardLaunchInterval = 0.25f;
     [SerializeField] private float cardLaunchDuration = 1f;
     [SerializeField] private float cardJumpPower = 200f;
+    [SerializeField] private float cardStartScale = 0f;
 
     private MemoryCard firstRevealed;
     private MemoryCard secondRevealed;
@@ -32,9 +34,12 @@ public class MemoryCardManager : MonoBehaviour
     private bool resolvingPairs = false;
 
     private List<MemoryCard> spawnedCards = new List<MemoryCard>();
+    private GridLayoutGroup gridGroup;
 
     private void Start()
     {
+        if (cardPanel != null)
+            gridGroup = cardPanel.GetComponent<GridLayoutGroup>();
         SpawnAndShuffleCards();
         StartCoroutine(IntroAnimation());
     }
@@ -150,6 +155,7 @@ public class MemoryCardManager : MonoBehaviour
                 RectTransform rt = card.GetComponent<RectTransform>();
                 card.TargetAnchoredPos = rt.anchoredPosition; // grid slot
                 rt.anchoredPosition = cartAnchor.anchoredPosition; // gather into cart
+                rt.localScale = Vector3.one * cardStartScale;
             }
         }
 
@@ -175,16 +181,37 @@ public class MemoryCardManager : MonoBehaviour
 
         // TODO: Trigger Spine animation -> liliSkeleton.SetAnimation(0, "idle", true);
 
+        if (gridGroup != null)
+            gridGroup.enabled = false; // stop further layout calculations
+
         interactionAllowed = true;
     }
 
     private void LaunchCard(MemoryCard card)
     {
         RectTransform rt = card.GetComponent<RectTransform>();
+
+        // Ensure card starts visually at Lili's current world position but in card panel's local space
+        if (liliTransform != null)
+        {
+            Vector3 worldStart = liliTransform.position;
+            RectTransform panelRect = cardPanel as RectTransform;
+            if (panelRect != null)
+            {
+                Vector3 localPos = panelRect.InverseTransformPoint(worldStart);
+                rt.anchoredPosition = (Vector2)localPos;
+            }
+            else
+            {
+                rt.position = worldStart; // fallback
+            }
+        }
+
         Vector2 target = card.TargetAnchoredPos;
 
         Sequence seq = DOTween.Sequence();
         seq.Append(rt.DOJumpAnchorPos(target, cardJumpPower, 1, cardLaunchDuration).SetEase(Ease.OutQuad));
         seq.Join(rt.DORotate(new Vector3(0, 360, 0), cardLaunchDuration, RotateMode.FastBeyond360));
+        seq.Join(rt.DOScale(1f, cardLaunchDuration).SetEase(Ease.OutBack));
     }
 }

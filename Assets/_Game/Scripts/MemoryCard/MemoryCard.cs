@@ -29,6 +29,12 @@ public class MemoryCard : MonoBehaviour, IPointerClickHandler
     private string originalLabel;
     private Color pairColor;
 
+    // Colours when card is closed
+    private static readonly Color closedFrontColor = new Color32(0x60, 0xEF, 0xC3, 0xFF); // teal
+    private static readonly Color closedBackColor = Color.white;
+    private static readonly Color labelClosedColor = Color.white;
+    private static readonly Color labelOpenColor = Color.black;
+
     #region Setup
 
     public void Configure(int pairId, Color pairColor, string label)
@@ -36,10 +42,15 @@ public class MemoryCard : MonoBehaviour, IPointerClickHandler
         PairId = pairId;
         originalLabel = label;
         this.pairColor = pairColor;
-        // Ensure starting colour is white; actual colour will be applied on reveal
-        SetBackColor(Color.white);
+        // Closed visuals
+        SetFrontColor(closedFrontColor);
+        SetBackColor(closedBackColor);
         if (labelText != null)
-            labelText.text = label;
+        {
+            labelText.text = "?";
+            labelText.color = labelClosedColor;
+            labelText.gameObject.SetActive(true);
+        }
     }
 
     private void SetBackColor(Color c)
@@ -50,6 +61,12 @@ public class MemoryCard : MonoBehaviour, IPointerClickHandler
             if (img != null)
                 img.color = c;
         }
+    }
+
+    private void SetFrontColor(Color c)
+    {
+        if (frontImage != null)
+            frontImage.color = c;
     }
 
     #endregion
@@ -94,7 +111,15 @@ public class MemoryCard : MonoBehaviour, IPointerClickHandler
     {
         Sequence seq = DOTween.Sequence();
         seq.Append(transform.DORotate(new Vector3(0, 90, 0), flipDuration / 2f).SetEase(Ease.InCubic));
-        seq.AppendCallback(() => { ToggleFace(true); SetBackColor(pairColor); if(labelText!=null) labelText.text = originalLabel; });
+        seq.AppendCallback(() => {
+            SetFrontColor(Color.white);
+            SetBackColor(pairColor);
+            if(labelText!=null)
+            {
+                labelText.text = originalLabel;
+                labelText.color = labelOpenColor;
+            }
+        });
         seq.Append(transform.DORotate(Vector3.zero, flipDuration / 2f).SetEase(Ease.OutCubic));
         seq.OnComplete(() => { isRevealed = true; });
         return seq;
@@ -106,9 +131,13 @@ public class MemoryCard : MonoBehaviour, IPointerClickHandler
         seq.Append(transform.DORotate(new Vector3(0, 90, 0), flipDuration / 2f).SetEase(Ease.InCubic));
         seq.AppendCallback(() =>
         {
-            ToggleFace(false);
-            SetBackColor(Color.white);
-            if(labelText!=null) labelText.text = "?";
+            SetFrontColor(closedFrontColor);
+            SetBackColor(closedBackColor);
+            if(labelText!=null)
+            {
+                labelText.text = "?";
+                labelText.color = labelClosedColor;
+            }
         });
         seq.Append(transform.DORotate(Vector3.zero, flipDuration / 2f).SetEase(Ease.OutCubic));
         seq.OnComplete(() => { isRevealed = false; });
@@ -128,17 +157,16 @@ public class MemoryCard : MonoBehaviour, IPointerClickHandler
     public void ForceFaceDown()
     {
         isRevealed = false;
-        ToggleFace(false);
+        SetFrontColor(closedFrontColor);
+        SetBackColor(closedBackColor);
+        if(labelText!=null)
+        {
+            labelText.text = "?";
+            labelText.color = labelClosedColor;
+        }
     }
 
-    private void ToggleFace(bool showFront)
-    {
-        if (frontImage != null)
-            frontImage.gameObject.SetActive(showFront);
-        if (labelText != null)
-            labelText.gameObject.SetActive(showFront);
-        // Keep backSide active in both states to act as coloured border
-    }
+    private void ToggleFace(bool dummy){}
 
     #endregion
 } 

@@ -16,7 +16,7 @@ public class GameClass{
 
 public interface IGameData
 {
-
+    public string LevelName { get; }
     public List<GameClass> GameLevels { get; }
     
     // Her oyun türü kendi özel verilerini implement edecek
