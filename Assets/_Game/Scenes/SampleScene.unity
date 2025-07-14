@@ -2639,6 +2639,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MemoryCard
       objectReference: {fileID: 0}
+    - target: {fileID: 6407013865124185439, guid: d8bc54bf0b249bf4e801616bd6e61875, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
