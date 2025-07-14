@@ -1147,10 +1147,10 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 0
+    m_Top: 154
     m_Bottom: 0
   m_ChildAlignment: 3
-  m_Spacing: 37.6
+  m_Spacing: 66.48
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
@@ -1351,14 +1351,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ModuleButton
       objectReference: {fileID: 0}
-    - target: {fileID: 2818089953763798289, guid: b4984014f2ec47a419d24ee30c046834, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4333725728218780397, guid: b4984014f2ec47a419d24ee30c046834, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4827741895629005458, guid: b4984014f2ec47a419d24ee30c046834, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1385,11 +1377,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4827741895629005458, guid: b4984014f2ec47a419d24ee30c046834, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 512
+      value: 540.6
       objectReference: {fileID: 0}
     - target: {fileID: 4827741895629005458, guid: b4984014f2ec47a419d24ee30c046834, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 320
+      value: 356.5078
       objectReference: {fileID: 0}
     - target: {fileID: 4827741895629005458, guid: b4984014f2ec47a419d24ee30c046834, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1468,33 +1460,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8226863746769098576}
     m_Modifications:
-    - target: {fileID: 1887449339068911038, guid: b4984014f2ec47a419d24ee30c046834, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1887449339068911038, guid: b4984014f2ec47a419d24ee30c046834, type: 3}
-      propertyPath: m_Color.g
-      value: 0.495059
-      objectReference: {fileID: 0}
-    - target: {fileID: 1887449339068911038, guid: b4984014f2ec47a419d24ee30c046834, type: 3}
-      propertyPath: m_Color.r
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2818089953763798289, guid: b4984014f2ec47a419d24ee30c046834, type: 3}
       propertyPath: m_Name
       value: ModuleButton (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2818089953763798289, guid: b4984014f2ec47a419d24ee30c046834, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3919686717546158373, guid: b4984014f2ec47a419d24ee30c046834, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 509.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4333725728218780397, guid: b4984014f2ec47a419d24ee30c046834, type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4827741895629005458, guid: b4984014f2ec47a419d24ee30c046834, type: 3}
       propertyPath: m_Pivot.x
@@ -1522,11 +1490,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4827741895629005458, guid: b4984014f2ec47a419d24ee30c046834, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 512
+      value: 540.6
       objectReference: {fileID: 0}
     - target: {fileID: 4827741895629005458, guid: b4984014f2ec47a419d24ee30c046834, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 320
+      value: 356.5078
       objectReference: {fileID: 0}
     - target: {fileID: 4827741895629005458, guid: b4984014f2ec47a419d24ee30c046834, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1575,28 +1543,6 @@ PrefabInstance:
     - target: {fileID: 4827741895629005458, guid: b4984014f2ec47a419d24ee30c046834, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5552759701192832273, guid: b4984014f2ec47a419d24ee30c046834, type: 3}
-      propertyPath: m_text
-      value: 'Rakamlar
-
-'
-      objectReference: {fileID: 0}
-    - target: {fileID: 5552759701192832273, guid: b4984014f2ec47a419d24ee30c046834, type: 3}
-      propertyPath: m_fontColor.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5552759701192832273, guid: b4984014f2ec47a419d24ee30c046834, type: 3}
-      propertyPath: m_fontColor.g
-      value: 0.49411765
-      objectReference: {fileID: 0}
-    - target: {fileID: 5552759701192832273, guid: b4984014f2ec47a419d24ee30c046834, type: 3}
-      propertyPath: m_fontColor.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5552759701192832273, guid: b4984014f2ec47a419d24ee30c046834, type: 3}
-      propertyPath: m_fontColor32.rgba
-      value: 4294934016
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
