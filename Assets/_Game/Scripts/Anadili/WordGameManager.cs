@@ -16,38 +16,16 @@ public class WordGameManager : Singleton<WordGameManager>, IGameLevel
     public event Action OnGameComplete;
     public bool IsCompleted { get; private set; }
     public string LevelName => "Word Game";
+
+
+
+    
     
     public void StartGame()
     {
         targetManager = GetComponent<TargetManager>();
         IsCompleted = false;
-        string word = "";
-
-        AlfabeModuleData alfabeModuleData = GameManager.Instance.GetAlfabeModuleData();
-
-        if(alfabeModuleData != null){
-            if(GameManager.Instance.currentIndex == 0)
-            {
-                word = alfabeModuleData.UpperCaseLetter.letter.ToString();
-            }
-            else if(GameManager.Instance.currentIndex == 1)
-            {
-                word = alfabeModuleData.LowerCaseLetter.letter.ToString();
-            }
-            else
-            {
-                word = alfabeModuleData.Word;
-            }
-        }
-        else{
-            NumberModuleData numberModuleData = GameManager.Instance.GetNumberModuleData();
-            if(GameManager.Instance.currentIndex == 0)
-            {
-                word = numberModuleData.NumberData.letter.ToString();
-            }
-        }
-
-        CreateWord(word);
+        CreateWord(wordSpawner.wordToSpawn);
         OnGameStart?.Invoke();
     }
     
@@ -62,7 +40,7 @@ public class WordGameManager : Singleton<WordGameManager>, IGameLevel
 
     void Start()
     {
-        //CreateWord(wordSpawner.wordToSpawn);
+        StartGame();
     }
 
     [Button("Kelime Yarat", ButtonSizes.Large), GUIColor(0.4f, 0.8f, 1f)]
@@ -108,10 +86,15 @@ public class WordGameManager : Singleton<WordGameManager>, IGameLevel
     public void OnGameWon()
     {
 
-        // Tüm harflere glory animasyonu oynat
-        for (int i = 0; i < wordSpawner.sprites.Count; i++)
-            wordSpawner.sprites[i]?.PlayGloryAnimation();
+        Invoke(nameof(GloryAnimation), 1f);
 
         Invoke(nameof(CompleteGame), 5f);
+    }
+
+
+    public void GloryAnimation()
+    {
+        for (int i = 0; i < wordSpawner.sprites.Count; i++)
+            wordSpawner.sprites[i]?.PlayGloryAnimation();
     }
 } 
