@@ -22,6 +22,10 @@ public class LetterController : MonoBehaviour, IPointerDownHandler, IDragHandler
         imageComponent = GetComponent<Image>();
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
+        
+        // DOTween sequence'ları initialize et
+        shortSequence = DOTween.Sequence();
+        moveSequence = DOTween.Sequence();
     }
 
     public void SetId(string id) => letterId = id;
@@ -103,9 +107,8 @@ public class LetterController : MonoBehaviour, IPointerDownHandler, IDragHandler
 
         AnimateToTarget(targetPos, distance, true); // Başlangıçta takla atsın
     }
-    Sequence shortSequence = DOTween.Sequence();
-
-    Sequence moveSequence = DOTween.Sequence();
+    Sequence shortSequence;
+    Sequence moveSequence;
 
     void AnimateToTarget(Vector2 targetPos, float distance, bool shouldSpin = true)
     {
@@ -141,9 +144,30 @@ public class LetterController : MonoBehaviour, IPointerDownHandler, IDragHandler
         }
     }
 
+    public void PlayLetterSound(bool isLetterNameSound, bool loop = false, float volume = 1f, float delay = 0f)
+    {
+        
+        var letterData = WordGameManager.Instance.wordSpawner.letterDatabase.LoadLetterData(letterId);
+        
+        if (letterData != null && letterData.letterNameSound != null)
+        {
+            if(isLetterNameSound)
+            {
+                SoundManager.PlaySingle(letterData.letterNameSound, loop, volume, delay);
+            }
+            else
+            {
+                SoundManager.PlaySingle(letterData.letterSongSound, loop, volume, delay);
+            }
+        }
+    }
+
     public void OnPointerDown(PointerEventData eventData)
     {
         if (isLocked) return;
+
+        // Harfin ses datasını al ve çal
+        PlayLetterSound(true, true, 1f);
 
         // Tüm DOTween animasyonlarını ve sequence'ları hemen durdur
         DOTween.Kill(rectTransform);
@@ -175,6 +199,8 @@ public class LetterController : MonoBehaviour, IPointerDownHandler, IDragHandler
     {
         if (!isDragging || isLocked) return;
         
+        SoundManager.StopSingle();
+
         isDragging = false;
         Vector2 currentPos = rectTransform.anchoredPosition;
         
@@ -252,6 +278,10 @@ public class LetterController : MonoBehaviour, IPointerDownHandler, IDragHandler
         
         HideSpine();
         ShowImage();
+
+
+
+        PlayLetterSound(true, false, 1.3f, 0.35f);
 
         // Shadow'ı gizle
         var wordSpawner = WordGameManager.Instance.wordSpawner;

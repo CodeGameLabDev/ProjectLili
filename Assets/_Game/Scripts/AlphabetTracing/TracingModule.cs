@@ -3,17 +3,56 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using DG.Tweening;
+using System;
+using Unity.VisualScripting;
 
-public class TracingModule : MonoBehaviour
+public class TracingModule : MonoBehaviour, IGameLevel
 {
+    // IGameLevel implementation
+    public event Action OnGameStart;
+    public event Action OnGameComplete;
+    public bool IsCompleted => isLevelCompleted;
+    public string LevelName => "Tracing Game";
+    AlfabeModuleData alfabeModuleData;
+    NumberModuleData numberModuleData;
+    public void StartGame()
+    {
+        OnGameStart?.Invoke();
+        alfabeModuleData = GameManager.Instance.GetAlfabeModuleData();
+        if(alfabeModuleData == null){
+            numberModuleData = GameManager.Instance.GetNumberModuleData();
+        }
+
+        StartTracing();
+    }
+
+    public string GetWord(){
+        string letterName = "";
+        if(alfabeModuleData != null){
+            letterName = isUppercase ? alfabeModuleData.UpperCaseLetter.letter.ToString() : alfabeModuleData.LowerCaseLetter.letter.ToString();
+        }
+        else if(numberModuleData != null){
+            letterName = numberModuleData.NumberData.letter.ToString();
+        }
+
+        return letterName;
+
+
+    }
+    
+    public void CompleteGame()
+    {
+        if (!isLevelCompleted)
+        {
+            isLevelCompleted = true;
+            debugIsLevelCompleted = true;
+            Debug.Log($"[TracingModule] CompleteGame() - OnGameComplete subscribers: {OnGameComplete?.GetInvocationList()?.Length ?? 0}");
+            OnGameComplete?.Invoke();
+        }
+    }
+    
     [Header("Letter System")]
-    [SerializeField] private string[] uppercaseLetterNames = new string[] { 
-        "A", "B", "C", "Ç", "D", "E", "Ə", "F", "G", "Ğ", "H", "X", "I", "İ", "J", "K", "Q", "L", "M", "N", "O", "Ö", "P", "R", "S", "Ş", "T", "U", "Ü", "V", "Y", "Z","W"
-    };
-    [SerializeField] private string[] lowercaseLetterNames = new string[] { 
-        "a", "b", "c", "ç", "d", "e", "ə", "f", "g", "ğ", "h", "x", "ı", "i", "j", "k", "q", "l", "m", "n", "o", "ö", "p", "r", "s", "ş", "t", "u", "ü", "v", "y", "z","w"
-    };
-    private int currentLetterIndex = 0;
+    
     private bool hasStarted = false;
     private bool isUppercase = true;
     private bool isLevelCompleted = false;
@@ -42,9 +81,6 @@ public class TracingModule : MonoBehaviour
 
     void Start()
     {
-        Debug.Log($"[TracingModule] Start - currentLetterIndex (before LoadProgress): {currentLetterIndex}");
-        LoadProgress();
-        Debug.Log($"[TracingModule] Start - currentLetterIndex (after LoadProgress): {currentLetterIndex}");
         UpdateCurrentLetterDisplay();
         hasStarted = true;
     }
@@ -54,30 +90,14 @@ public class TracingModule : MonoBehaviour
     {
         if (isLevelCompleted)
         {
-            // Level tamamlandıysa bir sonraki harfe geç
-            currentLetterIndex++;
-            
-            // Eğer son harfe ulaştıysak başa dön
-            if (currentLetterIndex >= uppercaseLetterNames.Length)
-            {
-                currentLetterIndex = 0;
-                Debug.Log("Alfabe tamamlandı! Başa dönülüyor...");
-            }
-            
             isUppercase = true;
             isLevelCompleted = false;
-            debugIsLevelCompleted = false;
-            SaveProgress();
-            UpdateCurrentLetterDisplay();
-            Debug.Log($"Yeni harf yükleniyor: {uppercaseLetterNames[currentLetterIndex]}");
+            UpdateCurrentLetterDisplay();     
         }
 
-        Debug.Log($"[TracingModule] StartTracing called - hasStarted: {hasStarted}, currentLetterIndex: {currentLetterIndex}");
-        
         if (!hasStarted)
         {
             Debug.Log("[TracingModule] Start() henüz çalışmamış, LoadProgress() manuel olarak çağrılıyor...");
-            LoadProgress();
             UpdateCurrentLetterDisplay();
             hasStarted = true;
         }
@@ -104,17 +124,8 @@ public class TracingModule : MonoBehaviour
 
     private void LoadCurrentLetter()
     {
-        Debug.Log($"[TracingModule] LoadCurrentLetter - currentLetterIndex: {currentLetterIndex}, isUppercase: {isUppercase}");
         
-        if (currentLetterIndex >= uppercaseLetterNames.Length)
-        {
-            Debug.Log("Tüm harfler tamamlandı! Başa dönüyor...");
-            currentLetterIndex = 0;
-            isUppercase = true;
-            SaveProgress();
-        }
-
-        string letterName = isUppercase ? uppercaseLetterNames[currentLetterIndex] : lowercaseLetterNames[currentLetterIndex];
+        string letterName = GetWord();
         string resourcePath = $"Letters/{(isUppercase ? "Letter_" : "small/Letter_")}{letterName}";
 
         Debug.Log($"[TracingModule] Yüklenecek harf: {letterName}, Resource Path: {resourcePath}");
@@ -124,7 +135,7 @@ public class TracingModule : MonoBehaviour
         if (letterPrefab == null)
         {
             Debug.LogError($"Harf prefab'ı bulunamadı: {resourcePath}. Resources/Letters/ klasöründe Letter_{letterName}.prefab dosyası olduğundan emin olun.");
-            return;
+            return; 
         }
 
         currentLetterObject = Instantiate(letterPrefab, transform);
@@ -143,82 +154,53 @@ public class TracingModule : MonoBehaviour
         // Position the letter
         if (isUppercase)
         {
-            currentLetterObject.transform.position = centerLetterPosition.position;
+            if (centerLetterPosition != null)
+                currentLetterObject.transform.position = centerLetterPosition.position;
         }
         else
         {
-            currentLetterObject.transform.position = rightLetterPosition.position;
+            if (rightLetterPosition != null)
+                currentLetterObject.transform.position = rightLetterPosition.position;
         }
         
         UpdateCurrentLetterDisplay();
-        Debug.Log($"Harf yüklendi: {letterName} (İndeks: {currentLetterIndex}, Büyük/Küçük: {isUppercase})");
     }
 
     private void OnLetterCompleted()
     {
-        Debug.Log($"Harf tamamlandı: {(isUppercase ? uppercaseLetterNames[currentLetterIndex] : lowercaseLetterNames[currentLetterIndex])}");
         
         if (isUppercase)
         {
             // Animate uppercase letter to the left
-            currentLetterObject.transform.DOMove(leftLetterPosition.position, letterTransitionDuration)
-                .SetEase(letterTransitionEase)
-                .OnComplete(() => {
-                    isUppercase = false;
-                    LoadCurrentLetter();
-                });
+            if (leftLetterPosition != null)
+            {
+                currentLetterObject.transform.DOMove(leftLetterPosition.position, letterTransitionDuration)
+                    .SetEase(letterTransitionEase)
+                    .OnComplete(() => {
+                        isUppercase = false;
+                        LoadCurrentLetter();
+                    });
+            }
+            else
+            {
+                isUppercase = false;
+                LoadCurrentLetter();
+            }
         }
         else
         {
-            isLevelCompleted = true;
-            debugIsLevelCompleted = true;
             Debug.Log("Level tamamlandı! Her iki harf de boyandı.");
+            CompleteGame();
         }
-    }
-
-    private void SaveProgress()
-    {
-        PlayerPrefs.SetInt(LETTER_PROGRESS_KEY, currentLetterIndex);
-        PlayerPrefs.SetInt(LETTER_CASE_KEY, isUppercase ? 1 : 0);
-        PlayerPrefs.Save();
-        Debug.Log($"İlerleme kaydedildi: {currentLetterIndex}, Büyük/Küçük: {isUppercase}");
-    }
-
-    private void LoadProgress()
-    {
-        currentLetterIndex = PlayerPrefs.GetInt(LETTER_PROGRESS_KEY, 0);
-        isUppercase = PlayerPrefs.GetInt(LETTER_CASE_KEY, 1) == 1;
-        isLevelCompleted = false;
-        debugIsLevelCompleted = false;
-        Debug.Log($"İlerleme yüklendi: {currentLetterIndex}, Büyük/Küçük: {isUppercase}");
     }
 
     private void UpdateCurrentLetterDisplay()
     {
-        if (currentLetterIndex < uppercaseLetterNames.Length)
-        {
-            currentLetter = isUppercase ? uppercaseLetterNames[currentLetterIndex] : lowercaseLetterNames[currentLetterIndex];
-        }
-        else
-        {
-            currentLetter = "Tamamlandı";
-        }
-        debugCurrentLetterIndex = currentLetterIndex;
+        currentLetter = GetWord();
+
         debugIsUppercase = isUppercase;
-        Debug.Log($"[TracingModule] UpdateCurrentLetterDisplay - currentLetter: {currentLetter}, currentLetterIndex: {currentLetterIndex}, isUppercase: {isUppercase}");
     }
 
-    [Button("Reset Progress")]
-    public void ResetProgress()
-    {
-        currentLetterIndex = 0;
-        isUppercase = true;
-        isLevelCompleted = false;
-        debugIsLevelCompleted = false;
-        SaveProgress();
-        UpdateCurrentLetterDisplay();
-        Debug.Log("İlerleme sıfırlandı!");
-    }
 
     [Button("Skip Current Letter")]
     public void SkipCurrentLetter()
@@ -231,16 +213,9 @@ public class TracingModule : MonoBehaviour
         OnLetterCompleted();
     }
 
-    public int GetCurrentLetterIndex()
-    {
-        return currentLetterIndex;
-    }
 
     public string GetCurrentLetterName()
     {
-        if (currentLetterIndex >= uppercaseLetterNames.Length)
-            return "Tamamlandı";
-            
-        return isUppercase ? uppercaseLetterNames[currentLetterIndex] : lowercaseLetterNames[currentLetterIndex];
+        return GetWord();
     }
 }

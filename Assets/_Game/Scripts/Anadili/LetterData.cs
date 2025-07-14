@@ -6,6 +6,10 @@ public class LetterData : ScriptableObject
 {
     [TabGroup("Letter Info")]
     public char letter;
+
+    public AudioClip letterNameSound;
+
+    public AudioClip letterSongSound;
     
     [TabGroup("Letter Info")]
     [ReadOnly] public string letterId;

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ac6817e65790664c9b47c9859c42e62, type: 3}
+  m_Name: 0
+  m_EditorClassIdentifier: 
+  gameLevels:
+  - canvasType: 0
+    gameObject: {fileID: 5492868739311912133, guid: 42787e1e278c5ea46b9e2f7b0b1677be, type: 3}
+  - canvasType: 0
+    gameObject: {fileID: 5492868739311912133, guid: 42787e1e278c5ea46b9e2f7b0b1677be, type: 3}
+  - canvasType: 1
+    gameObject: {fileID: 5702487806517644640, guid: 20c56f58f50e46d44a4f5ff9cb7f17ba, type: 3}
+  - canvasType: 0
+    gameObject: {fileID: 5492868739311912133, guid: 42787e1e278c5ea46b9e2f7b0b1677be, type: 3}
+  - canvasType: 0
+    gameObject: {fileID: 2921741908962000241, guid: d1d9ab6efbe88e947b42757120d47d08, type: 3}
+  upperCaseLetter: {fileID: 11400000, guid: 45f9e073842bac14f82dce7272cd42bc, type: 2}
+  lowerCaseLetter: {fileID: 11400000, guid: cca214502e0f2c244b81ffcc95a9f4d1, type: 2}
+  word: Armadillo
+  baloonWord: AAaa
+  levelName: A

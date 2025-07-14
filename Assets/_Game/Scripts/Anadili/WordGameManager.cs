@@ -1,26 +1,75 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
 using System.Collections;
+using System;
 
-public class WordGameManager : Singleton<WordGameManager>
+public class WordGameManager : Singleton<WordGameManager>, IGameLevel
 {
     [TabGroup("References")]
     public WordSpawner wordSpawner;
     
     private TargetManager targetManager;
     public TargetManager TargetManager => targetManager;
+    
+    // IGameLevel implementation
+    public event Action OnGameStart;
+    public event Action OnGameComplete;
+    public bool IsCompleted { get; private set; }
+    public string LevelName => "Word Game";
+    
+    public void StartGame()
+    {
+        targetManager = GetComponent<TargetManager>();
+        IsCompleted = false;
+        string word = "";
+
+        AlfabeModuleData alfabeModuleData = GameManager.Instance.GetAlfabeModuleData();
+
+        if(alfabeModuleData != null){
+            if(GameManager.Instance.currentIndex == 0)
+            {
+                word = alfabeModuleData.UpperCaseLetter.letter.ToString();
+            }
+            else if(GameManager.Instance.currentIndex == 1)
+            {
+                word = alfabeModuleData.LowerCaseLetter.letter.ToString();
+            }
+            else
+            {
+                word = alfabeModuleData.Word;
+            }
+        }
+        else{
+            NumberModuleData numberModuleData = GameManager.Instance.GetNumberModuleData();
+            if(GameManager.Instance.currentIndex == 0)
+            {
+                word = numberModuleData.NumberData.letter.ToString();
+            }
+        }
+
+        CreateWord(word);
+        OnGameStart?.Invoke();
+    }
+    
+    public void CompleteGame()
+    {
+        if (!IsCompleted)
+        {
+            IsCompleted = true;
+            OnGameComplete?.Invoke();
+        }
+    }
 
     void Start()
     {
-        targetManager = GetComponent<TargetManager>();
-        CreateWord();
+        //CreateWord(wordSpawner.wordToSpawn);
     }
 
     [Button("Kelime Yarat", ButtonSizes.Large), GUIColor(0.4f, 0.8f, 1f)]
-    public void CreateWord()
+    public void CreateWord(string word)
     {
-        targetManager.SetupTargets(wordSpawner.wordToSpawn.Length);
-        wordSpawner.SpawnWord();
+        targetManager.SetupTargets(word.Length);
+        wordSpawner.SpawnWord(word);
         SetupInitialView();
         StartCoroutine(WindEffect());
     }
@@ -58,8 +107,11 @@ public class WordGameManager : Singleton<WordGameManager>
 
     public void OnGameWon()
     {
+
         // Tüm harflere glory animasyonu oynat
         for (int i = 0; i < wordSpawner.sprites.Count; i++)
             wordSpawner.sprites[i]?.PlayGloryAnimation();
+
+        Invoke(nameof(CompleteGame), 5f);
     }
 } 

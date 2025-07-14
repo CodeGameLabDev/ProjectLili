@@ -38,6 +38,20 @@ public class WordSpawner : MonoBehaviour
         CreateLetterObjects();
     }
 
+
+
+    [TabGroup("Actions")]
+    [Button("Kelime Yarat", ButtonSizes.Large), GUIColor(0.4f, 0.8f, 1f)]
+    public void SpawnWord(string word)
+    {
+        wordToSpawn = word;
+        if (!ValidateReferences()) return;
+        ClearAll();
+        CalculateLetterPositions();
+        CreateLetterObjects();
+    }
+
+
     [TabGroup("Actions")]
     [Button("Temizle", ButtonSizes.Medium), GUIColor(1f, 0.6f, 0.6f)]
     public void ClearAll()

@@ -85,4 +85,19 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         _applicationIsQuitting = true;
     }
+    
+    /// <summary>
+    /// Manually reset the singleton instance. Use with caution!
+    /// </summary>
+    public static void ResetInstance()
+    {
+        if (_instance != null)
+        {
+            if (Application.isPlaying)
+            {
+                Destroy(_instance.gameObject);
+            }
+            _instance = null;
+        }
+    }
 } 
