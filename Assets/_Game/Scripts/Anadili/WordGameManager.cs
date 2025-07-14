@@ -16,16 +16,38 @@ public class WordGameManager : Singleton<WordGameManager>, IGameLevel
     public event Action OnGameComplete;
     public bool IsCompleted { get; private set; }
     public string LevelName => "Word Game";
-
-
-
-    
     
     public void StartGame()
     {
         targetManager = GetComponent<TargetManager>();
         IsCompleted = false;
-        CreateWord(wordSpawner.wordToSpawn);
+        string word = "";
+
+        AlfabeModuleData alfabeModuleData = GameManager.Instance.GetAlfabeModuleData();
+
+        if(alfabeModuleData != null){
+            if(GameManager.Instance.currentIndex == 0)
+            {
+                word = alfabeModuleData.UpperCaseLetter.letter.ToString();
+            }
+            else if(GameManager.Instance.currentIndex == 1)
+            {
+                word = alfabeModuleData.LowerCaseLetter.letter.ToString();
+            }
+            else
+            {
+                word = alfabeModuleData.Word;
+            }
+        }
+        else{
+            NumberModuleData numberModuleData = GameManager.Instance.GetNumberModuleData();
+            if(GameManager.Instance.currentIndex == 0)
+            {
+                word = numberModuleData.NumberData.letter.ToString();
+            }
+        }
+
+        CreateWord(word);
         OnGameStart?.Invoke();
     }
     
@@ -40,7 +62,7 @@ public class WordGameManager : Singleton<WordGameManager>, IGameLevel
 
     void Start()
     {
-        StartGame();
+        //CreateWord(wordSpawner.wordToSpawn);
     }
 
     [Button("Kelime Yarat", ButtonSizes.Large), GUIColor(0.4f, 0.8f, 1f)]
@@ -86,15 +108,10 @@ public class WordGameManager : Singleton<WordGameManager>, IGameLevel
     public void OnGameWon()
     {
 
-        Invoke(nameof(GloryAnimation), 1f);
-
-        Invoke(nameof(CompleteGame), 5f);
-    }
-
-
-    public void GloryAnimation()
-    {
+        // Tüm harflere glory animasyonu oynat
         for (int i = 0; i < wordSpawner.sprites.Count; i++)
             wordSpawner.sprites[i]?.PlayGloryAnimation();
+
+        Invoke(nameof(CompleteGame), 5f);
     }
 } 
