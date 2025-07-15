@@ -109,8 +109,13 @@ namespace HiddenLetterGame
                     continue;
                 }
 
-                GameObject holderInstance = Instantiate(letterHolderPrefab, slot);
-                holderInstance.transform.localPosition = Vector3.zero;
+                // Instantiate WITHOUT making it a child of the slot – we only borrow its position.
+                GameObject holderInstance = Instantiate(letterHolderPrefab, generatedLettersParent ?? this.transform);
+
+                // Align in world space to the slot position
+                holderInstance.transform.position = slot.position;
+
+                // Ensure same sorting/canvas layer if needed (designer may override manually)
 
                 SetupHolderGraphics(holderInstance.transform, c, letterDatabase);
 
@@ -161,8 +166,7 @@ namespace HiddenLetterGame
             if (tf == null || prefab == null) return;
             var rect = tf.GetComponent<RectTransform>() ?? tf.gameObject.AddComponent<RectTransform>();
             rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(0.5f,0.5f);
-            rect.anchoredPosition = Vector2.zero;
-            rect.localScale = Vector3.one;
+            // Keep prefab-defined anchoredPosition & localScale
 
             GameObject inst = Instantiate(prefab, tf);
             inst.transform.localPosition = Vector3.zero;

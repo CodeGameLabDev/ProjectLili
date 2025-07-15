@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using Sirenix.OdinInspector;
+using DG.Tweening;
 
 namespace HiddenLetterGame
 {
@@ -17,8 +18,8 @@ namespace HiddenLetterGame
         public string targetLetters;
 
         [Header("Letter Holder Settings")]
-        [Tooltip("Slotlarda kullanılacak LetterHolder prefabı (Shadow/Sprite child'ları içerebilir)")]
-        public GameObject letterHolderPrefab;
+        [Tooltip("Sehirmedeki saklı (tıklanabilir) harfler için prefab")] public GameObject letterHolderClickablePrefab;
+        [Tooltip("Ekrandaki sabit UI harfleri için prefab")] public GameObject letterHolderUIPrefab;
         // Çalışma sırasında instantiate edilen holder'ları takip etmek için
         private readonly List<GameObject> spawnedLetterHolders = new List<GameObject>();
 
@@ -34,6 +35,16 @@ namespace HiddenLetterGame
         public float shakeIntensity = 0.1f;
         public float shakeSpeed = 5f;
         public float idleTimeBeforeShake = 3f;
+
+        [Header("Letter Move Animation")]
+        public float letterMoveDuration = 0.8f;
+        public Ease letterMoveEase = Ease.OutQuart;
+        [Range(0.1f,1f)] public float letterEndScale = 0.4f;
+        public float shadowHighlightScale = 1.3f;
+        public float shadowHighlightDuration = 0.3f;
+
+        // Overlay canvas for floating letters (similar to WordBaloon)
+        [HideInInspector] public Canvas overlayCanvas;
 
         [Header("Debug")]
         public bool showDebugMessages = true;
@@ -65,13 +76,16 @@ namespace HiddenLetterGame
 
         // Runtime slot list (either from assetHolder or generated)
         private List<RectTransform> currentSlots = new List<RectTransform>();
+        // For matching found letters to their correct shadow slots
+        private List<char> slotLetterChars = new List<char>();
+        private List<bool> slotFilled = new List<bool>();
 
         // ------- Helper methods copied/adapted from WordBaloon --------
         private float GetLetterHolderSize()
         {
             // If prefab has RectTransform use its max size, else fallback to autoSlotSize
-            if (letterHolderPrefab == null) return autoSlotSize;
-            var rect = letterHolderPrefab.GetComponent<RectTransform>();
+            if (letterHolderUIPrefab == null) return autoSlotSize;
+            var rect = letterHolderUIPrefab.GetComponent<RectTransform>();
             if (rect != null)
             {
                 return Mathf.Max(rect.sizeDelta.x, rect.sizeDelta.y);
@@ -102,7 +116,17 @@ namespace HiddenLetterGame
             image.sprite = sprite;
             image.SetNativeSize();
 
-            float holderSize = GetLetterHolderSize();
+            // Prefer runtime holder size if available
+            float holderSize = 0f;
+            var parentRt = letterTransform.parent as RectTransform;
+            if (parentRt != null)
+            {
+                holderSize = Mathf.Max(parentRt.sizeDelta.x, parentRt.sizeDelta.y);
+            }
+            if (holderSize <= 0f)
+            {
+                holderSize = GetLetterHolderSize();
+            }
             if (holderSize > 0)
             {
                 Vector2 spriteSize = image.sprite.rect.size;
@@ -133,15 +157,20 @@ namespace HiddenLetterGame
             rect.anchorMin = new Vector2(0.5f, 0.5f);
             rect.anchorMax = new Vector2(0.5f, 0.5f);
             rect.pivot = new Vector2(0.5f, 0.5f);
-            rect.anchoredPosition = Vector2.zero;
-            rect.localScale = Vector3.one;
+            // anchoredPosition preserved; also keep original localScale (do NOT force to 1)
 
             GameObject spineInstance = Instantiate(spinePrefab, spineTransform);
             spineInstance.transform.localPosition = Vector3.zero;
             spineInstance.transform.localRotation = Quaternion.identity;
             spineInstance.transform.localScale = Vector3.one;
 
-            float holderSize = GetLetterHolderSize();
+            // Prefer runtime holder size from parent
+            float holderSize = 0f;
+            var parentRt2 = spineTransform.parent as RectTransform;
+            if (parentRt2 != null)
+                holderSize = Mathf.Max(parentRt2.sizeDelta.x, parentRt2.sizeDelta.y);
+            if (holderSize <= 0f)
+                holderSize = GetLetterHolderSize();
             var spineRect = spineInstance.GetComponent<RectTransform>();
             if (spineRect != null && holderSize > 0)
             {
@@ -156,6 +185,17 @@ namespace HiddenLetterGame
         void Awake()
         {
             LoadProgress();
+
+            // Ensure overlay canvas exists (ScreenSpaceOverlay)
+            overlayCanvas = FindObjectsOfType<Canvas>().FirstOrDefault(c => c.renderMode == RenderMode.ScreenSpaceOverlay);
+            if (overlayCanvas == null)
+            {
+                GameObject canvasGO = new GameObject("HiddenLetterOverlayCanvas");
+                overlayCanvas = canvasGO.AddComponent<Canvas>();
+                overlayCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+                canvasGO.AddComponent<GraphicRaycaster>();
+            }
+            overlayCanvas.sortingOrder = 1000;
         }
 
         void Start()
@@ -204,7 +244,7 @@ namespace HiddenLetterGame
             // Generate hidden letters inside the level based on target word
             if (assetHolder != null)
             {
-                assetHolder.GenerateHiddenLetters(targetLetters, letterHolderPrefab, letterDatabase);
+                assetHolder.GenerateHiddenLetters(targetLetters, letterHolderClickablePrefab, letterDatabase);
             }
 
             SpawnLetterHolders();
@@ -305,16 +345,16 @@ namespace HiddenLetterGame
             // (isteğe bağlı) Şimdilik her harfi sırayla kabul ediyoruz.
 
             lastInteractionTime = Time.time;
-            StartCoroutine(HandleLetterFound(clickedObj));
+            StartCoroutine(MoveLetterToSlot(clickedObj));
         }
 
-        IEnumerator HandleLetterFound(GameObject obj)
+        IEnumerator MoveLetterToSlot(GameObject obj)
         {
+            // Mark as found
             HiddenLetterGame.HiddenLetter hidden = letterMap[obj];
             hidden.isFound = true;
-            placedCount++;
 
-            // Sallanmayı durdur
+            // Stop shake if running
             if (shakeCoroutines.ContainsKey(obj) && shakeCoroutines[obj] != null)
             {
                 StopCoroutine(shakeCoroutines[obj]);
@@ -322,56 +362,114 @@ namespace HiddenLetterGame
                 obj.transform.position = originalPositions[obj];
             }
 
-            // Hedef slot
-            int slotIndex = placedCount - 1;
-            if (currentSlots == null || currentSlots.Count == 0)
+            // Determine target slot index based on letter char and fill status
+            char letterChar = hidden.letter;
+
+            int slotIndex = -1;
+            for (int i = 0; i < slotLetterChars.Count; i++)
             {
-                Debug.LogError("Slot list is empty! Slots oluşturulmadı.");
+                if (!slotFilled[i] && slotLetterChars[i] == letterChar)
+                {
+                    slotIndex = i;
+                    break;
+                }
+            }
+
+            // Fallback to first available slot if specific match not found
+            if (slotIndex == -1)
+            {
+                for (int i = 0; i < slotFilled.Count; i++)
+                {
+                    if (!slotFilled[i]) { slotIndex = i; break; }
+                }
+            }
+
+            if (currentSlots == null || currentSlots.Count == 0 || slotIndex == -1 || slotIndex >= currentSlots.Count)
+            {
+                Debug.LogError("Slot list yetersiz veya boş!");
                 yield break;
             }
-            if (slotIndex >= currentSlots.Count)
-            {
-                slotIndex = currentSlots.Count - 1;
-            }
+
             RectTransform targetSlot = currentSlots[slotIndex];
 
-            // Animasyon için parent değişimi (overlay canvas gibi)
-            Transform originalParent = originalParents[obj];
-            obj.transform.SetParent(targetSlot, true);
+            // Move object under overlay canvas for screen-space animation
+            Canvas overlay = GetOverlayCanvas();
+            RectTransform objRect = obj.GetComponent<RectTransform>();
+            if (objRect == null) objRect = obj.AddComponent<RectTransform>();
+            obj.transform.SetParent(overlay.transform, false);
 
-            Vector3 startPos = obj.transform.position;
-            Vector3 targetPos = targetSlot.position;
+            // Convert target slot position to screen point
+            Vector2 targetScreen = RectTransformUtility.WorldToScreenPoint(null, targetSlot.transform.position);
 
-            float elapsed = 0f;
-            while (elapsed < moveToSlotDuration)
+            // Tween position & scale
+            Sequence seq = DOTween.Sequence();
+            seq.Join(objRect.DOMove(targetScreen, letterMoveDuration).SetEase(letterMoveEase));
+            Vector3 endScale = Vector3.one * Mathf.Clamp01(letterEndScale);
+            seq.Join(objRect.DOScale(endScale, letterMoveDuration).SetEase(Ease.InOutQuad));
+
+            // On complete – attach to slot & finalize
+            seq.OnComplete(() =>
             {
-                elapsed += Time.deltaTime;
-                float t = elapsed / moveToSlotDuration;
-                float eased = moveEase.Evaluate(t);
-                obj.transform.position = Vector3.Lerp(startPos, targetPos, eased);
-                yield return null;
-            }
+                obj.transform.SetParent(targetSlot, false);
+                obj.transform.localPosition = Vector3.zero;
+                obj.transform.localScale = Vector3.one;
 
-            // Objeyi slotta sabitle
-            obj.transform.localPosition = Vector3.zero;
-            // Shadow/Sprite toggle
-            if (targetSlot != null)
-            {
-                Transform spriteLetter = targetSlot.Find("SpriteLetter");
-                Transform shadowLetter = targetSlot.Find("ShadowLetter");
-                if (shadowLetter != null) shadowLetter.gameObject.SetActive(false);
-                if (spriteLetter != null) spriteLetter.gameObject.SetActive(true);
-            }
+                // Ensure letter holder size matches the slot (prevents oversized sprites)
+                var objRt = obj.GetComponent<RectTransform>();
+                if (objRt != null)
+                {
+                    objRt.sizeDelta = targetSlot.sizeDelta;
+                }
 
-            // İstersek objeyi disable edip slot içinde sprite enjekte edebiliriz; şimdilik aktif bırakıyoruz.
+                // Adjust inner child graphics to fit new holder size
+                AdjustChildGraphicsSize(objRt);
 
-            UpdateProgressBar();
-            assetHolder.OnLetterFoundCallback();
+                // Toggle via FindLetterUIHolder component for clarity and robustness
+                if (targetSlot.childCount > 0)
+                {
+                    Transform letterHolderTf = targetSlot.GetChild(0);
+                    var uiHolder = letterHolderTf.GetComponent<FindLetterUIHolder>();
+                    if (uiHolder != null)
+                    {
+                        if (uiHolder.shadowObject != null) uiHolder.shadowObject.SetActive(false);
+                        if (uiHolder.spineObject  != null) uiHolder.spineObject.SetActive(true);
+                    }
+                }
 
-            if (assetHolder.GetProgressPercentage() >= 100f)
-            {
-                if (showDebugMessages) Debug.Log("🎉 Tüm harfler bulundu!");
-            }
+                // Highlight effect
+                HighlightShadow(targetSlot.gameObject);
+
+                // After visual placement, disable the original moving holder to avoid size artifacts
+                obj.SetActive(false);
+
+                placedCount++;
+                slotFilled[slotIndex] = true;
+                UpdateProgressBar();
+                assetHolder.OnLetterFoundCallback();
+
+                if (assetHolder.GetProgressPercentage() >= 100f)
+                {
+                    if (showDebugMessages) Debug.Log("🎉 Tüm harfler bulundu!");
+                }
+            });
+
+            yield return null;
+        }
+
+        // Highlight animation identical to WordBaloon
+        void HighlightShadow(GameObject shadow)
+        {
+            Transform spriteLetter = shadow.transform.Find("SpriteLetter");
+            Transform shadowLetter = shadow.transform.Find("ShadowLetter");
+            if (shadowLetter != null) shadowLetter.gameObject.SetActive(false);
+            if (spriteLetter != null) spriteLetter.gameObject.SetActive(true);
+
+            shadow.transform.DOScale(shadowHighlightScale, shadowHighlightDuration)
+                .SetEase(Ease.OutBack)
+                .OnComplete(() =>
+                {
+                    shadow.transform.DOScale(1f, 0.2f).SetEase(Ease.OutBounce);
+                });
         }
 
         void UpdateProgressBar()
@@ -425,22 +523,32 @@ namespace HiddenLetterGame
             spawnedLetterHolders.Clear();
 
             currentSlots.Clear();
+            slotLetterChars.Clear();
+            slotFilled.Clear();
 
-            if (letterHolderPrefab == null)
+            if (letterHolderUIPrefab == null)
             {
-                Debug.LogWarning("letterHolderPrefab atanmamış!");
+                Debug.LogWarning("letterHolderUIPrefab atanmamış!");
                 return;
             }
 
+            // 1) Use existing children of autoSlotParent (if assigned) as slots.
             List<RectTransform> slotSource = null;
 
-            if (assetHolder != null && assetHolder.hiddenLetterPositions != null && assetHolder.hiddenLetterPositions.Count > 0)
+            if (autoSlotParent != null && autoSlotParent.childCount > 0)
             {
-                slotSource = assetHolder.hiddenLetterPositions;
+                slotSource = new List<RectTransform>();
+                foreach (Transform child in autoSlotParent)
+                {
+                    var rt = child as RectTransform ?? child.gameObject.AddComponent<RectTransform>();
+                    slotSource.Add(rt);
+                }
             }
-            else if (autoGenerateSlots)
+
+            // 2) If no slots found and auto generate is enabled, create them dynamically under autoSlotParent
+            if ((slotSource == null || slotSource.Count == 0) && autoGenerateSlots)
             {
-                // generate slots dynamically based on targetLetters
+                // create autoSlotParent if it doesn't exist
                 if (autoSlotParent == null)
                 {
                     autoSlotParent = new GameObject("AutoSlotParent").AddComponent<RectTransform>();
@@ -478,8 +586,16 @@ namespace HiddenLetterGame
                 RectTransform slot = slotSource[idx];
                 if (slot == null) continue;
 
-                GameObject holder = Instantiate(letterHolderPrefab, slot);
+                GameObject holder = Instantiate(letterHolderUIPrefab, slot);
                 holder.transform.localPosition = Vector3.zero;
+
+                // Keep holder size in sync with slot (useful when autoSlotSize is tweaked)
+                var holderRt = holder.GetComponent<RectTransform>();
+                if (holderRt != null)
+                {
+                    holderRt.sizeDelta = slot.sizeDelta;
+                }
+
                 spawnedLetterHolders.Add(holder);
 
                 // Child isimleri hem *Letter hem *Holder varyasyonlarını desteklesin
@@ -498,6 +614,9 @@ namespace HiddenLetterGame
                     string trimmedWord = targetLetters.Replace(" ", "");
                     if (idx < trimmedWord.Length) letterChar = trimmedWord[idx];
                 }
+
+                slotLetterChars.Add(letterChar);
+                slotFilled.Add(false);
 
                 if (letterDatabase != null && letterChar != '\0')
                 {
@@ -523,6 +642,40 @@ namespace HiddenLetterGame
             if (currentSlots.Count == 0 && slotSource != null)
             {
                 currentSlots.AddRange(slotSource);
+            }
+        }
+
+        public Canvas GetOverlayCanvas() => overlayCanvas;
+
+        // Helper to rescale inner Sprite/Spine to holder size
+        void AdjustChildGraphicsSize(RectTransform holderRt)
+        {
+            float holderSize = Mathf.Max(holderRt.sizeDelta.x, holderRt.sizeDelta.y);
+            if (holderSize <= 0f) return;
+
+            string[] childNames = {"SpriteLetter", "ShadowLetter"};
+            foreach (string n in childNames)
+            {
+                var tf = holderRt.Find(n) as RectTransform;
+                if (tf == null) continue;
+                var img = tf.GetComponent<Image>();
+                if (img == null || img.sprite == null) continue;
+                Vector2 spriteSize = img.sprite.rect.size;
+                float scale = Mathf.Min(holderSize / spriteSize.x, holderSize / spriteSize.y);
+                tf.sizeDelta = spriteSize * scale;
+            }
+
+            // SpineLetter scaling
+            var spineTf = holderRt.Find("SpineLetter") as RectTransform;
+            if (spineTf != null && spineTf.childCount > 0)
+            {
+                var childRt = spineTf.GetChild(0).GetComponent<RectTransform>();
+                if (childRt != null)
+                {
+                    Vector2 spineSize = childRt.sizeDelta;
+                    float scale = Mathf.Min(holderSize / spineSize.x, holderSize / spineSize.y);
+                    childRt.sizeDelta = spineSize * scale;
+                }
             }
         }
     }
