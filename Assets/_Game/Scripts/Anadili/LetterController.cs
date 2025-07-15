@@ -281,7 +281,6 @@ public class LetterController : MonoBehaviour, IPointerDownHandler, IDragHandler
 
 
 
-        PlayLetterSound(true, false, 1.3f, 0.35f);
 
         // Shadow'ı gizle
         var wordSpawner = WordGameManager.Instance.wordSpawner;
@@ -291,10 +290,24 @@ public class LetterController : MonoBehaviour, IPointerDownHandler, IDragHandler
         
         targetShadow?.HideImage();
 
+        Vector3 originalScale = transform.localScale;
+
         Sequence snapSequence = DOTween.Sequence();
         snapSequence.Append(rectTransform.DOAnchorPos(shadowPos, 0.3f).SetEase(Ease.OutBack));
         snapSequence.Join(transform.DORotate(Vector3.zero, 0.2f));
+        snapSequence.Append(transform.DOScale(originalScale, 0.4f));
+        snapSequence.Append(transform.DOScale(originalScale*1.1f, 0.15f).SetEase(Ease.OutQuart));
+        snapSequence.Append(transform.DOScale(originalScale, 0.1f).SetEase(Ease.InQuint));
+        snapSequence.AppendCallback(() => {
+            transform.localRotation = Quaternion.identity;
+            transform.localScale = originalScale;
+            PlayLetterSound(true, false, 1.3f);
+        });
+        snapSequence.AppendInterval(1f);
         snapSequence.OnComplete(CheckGameWin);
+
+
+        
     }
 
     void ReleaseCurrentTarget()
