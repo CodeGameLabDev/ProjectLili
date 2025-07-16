@@ -236,6 +236,7 @@ GameObject:
   - component: {fileID: 4111529000251219174}
   - component: {fileID: 4073348264244799620}
   - component: {fileID: 6457761669699292240}
+  - component: {fileID: -7846134536970852744}
   m_Layer: 5
   m_Name: LetterHolderFindLetter_CLICKABLE
   m_TagString: Untagged
@@ -285,3 +286,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ebbf821faf05364cb2b4bc212811f2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-7846134536970852744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8730443442965425021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26d75dcd8ce338840bcf19848611dc88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spineObject: {fileID: 101207946461614216}
+  spriteObject: {fileID: 8152609229827823560}
+  shadowObject: {fileID: 6691389375119924232}

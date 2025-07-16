@@ -313,8 +313,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f99fc3a11545eec4892c1cb98021365b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetLetters: Anne
-  letterHolderPrefab: {fileID: 8730443442965425021, guid: d2055b6190ffed44aaf17b47303e95eb, type: 3}
+  targetLetters: Kepenek
+  letterHolderClickablePrefab: {fileID: 8730443442965425021, guid: 6e84659252ba1c045a7b2d0a0821bec6, type: 3}
+  letterHolderUIPrefab: {fileID: 8730443442965425021, guid: 399c6b1c1a87ce74383d113ab065e100, type: 3}
   progressBar: {fileID: 3353515937468059992}
   moveToSlotDuration: 0.6
   moveEase:
@@ -345,6 +346,12 @@ MonoBehaviour:
   shakeIntensity: 0.1
   shakeSpeed: 5
   idleTimeBeforeShake: 3
+  letterMoveDuration: 0.8
+  letterMoveEase: 12
+  letterEndScale: 0.4
+  shadowHighlightScale: 1.3
+  shadowHighlightDuration: 0.3
+  overlayCanvas: {fileID: 0}
   showDebugMessages: 1
   placedCount: 0
   levelPrefabNames:
@@ -356,8 +363,8 @@ MonoBehaviour:
   levelParent: {fileID: 663929385566724954}
   autoGenerateSlots: 1
   autoSlotParent: {fileID: 1298144796692195416}
-  autoSlotSpacing: 120
-  autoSlotSize: 100
+  autoSlotSpacing: 110
+  autoSlotSize: 130
   letterDatabase: {fileID: 11400000, guid: 9ca65a735e76e9c4bac654d66ea272cf, type: 2}
 --- !u!1 &6432373298865037363
 GameObject:
