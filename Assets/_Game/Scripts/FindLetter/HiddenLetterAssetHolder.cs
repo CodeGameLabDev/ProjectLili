@@ -109,11 +109,12 @@ namespace HiddenLetterGame
                     continue;
                 }
 
-                // Instantiate WITHOUT making it a child of the slot – we only borrow its position.
-                GameObject holderInstance = Instantiate(letterHolderPrefab, generatedLettersParent ?? this.transform);
+                // Instantiate AS child of the slot so layout/positioning stays consistent
+                GameObject holderInstance = Instantiate(letterHolderPrefab, slot);
 
-                // Align in world space to the slot position
-                holderInstance.transform.position = slot.position;
+                // Ensure it is centered inside the slot
+                holderInstance.transform.localPosition = Vector3.zero;
+                holderInstance.transform.localScale = Vector3.one;
 
                 // Ensure same sorting/canvas layer if needed (designer may override manually)
 

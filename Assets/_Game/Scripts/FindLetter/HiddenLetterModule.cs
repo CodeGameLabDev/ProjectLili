@@ -396,7 +396,14 @@ namespace HiddenLetterGame
             Canvas overlay = GetOverlayCanvas();
             RectTransform objRect = obj.GetComponent<RectTransform>();
             if (objRect == null) objRect = obj.AddComponent<RectTransform>();
+
+            // Capture current screen position BEFORE reparenting
+            Vector2 startScreen = RectTransformUtility.WorldToScreenPoint(null, obj.transform.position);
+
             obj.transform.SetParent(overlay.transform, false);
+
+            // Restore the same screen position so animation starts from current location
+            objRect.position = startScreen;
 
             // Convert target slot position to screen point
             Vector2 targetScreen = RectTransformUtility.WorldToScreenPoint(null, targetSlot.transform.position);
