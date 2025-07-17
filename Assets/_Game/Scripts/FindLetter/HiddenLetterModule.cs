@@ -432,7 +432,10 @@ namespace HiddenLetterGame
                     if (uiHolder != null)
                     {
                         if (uiHolder.shadowObject != null) uiHolder.shadowObject.SetActive(false);
-                        if (uiHolder.spineObject  != null) uiHolder.spineObject.SetActive(true);
+                        // Show the sprite representation
+                        if (uiHolder.spriteObject != null) uiHolder.spriteObject.SetActive(true);
+                        // Ensure spine is hidden (optional safety)
+                        if (uiHolder.spineObject != null) uiHolder.spineObject.SetActive(false);
                     }
                 }
 

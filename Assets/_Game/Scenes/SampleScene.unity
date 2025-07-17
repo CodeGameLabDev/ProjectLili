@@ -2401,6 +2401,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1052740451}
     m_Modifications:
+    - target: {fileID: 367676560167261864, guid: 20fa71b80452bf54897f358091b5e232, type: 3}
+      propertyPath: targetLetters
+      value: testtest
+      objectReference: {fileID: 0}
     - target: {fileID: 6329391623969076903, guid: 20fa71b80452bf54897f358091b5e232, type: 3}
       propertyPath: m_Name
       value: FindLetter

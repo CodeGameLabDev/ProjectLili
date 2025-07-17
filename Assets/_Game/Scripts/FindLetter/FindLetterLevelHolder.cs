@@ -20,11 +20,22 @@ public class FindLetterLevelHolder : MonoBehaviour, IPointerClickHandler
 
     [Tooltip("If true, pick a random color from the palette on Awake")] public bool randomizeColor = true;
 
+    // NEW: Size customization
+    [Header("Size Settings")]
+    [Tooltip("Scale multiplier for this letter object. Use values < 1 to shrink, > 1 to enlarge.")]
+    public float scaleMultiplier = 1f;
+
+    private Vector3 _initialScale;
+
     void Awake()
     {
         AutoAssignChildren();
         // Ensure initial state early (may get overridden by generator later)
         SetInitialVisibility();
+
+        // Capture the original scale and apply custom multiplier if needed
+        _initialScale = transform.localScale;
+        ApplyScale();
 
         // Apply random color if palette is provided
         ApplyRandomColor();
@@ -87,25 +98,27 @@ public class FindLetterLevelHolder : MonoBehaviour, IPointerClickHandler
         // Try playing Spine animation
         if (spineObject != null)
         {
-            var skelAnim = spineObject.GetComponent<SkeletonAnimation>();
-            if (skelAnim != null)
+            // Try both SkeletonAnimation (runtime) and SkeletonGraphic (UI). Search in children as well.
+            Spine.Unity.IAnimationStateComponent stateComponent = spineObject.GetComponentInChildren<Spine.Unity.IAnimationStateComponent>(true);
+
+            if (stateComponent != null && stateComponent.AnimationState != null)
             {
+                var state = stateComponent.AnimationState;
                 if (!string.IsNullOrEmpty(clickAnimationName))
                 {
-                    skelAnim.AnimationState.SetAnimation(0, clickAnimationName, false);
+                    state.SetAnimation(0, clickAnimationName, false);
                 }
                 else
                 {
-                    // fallback: play default animation if any exists
-                    var firstAnim = skelAnim.Skeleton?.Data?.Animations?.Items?[0];
+                    var firstAnim = state.Data?.SkeletonData?.Animations?.Items?[0];
                     if (firstAnim != null)
-                        skelAnim.AnimationState.SetAnimation(0, firstAnim.Name, false);
+                        state.SetAnimation(0, firstAnim.Name, false);
                 }
             }
             else
             {
-                // Fallback to Animator
-                var animator = spineObject.GetComponent<Animator>();
+                // Fallback to Animator on self or children
+                var animator = spineObject.GetComponentInChildren<Animator>(true);
                 if (animator != null)
                 {
                     animator.SetTrigger("Play");
@@ -142,5 +155,13 @@ public class FindLetterLevelHolder : MonoBehaviour, IPointerClickHandler
                 sr.color = chosen;
             }
         }
+    }
+
+    // NEW: Apply the configured scale multiplier to the root transform
+    void ApplyScale()
+    {
+        // Guard against non-positive multipliers
+        float safeMultiplier = scaleMultiplier <= 0 ? 1f : scaleMultiplier;
+        transform.localScale = _initialScale * safeMultiplier;
     }
 }

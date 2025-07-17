@@ -301,3 +301,7 @@ MonoBehaviour:
   spineObject: {fileID: 101207946461614216}
   spriteObject: {fileID: 8152609229827823560}
   shadowObject: {fileID: 6691389375119924232}
+  clickAnimationName: rage
+  colorPalette: {fileID: 11400000, guid: 69ce662e1c7493844923ce5bf64f6632, type: 2}
+  randomizeColor: 1
+  scaleMultiplier: 0.6
