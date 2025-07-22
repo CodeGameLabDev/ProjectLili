@@ -51,20 +51,16 @@ namespace LetterMatch
             currentLevelId = levelConfig.levelId;
             isLevelLoaded = true;
         
-            // Update game manager with level data
             if (gameManager != null)
             {
-                gameManager.musicBPM = levelConfig.musicBPM;
                 gameManager.currentLevel = levelConfig.levelId;
             }
         
-            // Update spawner with level data
             if (spawner != null)
             {
                 spawner.currentLevelConfig = levelConfig;
             }
         
-            // Update audio manager with level data
             if (audioManager != null)
             {
                // audioManager.LoadLevelMusic(levelConfig.levelId);
@@ -161,7 +157,6 @@ namespace LetterMatch
         
             var errors = new List<string>();
         
-            // Check letters
             if (currentLevelConfig.letters.Count == 0)
             {
                 errors.Add("No letters configured");
