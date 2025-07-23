@@ -22,8 +22,9 @@ public class FeedAnimalLevel : MonoBehaviour, IGameLevel
 
     public Transform animalTargetPosition;
 
-    [Tooltip("Food objects that player will feed to the animal – assign in the Inspector.")]
-    public List<GameObject> foodObjects = new List<GameObject>();
+    // Runtime list of spawned food objects (auto-managed; not assigned in Inspector)
+    [ShowInInspector, ReadOnly]
+    private List<GameObject> foodObjects = new List<GameObject>();
 
     [Header("Position Holders")] 
     [Tooltip("Empty transforms that define where each food object initially spawns.")]
@@ -41,6 +42,13 @@ public class FeedAnimalLevel : MonoBehaviour, IGameLevel
     [Tooltip("How many food objects should be spawned for this level.")]
     [MinValue(1)]
     public int foodCount = 1;
+
+    [Header("Food Template")]
+    [Tooltip("Prefab that will be instantiated for each food. If null, an empty GameObject with Image will be created.")]
+    public GameObject foodTemplatePrefab;
+
+    [Tooltip("Sprite that will be assigned to each food's Image component.")]
+    public Sprite foodSprite;
 
     [Header("UI Background")]
     [Tooltip("Image component whose sprite will be replaced by the chosen background.")]
@@ -152,6 +160,9 @@ public class FeedAnimalLevel : MonoBehaviour, IGameLevel
 
     public void StartGame()
     {
+        // (Re)generate food objects each time level starts to ensure correct count
+        GenerateFoodObjects();
+
         remainingFood = foodObjects.Count;
         isCompleted = false;
         OnGameStart?.Invoke();
@@ -213,5 +224,41 @@ public class FeedAnimalLevel : MonoBehaviour, IGameLevel
             return false;
         }
         return true;
+    }
+
+    private void GenerateFoodObjects()
+    {
+        // clear any lingering children in container lists
+        foreach (var obj in foodObjects)
+        {
+            if (obj != null && obj.scene.IsValid()) Destroy(obj);
+        }
+        foodObjects.Clear();
+
+        int spawnCount = Mathf.Min(foodCount, startPositions.Count, targetPositions.Count);
+        for (int i = 0; i < spawnCount; i++)
+        {
+            Transform start = startPositions[i];
+            GameObject instance;
+            if (foodTemplatePrefab != null)
+            {
+                // Instantiate as child of start position so it inherits local anchors easily
+                instance = Instantiate(foodTemplatePrefab, start);
+                instance.transform.localPosition = Vector3.zero;
+            }
+            else
+            {
+                instance = new GameObject($"Food_{i}", typeof(RectTransform), typeof(Image));
+                instance.transform.SetParent(start);
+                instance.transform.localPosition = Vector3.zero;
+            }
+
+            // Try to assign sprite on Image component found on self or first child
+            var img = instance.GetComponentInChildren<Image>();
+            if (img == null) img = instance.AddComponent<Image>();
+            if (foodSprite != null) img.sprite = foodSprite;
+
+            foodObjects.Add(instance);
+        }
     }
 } 

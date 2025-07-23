@@ -20,6 +20,13 @@ public class FeedAnimalModule : MonoBehaviour, IGameLevel
     [Tooltip("Food sprites in ABC order (31 items). Must match animalSprites 1-to-1.")]
     public List<Sprite> foodSprites = new List<Sprite>();
 
+    [Header("Alphabet")]
+    [Tooltip("Alphabet list mapping letters to index (must have 31 entries). Example: A,B,C,Ç,D,E,F,G,Ğ ...")] 
+    public List<string> alphabet = new List<string>();
+
+    [Tooltip("Letter to load (case-insensitive). Press 'Load Letter Level' button to apply.")]
+    public string selectedLetter = "A";
+
     [Header("Backgrounds")]
     public List<Sprite> backgroundSprites = new List<Sprite>();
     public int antarcticaIndex = 0; // BG index reserved for Penguin level
@@ -27,19 +34,21 @@ public class FeedAnimalModule : MonoBehaviour, IGameLevel
     #endregion
 
     #region Inspector – Prefab Templates
-    [Header("Templates")]
+    [Header("Templates (used only when prefab loading is OFF)")]
+    [ShowIf("@!usePrefabLoading")]
     [Tooltip("Prefab with Image component for displaying the animal.")]
     public GameObject animalTemplatePrefab;
 
+    [ShowIf("@!usePrefabLoading")]
     [Tooltip("Prefab with Image component for each food.")]
     public GameObject foodTemplatePrefab;
     #endregion
 
     #region Inspector – Scene References
-    [Header("Scene References")]
-    public Image backgroundImage;
-    public Transform animalContainer;
-    public Transform animalTargetPosition;
+    [Header("Scene References (used only when prefab loading is OFF)")]
+    [ShowIf("@!usePrefabLoading")] public Image backgroundImage;
+    [ShowIf("@!usePrefabLoading")] public Transform animalContainer;
+    [ShowIf("@!usePrefabLoading")] public Transform animalTargetPosition;
 
     [Tooltip("Transforms that mark where foods start.")]
     public List<Transform> startPositions = new List<Transform>();
@@ -50,6 +59,12 @@ public class FeedAnimalModule : MonoBehaviour, IGameLevel
     public float moveDuration = 0.5f;
     #endregion
 
+    #region Level Prefabs
+    [Header("Level Prefabs (first 9 levels)")]
+    [Tooltip("Drag prefabs named Level_1 ... Level_9 here in order.")]
+    public List<GameObject> levelPrefabs = new List<GameObject>();
+    #endregion
+
     #region Runtime State
     [TabGroup("Runtime"), ReadOnly] public int currentLevelIndex = 0;
     [ReadOnly] public int currentFoodCount = 0;
@@ -57,30 +72,69 @@ public class FeedAnimalModule : MonoBehaviour, IGameLevel
     private GameObject currentAnimal;
     private readonly List<GameObject> spawnedFoods = new List<GameObject>();
     private int remainingFood; // decremented when a food reaches its target
+    private GameObject activeLevelInstance;
 
-    public bool IsCompleted => throw new NotImplementedException();
+    // IGameLevel implementation state
+    private bool levelCompleted = false;
+    public bool IsCompleted => levelCompleted;
 
-    public string LevelName => throw new NotImplementedException();
+    public string LevelName => (alphabet != null && currentLevelIndex < alphabet.Count) ? alphabet[currentLevelIndex] : $"Level_{currentLevelIndex+1}";
 
     // Event fired when the current level is completed. Passes the completed level index.
     public event Action<int> OnLevelCompleted;
     public event Action OnGameStart;
     public event Action OnGameComplete;
+
+    [Header("Prefab Loading Mode")] 
+    [Tooltip("If true, levels are loaded as prefabs from Resources/FeedAnimalByCount/Level_X (X starts at 1).")] 
+    public bool usePrefabLoading = true;
+
+    [Tooltip("Folder inside Resources that contains Level prefabs.")]
+    public string resourcesFolder = "FeedAnimalByCount";
+
+    [Tooltip("Maximum number of levels to attempt when prefab loading mode is on.")]
+    public int maxPrefabLevels = 9;
+
+    private IGameLevel currentGameLevel; 
     #endregion
 
     #region Unity Life-cycle
     private void Start()
     {
-        //StartGame();
+        StartGame();
     }
     #endregion
 
     #region Level Management
     public void StartGame()
     {
-        Debug.Log($"[FeedAnimalModule] === SetupLevel for index {currentLevelIndex} ===");
+        levelCompleted = false;
+        OnGameStart?.Invoke();
+
+        if (usePrefabLoading)
+        {
+            LoadPrefabLevel();
+            return;
+        }
+
+        Debug.Log($"[FeedAnimalModule] === SetupLevel for index {currentLevelIndex} (Letter={LevelName}) ===");
 
         if (!ValidateData()) return;
+
+        // Destroy old level instance
+        if (activeLevelInstance != null && activeLevelInstance.scene.IsValid())
+        {
+            Destroy(activeLevelInstance);
+            activeLevelInstance = null;
+        }
+
+        // If we have a prefab for this level index, instantiate it and refresh position holders
+        if (currentLevelIndex < levelPrefabs.Count && levelPrefabs[currentLevelIndex] != null)
+        {
+            activeLevelInstance = Instantiate(levelPrefabs[currentLevelIndex], transform);
+            Debug.Log($"[FeedAnimalModule] Instantiated level prefab {activeLevelInstance.name}");
+            ExtractPositionsFromPrefab(activeLevelInstance);
+        }
 
         // ---- Select sprites & counts ----
         Sprite animalSprite = animalSprites[currentLevelIndex];
@@ -154,6 +208,26 @@ public class FeedAnimalModule : MonoBehaviour, IGameLevel
         return backgroundSprites[chosen];
     }
 
+    private void ExtractPositionsFromPrefab(GameObject instance)
+    {
+        // Expect child objects named "StartPositions" and "TargetPositions" each with transforms children.
+        startPositions.Clear();
+        targetPositions.Clear();
+        var startRoot = instance.transform.Find("StartPositions");
+        var targetRoot = instance.transform.Find("TargetPositions");
+        if (startRoot != null)
+        {
+            foreach (Transform child in startRoot)
+                startPositions.Add(child);
+        }
+        if (targetRoot != null)
+        {
+            foreach (Transform child in targetRoot)
+                targetPositions.Add(child);
+        }
+        Debug.Log($"[FeedAnimalModule] Extracted {startPositions.Count} start and {targetPositions.Count} target positions from prefab.");
+    }
+
     private void ClearCurrentObjects()
     {
         // Remove foods
@@ -168,6 +242,11 @@ public class FeedAnimalModule : MonoBehaviour, IGameLevel
         if (currentAnimal != null && currentAnimal.scene.IsValid())
             Destroy(currentAnimal);
         currentAnimal = null;
+
+        // Remove level instance
+        if (activeLevelInstance != null && activeLevelInstance.scene.IsValid())
+            Destroy(activeLevelInstance);
+        activeLevelInstance = null;
     }
 
     private void SpawnAnimal(Sprite sprite)
@@ -234,9 +313,12 @@ public class FeedAnimalModule : MonoBehaviour, IGameLevel
 
     public void CompleteGame()
     {
+        if (levelCompleted) return;
+        levelCompleted = true;
         Debug.Log($"[FeedAnimalModule] Level {currentLevelIndex} complete!");
+        OnGameComplete?.Invoke();
         OnLevelCompleted?.Invoke(currentLevelIndex);
-        // Automatic progression removed – call NextLevel() externally when desired.
+        // automatic progression remains manual
     }
 
     // Optional: call this method from outside to proceed to the next level manually.
@@ -285,4 +367,49 @@ public class FeedAnimalModule : MonoBehaviour, IGameLevel
         }
     }
     #endregion
+
+    // ---------------- Prefab Loading Helpers ----------------
+    private void LoadPrefabLevel()
+    {
+        // Clean current objects (foods, animal, previous prefab)
+        ClearCurrentObjects();
+
+        if (currentLevelIndex >= maxPrefabLevels)
+        {
+            Debug.Log("[FeedAnimalModule] Completed all prefab levels.");
+            return;
+        }
+
+        string prefabPath = $"{resourcesFolder}/Level_{currentLevelIndex + 1}";
+        GameObject prefab = Resources.Load<GameObject>(prefabPath);
+        if (prefab == null)
+        {
+            Debug.LogError($"[FeedAnimalModule] Prefab not found at Resources/{prefabPath}");
+            return;
+        }
+
+        activeLevelInstance = Instantiate(prefab, transform);
+        Debug.Log($"[FeedAnimalModule] Instantiated prefab {prefab.name} for level {currentLevelIndex}");
+
+        currentGameLevel = activeLevelInstance.GetComponent<IGameLevel>();
+        if (currentGameLevel != null)
+        {
+            currentGameLevel.OnGameComplete += PrefabLevelCompleted;
+            currentGameLevel.StartGame();
+        }
+        else
+        {
+            Debug.LogWarning("[FeedAnimalModule] Prefab does not have a component implementing IGameLevel");
+        }
+    }
+
+    private void PrefabLevelCompleted()
+    {
+        if (levelCompleted) return;
+        levelCompleted = true;
+        Debug.Log($"[FeedAnimalModule] Prefab level {currentLevelIndex} complete!");
+        OnGameComplete?.Invoke();
+        OnLevelCompleted?.Invoke(currentLevelIndex);
+    }
+    // ---------------------------------------------------------
 } 
