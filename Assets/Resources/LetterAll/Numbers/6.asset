@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4855a3eca9ea7ac4bbf306fd4105cb91, type: 3}
+  m_Name: 6
+  m_EditorClassIdentifier: 
+  letter: 54
+  letterNameSound: {fileID: 8300000, guid: 1b7a5f94cc5accf42a631c570c4052e0, type: 3}
+  letterSongSound: {fileID: 8300000, guid: 59abbd4e6bf902749a9b80e3d8dc1425, type: 3}
+  letterId: 6
+  prefab: {fileID: 7160244062779811356, guid: 883e0e13ffa48b24193e0a5713f739c4, type: 3}
+  letterSprite: {fileID: 2002738293, guid: 4cb4d3481846b4258b737fbd1ae4906e, type: 3}
+  letterShadowSprite: {fileID: 166690753, guid: e208d0467013540a898b1e15e3e3bde4, type: 3}
+  letterWidth: 229.88776
+  letterSpinePrefab: {fileID: 0}
