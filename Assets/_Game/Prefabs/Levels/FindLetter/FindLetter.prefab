@@ -313,7 +313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f99fc3a11545eec4892c1cb98021365b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetLetters: Kepenek
+  targetLetters: Kep
   letterHolderClickablePrefab: {fileID: 8730443442965425021, guid: 6e84659252ba1c045a7b2d0a0821bec6, type: 3}
   letterHolderUIPrefab: {fileID: 8730443442965425021, guid: 399c6b1c1a87ce74383d113ab065e100, type: 3}
   progressBar: {fileID: 3353515937468059992}

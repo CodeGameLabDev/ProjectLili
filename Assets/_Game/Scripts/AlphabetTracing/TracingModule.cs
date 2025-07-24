@@ -15,12 +15,18 @@ public class TracingModule : MonoBehaviour, IGameLevel
     public string LevelName => "Tracing Game";
     AlfabeModuleData alfabeModuleData;
     NumberModuleData numberModuleData;
+    private bool isNumberMode = false; // true when tracing a number rather than a letter
     public void StartGame()
     {
         OnGameStart?.Invoke();
         alfabeModuleData = GameManager.Instance.GetAlfabeModuleData();
         if(alfabeModuleData == null){
             numberModuleData = GameManager.Instance.GetNumberModuleData();
+            isNumberMode = numberModuleData != null;
+        }
+        else
+        {
+            isNumberMode = false;
         }
 
         StartTracing();
@@ -168,6 +174,13 @@ public class TracingModule : MonoBehaviour, IGameLevel
 
     private void OnLetterCompleted()
     {
+        // If this level is a number, there is no lowercase/uppercase distinction.
+        if (isNumberMode)
+        {
+            Debug.Log("Sayı tamamlandı! Level bitiyor.");
+            CompleteGame();
+            return;
+        }
         
         if (isUppercase)
         {
