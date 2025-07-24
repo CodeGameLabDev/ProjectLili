@@ -373,7 +373,7 @@ GameObject:
   - component: {fileID: 4471448377555298534}
   - component: {fileID: 5039065724617743940}
   m_Layer: 5
-  m_Name: Level_2
+  m_Name: Level_7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -478,10 +478,10 @@ MonoBehaviour:
   - {fileID: 8191037359857075346}
   - {fileID: 5944497692778930017}
   moveDuration: 0.5
-  levelName: Level_2
-  foodCount: 2
+  levelName: Level_7
+  foodCount: 7
   foodTemplatePrefab: {fileID: 7792708478465580975, guid: 163a58d3ab496d84e903c41d8cca85f3, type: 3}
-  foodSprite: {fileID: -2066568400, guid: 84f3f29217fb53844801cc29c55d9c01, type: 3}
+  foodSprite: {fileID: -835073598, guid: 84f3f29217fb53844801cc29c55d9c01, type: 3}
   backgroundImage: {fileID: 5395798137186099932}
 --- !u!1 &3530902563142694445
 GameObject:
@@ -733,7 +733,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 54afef266922c1f4b8f7844f6d47da36, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b45fb4788e0f8064ea1ba143af5b853c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1054,7 +1054,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1036076645, guid: 566c21b3bf33ab540aff23e1f4991299, type: 3}
+  m_Sprite: {fileID: -1473473174, guid: 258d16a968ab43b4bae9d77a592f576f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

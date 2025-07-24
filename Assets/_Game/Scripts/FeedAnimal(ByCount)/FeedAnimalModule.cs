@@ -374,6 +374,35 @@ public class FeedAnimalModule : MonoBehaviour, IGameLevel
         // Clean current objects (foods, animal, previous prefab)
         ClearCurrentObjects();
 
+        // ---- Determine level index from NumberModuleData if provided ----
+        int desiredLevelIndex = currentLevelIndex;
+        try
+        {
+            NumberModuleData numData = GameManager.Instance != null ? GameManager.Instance.GetNumberModuleData() : null;
+            if (numData != null)
+            {
+                if (int.TryParse(numData.LevelName, out int parsed) && parsed > 0)
+                {
+                    desiredLevelIndex = parsed - 1; // Level_2 => index 1
+                    Debug.Log($"[FeedAnimalModule] Level index overridden from NumberModuleData.LevelName = {parsed}");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogWarning($"[FeedAnimalModule] Could not parse LevelName from NumberModuleData: {ex.Message}");
+        }
+
+        // Clamp within allowed range
+        if (desiredLevelIndex >= maxPrefabLevels)
+        {
+            Debug.LogWarning($"[FeedAnimalModule] desiredLevelIndex {desiredLevelIndex} exceeds maxPrefabLevels {maxPrefabLevels-1}. Clamping.");
+            desiredLevelIndex = maxPrefabLevels - 1;
+        }
+
+        // Update currentLevelIndex so events/logs stay consistent
+        currentLevelIndex = desiredLevelIndex;
+
         if (currentLevelIndex >= maxPrefabLevels)
         {
             Debug.Log("[FeedAnimalModule] Completed all prefab levels.");
