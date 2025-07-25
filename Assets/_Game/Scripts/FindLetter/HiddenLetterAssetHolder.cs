@@ -159,7 +159,15 @@ namespace HiddenLetterGame
             img.sprite = sprite;
             img.SetNativeSize();
 
-            if (type == "Shadow") img.color = new Color(1,1,1,0.3f);
+            if (type == "Shadow")
+            {
+                img.color = new Color(1,1,1,0.3f);
+            }
+            else
+            {
+                Color col = img.color;
+                img.color = new Color(col.r, col.g, col.b, 1f);
+            }
         }
 
         void SetupSpineComponent(Transform tf, GameObject prefab)

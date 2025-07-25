@@ -585,6 +585,7 @@ MonoBehaviour:
   currentIndex: 0
   currentGameObject: {fileID: 0}
   levelSelectCanvas: {fileID: 453650428}
+  levelTransitionDelay: 1.5
 --- !u!1 &266563931
 GameObject:
   m_ObjectHideFlags: 0

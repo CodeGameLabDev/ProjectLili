@@ -8,8 +8,95 @@ using UnityEngine.UI;
 /// This lets designers simply drop a FindLetterLevel prefab in the scene, assign the references,
 /// and see the shadow versions of the target word laid out in the UI.
 /// </summary>
-public class FindLetterLevel : MonoBehaviour
+public class FindLetterLevel : MonoBehaviour, IGameLevel
 {
+    // --------------- IGameLevel implementation -----------------
+    public event System.Action OnGameStart;
+    public event System.Action OnGameComplete;
+
+    private bool isLevelCompleted = false;
+    public bool IsCompleted => isLevelCompleted;
+    public string LevelName => targetLetters;
+
+    /// <summary>
+    /// Called by <see cref="GameManager"/> to begin the level.
+    /// Determines the <see cref="targetLetters"/> string from the active ModuleData
+    /// and then spawns the letter placeholders.
+    /// </summary>
+    public void StartGame()
+    {
+        // 1) Determine targetLetters from current module data
+        SetupTargetLettersFromData();
+
+        // 2) Spawn placeholders
+        GenerateLetterTargets();
+
+        isLevelCompleted = false;
+        OnGameStart?.Invoke();
+    }
+
+    /// <summary>
+    /// External callers should invoke this when the player has found all letters.
+    /// </summary>
+    public void CompleteGame()
+    {
+        if (isLevelCompleted) return;
+        isLevelCompleted = true;
+        OnGameComplete?.Invoke();
+    }
+
+    // ------------------------------------------------------------------------
+    private bool isNumberMode = false;
+
+    private void SetupTargetLettersFromData()
+    {
+        var gm = GameManager.Instance;
+        if (gm == null) return;
+
+        AlfabeModuleData alfabe = gm.GetAlfabeModuleData();
+        NumberModuleData number = gm.GetNumberModuleData();
+
+        if (alfabe != null)
+        {
+            // Same rule set used in WordGameManager
+            if (gm.currentIndex == 0)
+            {
+                targetLetters = alfabe.UpperCaseLetter.letter.ToString();
+            }
+            else if (gm.currentIndex == 1)
+            {
+                targetLetters = alfabe.LowerCaseLetter.letter.ToString();
+            }
+            else
+            {
+                targetLetters = alfabe.Word;
+            }
+            isNumberMode = false;
+        }
+        else if (number != null)
+        {
+            targetLetters = number.NumberData.letter.ToString();
+            isNumberMode = true;
+        }
+        // Fallback: keep whatever was set in inspector
+
+        // ---- If single letter (alphabetic) we need 6 placeholders: AaAaAa ----
+        if (!string.IsNullOrEmpty(targetLetters) && targetLetters.Length == 1)
+        {
+            char baseChar = targetLetters[0];
+            if (char.IsLetter(baseChar))
+            {
+                char upper = char.ToUpper(baseChar);
+                char lower = char.ToLower(baseChar);
+                targetLetters = "" + upper + lower + upper + lower + upper + lower; // "AaAaAa"
+            }
+        }
+    }
+
+    // ------------------------------------------------------------------------
+    // PREVIOUS Awake() removed; generation now handled in StartGame
+    private void Awake() {}
+
     [Header("Letter Target Settings")]
     [Tooltip("Target word / letters the player must find.")] public string targetLetters;
 
@@ -26,11 +113,6 @@ public class FindLetterLevel : MonoBehaviour
     public float autoSlotSpacing = 120f;
     [Tooltip("Width & height (px) of each placeholder.")]
     public float autoSlotSize = 100f;
-
-    private void Awake()
-    {
-        GenerateLetterTargets();
-    }
 
     /// <summary>
     /// Clears existing children of <see cref="autoSlotParent"/> and instantiates one
@@ -109,7 +191,15 @@ public class FindLetterLevel : MonoBehaviour
         img.sprite = sprite;
         img.SetNativeSize();
 
-        if (type == "Shadow") img.color = new Color(1f, 1f, 1f, 0.3f);
+        if (type == "Shadow")
+        {
+            img.color = new Color(1f, 1f, 1f, 0.3f);
+        }
+        else if (type == "Sprite")
+        {
+            Color c = img.color;
+            img.color = new Color(c.r, c.g, c.b, 1f); // ensure full opacity
+        }
     }
 
     private void SetupSpineComponent(Transform tf, GameObject prefab)

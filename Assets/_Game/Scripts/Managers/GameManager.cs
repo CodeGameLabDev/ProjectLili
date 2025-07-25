@@ -1,5 +1,6 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
+using System.Collections;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -17,6 +18,11 @@ public class GameManager : Singleton<GameManager>
     
     [Header("UI References")]
     public GameObject levelSelectCanvas;
+
+    [Header("Transition Settings")]
+    [Tooltip("Seconds to wait after a level completes before loading the next level.")]
+    [MinValue(0)]
+    public float levelTransitionDelay = 1.5f;
     
 
 
@@ -52,6 +58,11 @@ public class GameManager : Singleton<GameManager>
         
         currentGameObject = Instantiate(gameClass.gameObject, parent);
         currentGameLevel = currentGameObject.GetComponent<IGameLevel>();
+        if (currentGameLevel == null)
+        {
+            // Fallback: search in children (inactive included)
+            currentGameLevel = currentGameObject.GetComponentInChildren<IGameLevel>(true);
+        }
         
         if (currentGameLevel != null)
         {
@@ -69,21 +80,24 @@ public class GameManager : Singleton<GameManager>
     
     private void OnGameComplete()
     {
-        Debug.Log($"Game completed! Moving to next level...");
-        
-        // Event'i kaldır
+        StartCoroutine(HandleLevelCompleteAfterDelay());
+    }
+
+    private IEnumerator HandleLevelCompleteAfterDelay()
+    {
+        Debug.Log($"Game completed! Waiting {levelTransitionDelay:F1}s before next level...");
+
+        // Unsubscribe immediately to avoid duplicate calls during delay
         if (currentGameLevel != null)
         {
             currentGameLevel.OnGameComplete -= OnGameComplete;
         }
-        
-        // Mevcut level'i yok et
+
+        yield return new WaitForSeconds(levelTransitionDelay);
+
+        // Destroy current level and advance
         DestroyCurrentLevel();
-        
-        // Index'i artır
         currentIndex++;
-        
-        // Sonraki level'i yarat
         CreateCurrentLevel();
     }
     

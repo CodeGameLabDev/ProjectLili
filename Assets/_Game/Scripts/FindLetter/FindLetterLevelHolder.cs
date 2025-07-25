@@ -145,7 +145,7 @@ public class FindLetterLevelHolder : MonoBehaviour, IPointerClickHandler
         var img = spriteObject.GetComponent<UnityEngine.UI.Image>();
         if (img != null)
         {
-            img.color = chosen;
+            img.color = new Color(chosen.r, chosen.g, chosen.b, 1f);
         }
         else
         {
@@ -153,6 +153,16 @@ public class FindLetterLevelHolder : MonoBehaviour, IPointerClickHandler
             if (sr != null)
             {
                 sr.color = chosen;
+            }
+        }
+        // Guarantee alpha 1 even if randomizeColor is false
+        if (!randomizeColor && spriteObject != null)
+        {
+            var img2 = spriteObject.GetComponent<UnityEngine.UI.Image>();
+            if (img2 != null)
+            {
+                Color c = img2.color;
+                img2.color = new Color(c.r, c.g, c.b, 1f);
             }
         }
     }

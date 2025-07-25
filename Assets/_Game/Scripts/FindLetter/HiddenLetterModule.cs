@@ -11,8 +11,19 @@ namespace HiddenLetterGame
     /// <summary>
     /// FindObject mantığının harf versiyonu. Sahnede gizlenmiş harfleri bulup yukarıdaki slotlara yerleştirir.
     /// </summary>
-    public class HiddenLetterModule : MonoBehaviour
+    public class HiddenLetterModule : MonoBehaviour, IGameLevel
     {
+        // ---- IGameLevel implementation ----
+        public event System.Action OnGameStart;
+        public event System.Action OnGameComplete;
+
+        private bool isCompleted = false;
+        public bool IsCompleted => isCompleted;
+        public string LevelName => targetLetters;
+
+        // Flag to prevent double-start
+        private bool hasStartedLevel = false;
+
         [Header("Kelime Ayarları")]
         [Tooltip("Hedef kelime. Harfler sıralı olarak slotlara yerleşir.")]
         public string targetLetters;
@@ -139,8 +150,12 @@ namespace HiddenLetterGame
                 image.color = new Color(1,1,1,0.3f);
                 letterTransform.gameObject.SetActive(true);
             }
-            else
+            else // Sprite
             {
+                // Ensure full opacity
+                Color col = image.color;
+                image.color = new Color(col.r, col.g, col.b, 1f);
+                // Start hidden; will be enabled when placed
                 letterTransform.gameObject.SetActive(false);
             }
         }
@@ -198,9 +213,30 @@ namespace HiddenLetterGame
             overlayCanvas.sortingOrder = 1000;
         }
 
-        void Start()
+        // MonoBehaviour Start kept empty; GameManager will call StartGame()
+        void Start() {}
+
+        // ---------------- IGameLevel METHODS ----------------
+        public void StartGame()
         {
+            if (hasStartedLevel) return;
+
+            DetermineTargetLetters();
+
+            placedCount = 0;
+            isCompleted = false;
+
             LoadCurrentLevel();
+
+            OnGameStart?.Invoke();
+            hasStartedLevel = true;
+        }
+
+        public void CompleteGame()
+        {
+            if (isCompleted) return;
+            isCompleted = true;
+            OnGameComplete?.Invoke();
         }
 
         // ---------------- Level Loading -------------
@@ -237,6 +273,10 @@ namespace HiddenLetterGame
                 Debug.LogError("Level prefab'ında HiddenLetterAssetHolder bulunamadı!");
                 return;
             }
+
+            // Subscribe to game won event to notify GameManager
+            assetHolder.OnGameWon.RemoveAllListeners();
+            assetHolder.OnGameWon.AddListener(() => CompleteGame());
 
             placedCount = 0;
             assetHolder.ResetProgress();
@@ -375,13 +415,12 @@ namespace HiddenLetterGame
                 }
             }
 
-            // Fallback to first available slot if specific match not found
+            // If no exact-case slot found, ignore click (optional feedback)
             if (slotIndex == -1)
             {
-                for (int i = 0; i < slotFilled.Count; i++)
-                {
-                    if (!slotFilled[i]) { slotIndex = i; break; }
-                }
+                if (showDebugMessages) Debug.Log($"Letter {letterChar} için uygun slot yok veya dolu.");
+                hidden.isFound = false; // revert state so can click again
+                yield break;
             }
 
             if (currentSlots == null || currentSlots.Count == 0 || slotIndex == -1 || slotIndex >= currentSlots.Count)
@@ -438,18 +477,23 @@ namespace HiddenLetterGame
                     var uiHolder = letterHolderTf.GetComponent<FindLetterUIHolder>();
                     if (uiHolder != null)
                     {
-                        if (uiHolder.shadowObject != null) uiHolder.shadowObject.SetActive(false);
-                        // Show the sprite representation
-                        if (uiHolder.spriteObject != null) uiHolder.spriteObject.SetActive(true);
-                        // Ensure spine is hidden (optional safety)
-                        if (uiHolder.spineObject != null) uiHolder.spineObject.SetActive(false);
+                        uiHolder.ShowSpriteHideShadow();
                     }
                 }
 
                 // Highlight effect
                 HighlightShadow(targetSlot.gameObject);
 
-                // After visual placement, disable the original moving holder to avoid size artifacts
+                // Hide sprite & shadow of moving holder, show spine only (optional)
+                var ui = obj.GetComponent<FindLetterUIHolder>();
+                if (ui != null)
+                {
+                    if (ui.spriteObject != null) ui.spriteObject.SetActive(false);
+                    if (ui.shadowObject != null) ui.shadowObject.SetActive(false);
+                    if (ui.spineObject != null) ui.spineObject.SetActive(true);
+                }
+
+                // After transferring, we can deactivate holder to avoid overlap if desired:
                 obj.SetActive(false);
 
                 placedCount++;
@@ -685,6 +729,56 @@ namespace HiddenLetterGame
                     Vector2 spineSize = childRt.sizeDelta;
                     float scale = Mathf.Min(holderSize / spineSize.x, holderSize / spineSize.y);
                     childRt.sizeDelta = spineSize * scale;
+                }
+            }
+        }
+
+        // Determine letters from ModuleData similar to WordGameManager / FindLetterLevel
+        private void DetermineTargetLetters()
+        {
+            var gm = GameManager.Instance;
+            if (gm == null) return;
+
+            AlfabeModuleData alfabe = gm.GetAlfabeModuleData();
+            NumberModuleData number = gm.GetNumberModuleData();
+
+            if (alfabe != null)
+            {
+                // If LevelName explicitly set, use it directly
+                if (!string.IsNullOrEmpty(alfabe.LevelName))
+                {
+                    targetLetters = alfabe.LevelName;
+                }
+                else
+                {
+                    if (gm.currentIndex == 0)
+                        targetLetters = alfabe.UpperCaseLetter.letter.ToString();
+                    else if (gm.currentIndex == 1)
+                        targetLetters = alfabe.LowerCaseLetter.letter.ToString();
+                    else
+                        targetLetters = alfabe.Word;
+                }
+            }
+            else if (number != null)
+            {
+                targetLetters = number.NumberData.letter.ToString();
+            }
+
+            // Final fallback: use IGameData.LevelName
+            if (string.IsNullOrEmpty(targetLetters) && GameManager.Instance.GameData != null)
+            {
+                targetLetters = GameManager.Instance.GameData.LevelName;
+            }
+
+            // Duplicate single letter to AaAaAa pattern
+            if (!string.IsNullOrEmpty(targetLetters) && targetLetters.Length == 1)
+            {
+                char ch = targetLetters[0];
+                if (char.IsLetter(ch))
+                {
+                    char upper = char.ToUpper(ch);
+                    char lower = char.ToLower(ch);
+                    targetLetters = "" + upper + lower + upper + lower + upper + lower;
                 }
             }
         }

@@ -21,6 +21,7 @@ public class AlfabeModuleData : ScriptableObject, IGameData
     
     [TabGroup("Word Settings")]
     [SerializeField] private string baloonWord = "";
+    [SerializeField] private string findCompleteLetterWord = "";
 
     [TabGroup("Level Settings")]
     [SerializeField] private string levelName = "";
@@ -34,6 +35,7 @@ public class AlfabeModuleData : ScriptableObject, IGameData
     public LetterData LowerCaseLetter => lowerCaseLetter;
     public string Word => word;
     public string BaloonWord => baloonWord;
+    public string FindCompleteLetterWord => findCompleteLetterWord;
     public void InitializeGameData()
     {
         Debug.Log($"Alfabe Module Data initialized");

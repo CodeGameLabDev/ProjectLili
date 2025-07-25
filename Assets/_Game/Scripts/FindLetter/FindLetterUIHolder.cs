@@ -9,6 +9,59 @@ public class FindLetterUIHolder : MonoBehaviour
     public GameObject spriteObject;
     public GameObject shadowObject;
 
+    void Awake()
+    {
+        AutoAssignChildren();
+    }
+
+    void AutoAssignChildren()
+    {
+        if (spriteObject == null)
+        {
+            var tf = transform.Find("SpriteLetter") ?? transform.Find("SpriteHolder");
+            if (tf != null) spriteObject = tf.gameObject;
+        }
+        if (shadowObject == null)
+        {
+            var tf = transform.Find("ShadowLetter") ?? transform.Find("ShadowHolder");
+            if (tf != null) shadowObject = tf.gameObject;
+        }
+        if (spineObject == null)
+        {
+            var tf = transform.Find("SpineLetter") ?? transform.Find("SpineHolder");
+            if (tf != null) spineObject = tf.gameObject;
+        }
+    }
+
+    public void ShowSpriteHideShadow()
+    {
+        if (shadowObject != null) shadowObject.SetActive(false);
+        if (spriteObject != null) spriteObject.SetActive(true);
+        if (spineObject != null) spineObject.SetActive(false);
+
+        // Force full opacity on sprite image or renderer
+        if (spriteObject != null)
+        {
+            var img = spriteObject.GetComponent<UnityEngine.UI.Image>();
+            if (img != null)
+            {
+                Color c = img.color;
+                if (c.a < 1f)
+                    img.color = new Color(c.r, c.g, c.b, 1f);
+            }
+            else
+            {
+                var sr = spriteObject.GetComponent<SpriteRenderer>();
+                if (sr != null)
+                {
+                    Color c = sr.color;
+                    if (c.a < 1f)
+                        sr.color = new Color(c.r, c.g, c.b, 1f);
+                }
+            }
+        }
+    }
+
     [Header("Color Settings")]
     [Tooltip("Optional: Assign a ColorPalette asset to randomize the sprite's color.")]
     public ColorPalette colorPalette;
