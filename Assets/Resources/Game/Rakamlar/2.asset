@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameLevels:
   - canvasType: 0
-    gameObject: {fileID: 3904173391876992528, guid: 4c0606d5997bdb0408d8054b74f45f26, type: 3}
-  - canvasType: 0
     gameObject: {fileID: 5492868739311912133, guid: 42787e1e278c5ea46b9e2f7b0b1677be, type: 3}
   - canvasType: 1
     gameObject: {fileID: 5702487806517644640, guid: 20c56f58f50e46d44a4f5ff9cb7f17ba, type: 3}
+  - canvasType: 0
+    gameObject: {fileID: 3904173391876992528, guid: 4c0606d5997bdb0408d8054b74f45f26, type: 3}
+  - canvasType: 0
+    gameObject: {fileID: 6329391623969076903, guid: c7894173cfb502048aea1850ee3acf1c, type: 3}
   numberData: {fileID: 11400000, guid: 8bb8a8ee8702384408730c1549d1aefe, type: 2}
   levelName: 2
