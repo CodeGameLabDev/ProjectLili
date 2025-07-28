@@ -28,6 +28,14 @@ namespace HiddenLetterGame
         [Tooltip("Hedef kelime. Harfler sıralı olarak slotlara yerleşir.")]
         public string targetLetters;
 
+        [Tooltip("Bu FindLetter seviyesi FindCompleteLetterWord kullanacak mı? (true = kelime, false = tek harf)")]
+        public bool useCompleteWord = false;
+
+        // Auto-switch handled at runtime; no manual flag needed
+
+        // Tracks which AlfabeModuleData instances have already shown the single-letter FindLetter level
+        private static readonly HashSet<int> singleLetterShown = new HashSet<int>();
+
         [Header("Letter Holder Settings")]
         [Tooltip("Sehirmedeki saklı (tıklanabilir) harfler için prefab")] public GameObject letterHolderClickablePrefab;
         [Tooltip("Ekrandaki sabit UI harfleri için prefab")] public GameObject letterHolderUIPrefab;
@@ -423,6 +431,9 @@ namespace HiddenLetterGame
                 yield break;
             }
 
+            // --- LOCK the slot immediately to prevent race conditions ---
+            slotFilled[slotIndex] = true;
+
             if (currentSlots == null || currentSlots.Count == 0 || slotIndex == -1 || slotIndex >= currentSlots.Count)
             {
                 Debug.LogError("Slot list yetersiz veya boş!");
@@ -497,7 +508,7 @@ namespace HiddenLetterGame
                 obj.SetActive(false);
 
                 placedCount++;
-                slotFilled[slotIndex] = true;
+                // slotFilled already set earlier
                 UpdateProgressBar();
                 assetHolder.OnLetterFoundCallback();
 
@@ -744,19 +755,17 @@ namespace HiddenLetterGame
 
             if (alfabe != null)
             {
-                // If LevelName explicitly set, use it directly
-                if (!string.IsNullOrEmpty(alfabe.LevelName))
+                int dataId = alfabe.GetInstanceID();
+                if (!singleLetterShown.Contains(dataId))
                 {
-                    targetLetters = alfabe.LevelName;
+                    // FIRST time this AlfabeModuleData is used in a FindLetter level – single letter mode
+                    targetLetters = !string.IsNullOrEmpty(alfabe.LevelName) ? alfabe.LevelName : alfabe.UpperCaseLetter.letter.ToString();
+                    singleLetterShown.Add(dataId);
                 }
                 else
                 {
-                    if (gm.currentIndex == 0)
-                        targetLetters = alfabe.UpperCaseLetter.letter.ToString();
-                    else if (gm.currentIndex == 1)
-                        targetLetters = alfabe.LowerCaseLetter.letter.ToString();
-                    else
-                        targetLetters = alfabe.Word;
+                    // Subsequent FindLetter level for same data – use complete word
+                    targetLetters = !string.IsNullOrEmpty(alfabe.FindCompleteLetterWord) ? alfabe.FindCompleteLetterWord : alfabe.Word;
                 }
             }
             else if (number != null)

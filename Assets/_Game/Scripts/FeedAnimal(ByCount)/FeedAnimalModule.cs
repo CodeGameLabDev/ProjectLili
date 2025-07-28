@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -306,9 +307,42 @@ public class FeedAnimalModule : MonoBehaviour, IGameLevel
         Debug.Log($"[FeedAnimalModule] Food arrived. remainingFood={remainingFood}");
         if (remainingFood <= 0)
         {
-            CompleteGame();
-
+            // All foods reached their target positions – now send them to the animal before ending level
+            StartCoroutine(AnimateFoodsToAnimalAndComplete());
         }
+    }
+
+    // Move all spawned food objects toward the animal and then finish level
+    private IEnumerator AnimateFoodsToAnimalAndComplete()
+    {
+        if (currentAnimal == null)
+        {
+            // Fallback: finish immediately
+            CompleteGame();
+            yield break;
+        }
+
+        Vector3 animalPos = currentAnimal.transform.position;
+        float extraDuration = moveDuration; // reuse same duration
+
+        int finished = 0;
+        foreach (GameObject food in spawnedFoods)
+        {
+            if (food == null) { finished++; continue; }
+
+            food.transform.DOMove(animalPos, extraDuration).SetEase(Ease.InQuad)
+                .OnComplete(() => { finished++; });
+        }
+
+        // Wait until all tweens finished
+        while (finished < spawnedFoods.Count)
+        {
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.2f); // small buffer
+
+        CompleteGame();
     }
 
     public void CompleteGame()

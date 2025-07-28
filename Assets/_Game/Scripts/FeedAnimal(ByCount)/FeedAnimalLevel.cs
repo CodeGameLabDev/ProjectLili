@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
@@ -231,8 +232,37 @@ public class FeedAnimalLevel : MonoBehaviour, IGameLevel
         remainingFood--;
         if (remainingFood <= 0)
         {
-            CompleteGame();
+            StartCoroutine(AnimateFoodsToAnimalAndComplete());
         }
+    }
+
+    private IEnumerator AnimateFoodsToAnimalAndComplete()
+    {
+        if (animal == null)
+        {
+            CompleteGame();
+            yield break;
+        }
+
+        Vector3 dst = animal.transform.position;
+        float extra = moveDuration;
+
+        int finished = 0;
+        foreach (var food in foodObjects)
+        {
+            if (food == null) { finished++; continue; }
+
+            food.transform.DOMove(dst, extra).SetEase(Ease.InQuad)
+                .OnComplete(() => finished++);
+        }
+
+        while (finished < foodObjects.Count)
+        {
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.2f);
+        CompleteGame();
     }
 
     private bool ValidatePositions()
