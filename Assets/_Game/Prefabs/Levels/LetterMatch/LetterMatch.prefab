@@ -607,8 +607,6 @@ MonoBehaviour:
   audioManager: {fileID: 5322942346639561992}
   drawingController: {fileID: 4635927130676589567}
   currentLevel: ABC
-  musicBPM: 120
-  syncThreshold: 0.1
   isGameActive: 0
   isMusicPlaying: 0
   currentMusicTime: 0
