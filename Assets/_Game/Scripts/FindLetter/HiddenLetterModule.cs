@@ -28,6 +28,8 @@ namespace HiddenLetterGame
         [Tooltip("Hedef kelime. Harfler sıralı olarak slotlara yerleşir.")]
         public string targetLetters;
 
+        [Tooltip("Bu FindLetter seviyesi rakam modu mu? true -> LevelName'deki rakam 6 kez çoğaltılır")] public bool numberMode = false;
+
         [Tooltip("Bu FindLetter seviyesi FindCompleteLetterWord kullanacak mı? (true = kelime, false = tek harf)")]
         public bool useCompleteWord = false;
 
@@ -779,12 +781,19 @@ namespace HiddenLetterGame
                 targetLetters = GameManager.Instance.GameData.LevelName;
             }
 
-            // Duplicate single letter to AaAaAa pattern
+            // Handling duplication patterns
             if (!string.IsNullOrEmpty(targetLetters) && targetLetters.Length == 1)
             {
                 char ch = targetLetters[0];
-                if (char.IsLetter(ch))
+
+                if (numberMode && char.IsDigit(ch))
                 {
+                    // 6 copies of the digit e.g., "111111"
+                    targetLetters = new string(ch, 6);
+                }
+                else if (char.IsLetter(ch))
+                {
+                    // Letter mode – AaAaAa
                     char upper = char.ToUpper(ch);
                     char lower = char.ToLower(ch);
                     targetLetters = "" + upper + lower + upper + lower + upper + lower;

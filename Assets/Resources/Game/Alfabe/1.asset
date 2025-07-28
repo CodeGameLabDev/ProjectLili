@@ -27,4 +27,5 @@ MonoBehaviour:
   lowerCaseLetter: {fileID: 11400000, guid: 3e6d656f2c7740f408b116cb9a8da95e, type: 2}
   word: Armadillo
   baloonWord: AAaa
+  findCompleteLetterWord: Baba
   levelName: B
