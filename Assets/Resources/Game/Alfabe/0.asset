@@ -15,9 +15,9 @@ MonoBehaviour:
   maskotType: 0
   gameLevels:
   - canvasType: 0
-    gameObject: {fileID: 6329391623969076903, guid: 20fa71b80452bf54897f358091b5e232, type: 3}
-  - canvasType: 0
     gameObject: {fileID: 5492868739311912133, guid: 42787e1e278c5ea46b9e2f7b0b1677be, type: 3}
+  - canvasType: 0
+    gameObject: {fileID: 6329391623969076903, guid: 20fa71b80452bf54897f358091b5e232, type: 3}
   - canvasType: 0
     gameObject: {fileID: 2921741908962000241, guid: d1d9ab6efbe88e947b42757120d47d08, type: 3}
   - canvasType: 1

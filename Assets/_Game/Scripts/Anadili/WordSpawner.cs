@@ -28,6 +28,31 @@ public class WordSpawner : MonoBehaviour
     [TabGroup("Actions")]
     public string wordToSpawn = "MERHABA";
 
+    void Start()
+    {
+        SetupReferences();
+    }
+
+    void SetupReferences()
+    {
+        // Eksik referansları otomatik bul ve ata
+        if (canvasScaler == null) canvasScaler = FindObjectOfType<CanvasScaler>();
+        if (spawnParent == null) spawnParent = transform;
+        if (letterDatabase == null) letterDatabase = Resources.Load<LetterPathDatabase>("Letter Path Database");
+    }
+
+    bool ValidateReferences()
+    {
+        SetupReferences(); // Eksik olanları tekrar dene
+        
+        if (letterDatabase == null || spawnParent == null || string.IsNullOrEmpty(wordToSpawn))
+        {
+            Debug.LogError("Referanslar eksik!");
+            return false;
+        }
+        return true;
+    }
+
     [TabGroup("Actions")]
     [Button("Kelime Yarat", ButtonSizes.Large), GUIColor(0.4f, 0.8f, 1f)]
     public void SpawnWord()
@@ -72,22 +97,12 @@ public class WordSpawner : MonoBehaviour
         spines.Clear();
     }
 
-    bool ValidateReferences()
-    {
-        if (letterDatabase == null || canvasScaler == null || spawnParent == null || string.IsNullOrEmpty(wordToSpawn))
-        {
-            Debug.LogError("Referanslar eksik!");
-            return false;
-        }
-        return true;
-    }
-
     void CalculateLetterPositions()
     {
         letterPositions.Clear();
         
         float totalWidth = CalculateWordWidth();
-        float res = canvasScaler.referenceResolution.x;
+        float res = canvasScaler != null ? canvasScaler.referenceResolution.x : 1920f; // Default resolution
         float availableWidth = res - (res * 0.16f);
         
         float scaleFactor = Mathf.Min(availableWidth / totalWidth, maxSize);

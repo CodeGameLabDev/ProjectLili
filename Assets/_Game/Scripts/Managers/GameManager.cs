@@ -79,6 +79,10 @@ public class GameManager : Singleton<GameManager>
         currentIndex+"/"+gameData.GameLevels.Count);
         MaskotManager.UpdateProgress((float)(currentIndex+1) / gameData.GameLevels.Count);
         StartCoroutine(HandleLevelCompleteAfterDelay());
+        if(currentIndex == gameData.GameLevels.Count-1){
+            MaskotManager.SetProgressBar(false);
+            MaskotManager.HideMaskot();
+        }
     }
 
     private IEnumerator HandleLevelCompleteAfterDelay()

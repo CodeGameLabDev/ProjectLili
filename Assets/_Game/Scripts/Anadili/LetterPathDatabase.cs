@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
-using static VHierarchy.Libs.VUtils;
 
 [CreateAssetMenu(fileName = "Letter Path Database", menuName = "Game/Letter Path Database")]
 public class LetterPathDatabase : ScriptableObject
