@@ -19,6 +19,7 @@ public class WordGameManager : Singleton<WordGameManager>, IGameLevel
     
     public void StartGame()
     {
+
         targetManager = GetComponent<TargetManager>();
         IsCompleted = false;
         string word = "";
@@ -29,6 +30,8 @@ public class WordGameManager : Singleton<WordGameManager>, IGameLevel
             if(GameManager.Instance.currentIndex == 0)
             {
                 word = alfabeModuleData.UpperCaseLetter.letter.ToString();
+                GameManager.Instance.MaskotManager.SetPosition(new Vector2(1500, -350));
+                GameManager.Instance.MaskotManager.EnterScreen(false, new Vector2(650, -350), 0.5f, DG.Tweening.Ease.Linear);
             }
             else if(GameManager.Instance.currentIndex == 1)
             {
@@ -111,7 +114,8 @@ public class WordGameManager : Singleton<WordGameManager>, IGameLevel
         // Tüm harflere glory animasyonu oynat
         for (int i = 0; i < wordSpawner.sprites.Count; i++)
             wordSpawner.sprites[i]?.PlayGloryAnimation();
-
+            
+        GameManager.Instance.MaskotManager.PlayHappyAnimation(5f);
         Invoke(nameof(CompleteGame), 5f);
     }
 } 

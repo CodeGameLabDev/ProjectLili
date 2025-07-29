@@ -14,6 +14,8 @@ public class GameManager : Singleton<GameManager>
     [ReadOnly] public int currentIndex = 0;
     [ReadOnly] public GameObject currentGameObject;
     [ReadOnly] public IGameLevel currentGameLevel;
+
+    public MaskotManager MaskotManager;
     
     [Header("UI References")]
     public GameObject levelSelectCanvas;
@@ -69,9 +71,23 @@ public class GameManager : Singleton<GameManager>
     
     private void OnGameComplete()
     {
+<<<<<<< Updated upstream
         Debug.Log($"Game completed! Moving to next level...");
         
         // Event'i kaldır
+=======
+        Debug.Log("OnGameComplete"+ ((float)(currentIndex+1) / gameData.GameLevels.Count )+"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"+
+        currentIndex+"/"+gameData.GameLevels.Count);
+        MaskotManager.UpdateProgress((float)(currentIndex+1) / gameData.GameLevels.Count);
+        StartCoroutine(HandleLevelCompleteAfterDelay());
+    }
+
+    private IEnumerator HandleLevelCompleteAfterDelay()
+    {
+        Debug.Log($"Game completed! Waiting {levelTransitionDelay:F1}s before next level...");
+
+        // Unsubscribe immediately to avoid duplicate calls during delay
+>>>>>>> Stashed changes
         if (currentGameLevel != null)
         {
             currentGameLevel.OnGameComplete -= OnGameComplete;
@@ -113,6 +129,8 @@ public class GameManager : Singleton<GameManager>
     
     public void StartLevel(IGameData data, GameObject canvas)
     {
+        GameManager.Instance.MaskotManager.SetActiveMaskot(data.MaskotType);
+        GameManager.Instance.MaskotManager.SetProgressBar(true);
         gameData = data;
         levelSelectCanvas = canvas;
         currentIndex = 0;
@@ -121,6 +139,8 @@ public class GameManager : Singleton<GameManager>
     
     public void StartLevel(AlfabeModuleData data, GameObject canvas)
     {
+        GameManager.Instance.MaskotManager.SetActiveMaskot(data.MaskotType);
+        GameManager.Instance.MaskotManager.SetProgressBar(true);
         gameData = data;
         levelSelectCanvas = canvas;
         currentIndex = 0;
@@ -129,6 +149,8 @@ public class GameManager : Singleton<GameManager>
     
     public void StartLevel(NumberModuleData data, GameObject canvas)
     {
+        GameManager.Instance.MaskotManager.SetActiveMaskot(data.MaskotType);
+        GameManager.Instance.MaskotManager.SetProgressBar(true);
         gameData = data;
         levelSelectCanvas = canvas;
         currentIndex = 0;
@@ -143,6 +165,7 @@ public class GameManager : Singleton<GameManager>
     
     private void OnDestroy()
     {
+        MaskotManager.SetProgressBar(false);
         if (currentGameLevel != null)
         {
             currentGameLevel.OnGameComplete -= OnGameComplete;

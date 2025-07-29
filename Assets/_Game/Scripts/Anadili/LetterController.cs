@@ -224,10 +224,12 @@ public class LetterController : MonoBehaviour, IPointerDownHandler, IDragHandler
         {
             Debug.Log($"Doğru shadow bulundu! SnapToCorrectShadow çağrılıyor");
             SnapToCorrectShadow(correctShadowPos);
+            GameManager.Instance.MaskotManager.PlayHappyAnimation();
         }
         else
         {
             Debug.Log($"Doğru shadow bulunamadı! GoToNearestEmptyTarget çağrılıyor");
+            GameManager.Instance.MaskotManager.PlaySadAnimation();
             GoToNearestEmptyTarget();
         }
     }
