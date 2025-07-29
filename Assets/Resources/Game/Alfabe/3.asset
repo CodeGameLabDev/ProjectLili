@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ac6817e65790664c9b47c9859c42e62, type: 3}
   m_Name: 3
   m_EditorClassIdentifier: 
+  maskotType: 0
   gameLevels:
   - canvasType: 0
     gameObject: {fileID: 5492868739311912133, guid: 42787e1e278c5ea46b9e2f7b0b1677be, type: 3}
@@ -25,7 +26,8 @@ MonoBehaviour:
     gameObject: {fileID: 2921741908962000241, guid: d1d9ab6efbe88e947b42757120d47d08, type: 3}
   upperCaseLetter: {fileID: 11400000, guid: 45f9e073842bac14f82dce7272cd42bc, type: 2}
   lowerCaseLetter: {fileID: 11400000, guid: cca214502e0f2c244b81ffcc95a9f4d1, type: 2}
-  word: Armadillo
-  baloonWord: AAaa
-  findCompleteLetterWord: "\xC7e\xC7e"
+  word: "\xC7anta"
+  baloonWord: "\xC7\xC7\xE7\xE7"
+  findCompleteLetterWord: "\xC7anta"
   levelName: "\xC7"
+  letter: "\xC7"

@@ -513,6 +513,14 @@ namespace HiddenLetterGame
                 // slotFilled already set earlier
                 UpdateProgressBar();
                 assetHolder.OnLetterFoundCallback();
+                {
+                    MaskotManager mm = null;
+                    if (GameManager.Instance != null)
+                        mm = GameManager.Instance.MaskotManager;
+                    if (mm == null)
+                        mm = UnityEngine.Object.FindObjectOfType<MaskotManager>();
+                    mm?.PlayHappyAnimation();
+                }
 
                 if (assetHolder.GetProgressPercentage() >= 100f)
                 {
@@ -757,28 +765,28 @@ namespace HiddenLetterGame
 
             if (alfabe != null)
             {
-                int dataId = alfabe.GetInstanceID();
-                if (!singleLetterShown.Contains(dataId))
+                // Always use Letter field from AlfabeModuleData
+                if (!string.IsNullOrEmpty(alfabe.Letter))
                 {
-                    // FIRST time this AlfabeModuleData is used in a FindLetter level – single letter mode
-                    targetLetters = !string.IsNullOrEmpty(alfabe.LevelName) ? alfabe.LevelName : alfabe.UpperCaseLetter.letter.ToString();
-                    singleLetterShown.Add(dataId);
-                }
-                else
-                {
-                    // Subsequent FindLetter level for same data – use complete word
-                    targetLetters = !string.IsNullOrEmpty(alfabe.FindCompleteLetterWord) ? alfabe.FindCompleteLetterWord : alfabe.Word;
+                    targetLetters = alfabe.Letter;
                 }
             }
             else if (number != null)
             {
-                targetLetters = number.NumberData.letter.ToString();
+                if (numberMode && !string.IsNullOrEmpty(number.LevelNumber))
+                {
+                    targetLetters = number.LevelNumber;
+                }
+                else
+                {
+                    targetLetters = number.NumberData.letter.ToString();
+                }
             }
 
-            // Final fallback: use IGameData.LevelName
-            if (string.IsNullOrEmpty(targetLetters) && GameManager.Instance.GameData != null)
+            // Final fallback: use AlfabeModuleData.Letter
+            if (string.IsNullOrEmpty(targetLetters) && alfabe != null && !string.IsNullOrEmpty(alfabe.Letter))
             {
-                targetLetters = GameManager.Instance.GameData.LevelName;
+                targetLetters = alfabe.Letter;
             }
 
             // Handling duplication patterns

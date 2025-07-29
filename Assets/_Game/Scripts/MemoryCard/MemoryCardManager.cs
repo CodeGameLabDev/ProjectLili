@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 
-public class MemoryCardManager : MonoBehaviour
+public class MemoryCardManager : MonoBehaviour, IGameLevel
 {
     [Header("Setup References")]
     [SerializeField] private Transform cardPanel;          // Parent transform with GridLayoutGroup
@@ -33,15 +33,51 @@ public class MemoryCardManager : MonoBehaviour
     public bool IsInteractionAllowed => interactionAllowed;
     private bool resolvingPairs = false;
 
+    // -------- IGameLevel Implementation Fields --------
+    public event System.Action OnGameStart;
+    public event System.Action OnGameComplete;
+    private bool isCompleted = false;
+    [SerializeField] private string levelName = "MemoryCard";
+    public bool IsCompleted => isCompleted;
+    public string LevelName => levelName;
+
+    private int remainingPairs = 0;
+
     private List<MemoryCard> spawnedCards = new List<MemoryCard>();
     private GridLayoutGroup gridGroup;
 
     private void Start()
     {
+        // Only cache GridLayoutGroup; actual gameplay setup will occur in StartGame()
         if (cardPanel != null)
             gridGroup = cardPanel.GetComponent<GridLayoutGroup>();
+    }
+
+    // ---------------- IGameLevel Methods ----------------
+    public void StartGame()
+    {
+        isCompleted = false;
+        interactionAllowed = false;
+
+        // Clean any previously spawned cards (e.g., on replay)
+        foreach (var c in spawnedCards)
+        {
+            if (c != null && c.gameObject.scene.IsValid()) Destroy(c.gameObject);
+        }
+        spawnedCards.Clear();
+
         SpawnAndShuffleCards();
         StartCoroutine(IntroAnimation());
+
+        OnGameStart?.Invoke();
+    }
+
+    public void CompleteGame()
+    {
+        if (isCompleted) return;
+        isCompleted = true;
+        interactionAllowed = false;
+        OnGameComplete?.Invoke();
     }
 
     #region Card Generation
@@ -74,6 +110,9 @@ public class MemoryCardManager : MonoBehaviour
 
             spawnedCards.Add(card);
         }
+
+        // Each number appears exactly twice => total pairs = cardInfoList.Count / 2
+        remainingPairs = cardInfoList.Count / 2;
     }
 
     private void Shuffle<T>(IList<T> list)
@@ -125,6 +164,12 @@ public class MemoryCardManager : MonoBehaviour
         {
             firstRevealed.VanishAnimated();
             secondRevealed.VanishAnimated();
+
+            remainingPairs--;
+            if (remainingPairs <= 0)
+            {
+                CompleteGame();
+            }
         }
         else
         {

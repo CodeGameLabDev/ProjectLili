@@ -42,6 +42,10 @@ public class AlfabeModuleData : ScriptableObject, IGameData
     public string Word => word;
     public string BaloonWord => baloonWord;
     public string FindCompleteLetterWord => findCompleteLetterWord;
+
+    public string letter;
+    public string Letter => letter;
+
     public void InitializeGameData()
     {
         Debug.Log($"Alfabe Module Data initialized");

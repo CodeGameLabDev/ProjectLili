@@ -25,6 +25,9 @@ public class NumberModuleData : ScriptableObject, IGameData
     // Number modülüne özel özellikler
     public LetterData NumberData => numberData;
     
+    public string levelNumber;
+    public string LevelNumber => levelNumber;
+    public string FeedingPrefabName;
     public void InitializeGameData()
     {
         Debug.Log($"Number Module Data initialized");

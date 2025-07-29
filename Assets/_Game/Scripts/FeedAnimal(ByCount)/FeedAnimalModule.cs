@@ -142,7 +142,17 @@ public class FeedAnimalModule : MonoBehaviour, IGameLevel
         Sprite foodSprite = foodSprites[currentLevelIndex];
         Sprite bgSprite = ChooseBackground(animalSprite);
 
-        currentFoodCount = currentLevelIndex + 1; // Level0 = 1 food, Level1 = 2 foods, etc.
+        NumberModuleData numberModuleData = GameManager.Instance != null ? GameManager.Instance.GetNumberModuleData() : null;
+        if (numberModuleData != null && numberModuleData.NumberData != null)
+        {
+            char digitChar = numberModuleData.NumberData.letter;
+            int parsedCount = (int)char.GetNumericValue(digitChar);
+            currentFoodCount = parsedCount > 0 ? parsedCount : (currentLevelIndex + 1);
+        }
+        else
+        {
+            currentFoodCount = currentLevelIndex + 1;
+        }
         Debug.Log($"[FeedAnimalModule] animalSprite={animalSprite.name}, foodSprite={foodSprite.name}, bgSprite={bgSprite?.name}, foodCount={currentFoodCount}");
 
         // ---- Apply background ----
@@ -407,43 +417,17 @@ public class FeedAnimalModule : MonoBehaviour, IGameLevel
     {
         // Clean current objects (foods, animal, previous prefab)
         ClearCurrentObjects();
+        // ---- Determine prefab name ----
+        string prefabName = $"Level_{currentLevelIndex + 1}";
 
-        // ---- Determine level index from NumberModuleData if provided ----
-        int desiredLevelIndex = currentLevelIndex;
-        try
+        NumberModuleData numData = GameManager.Instance != null ? GameManager.Instance.GetNumberModuleData() : null;
+        if (numData != null && !string.IsNullOrEmpty(numData.FeedingPrefabName))
         {
-            NumberModuleData numData = GameManager.Instance != null ? GameManager.Instance.GetNumberModuleData() : null;
-            if (numData != null)
-            {
-                if (int.TryParse(numData.LevelName, out int parsed) && parsed > 0)
-                {
-                    desiredLevelIndex = parsed - 1; // Level_2 => index 1
-                    Debug.Log($"[FeedAnimalModule] Level index overridden from NumberModuleData.LevelName = {parsed}");
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            Debug.LogWarning($"[FeedAnimalModule] Could not parse LevelName from NumberModuleData: {ex.Message}");
+            prefabName = numData.FeedingPrefabName;
+            Debug.Log($"[FeedAnimalModule] Prefab name overridden by NumberModuleData.FeedingPrefabName = {prefabName}");
         }
 
-        // Clamp within allowed range
-        if (desiredLevelIndex >= maxPrefabLevels)
-        {
-            Debug.LogWarning($"[FeedAnimalModule] desiredLevelIndex {desiredLevelIndex} exceeds maxPrefabLevels {maxPrefabLevels-1}. Clamping.");
-            desiredLevelIndex = maxPrefabLevels - 1;
-        }
-
-        // Update currentLevelIndex so events/logs stay consistent
-        currentLevelIndex = desiredLevelIndex;
-
-        if (currentLevelIndex >= maxPrefabLevels)
-        {
-            Debug.Log("[FeedAnimalModule] Completed all prefab levels.");
-            return;
-        }
-
-        string prefabPath = $"{resourcesFolder}/Level_{currentLevelIndex + 1}";
+        string prefabPath = $"{resourcesFolder}/{prefabName}";
         GameObject prefab = Resources.Load<GameObject>(prefabPath);
         if (prefab == null)
         {

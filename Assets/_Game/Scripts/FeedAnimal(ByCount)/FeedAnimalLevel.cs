@@ -161,24 +161,7 @@ public class FeedAnimalLevel : MonoBehaviour, IGameLevel
 
     public void StartGame()
     {
-        // ---- Dynamic food count from NumberModuleData (if any) ----
-        try
-        {
-            NumberModuleData numData = GameManager.Instance != null ? GameManager.Instance.GetNumberModuleData() : null;
-            if (numData != null)
-            {
-                int parsed;
-                if (int.TryParse(numData.LevelName, out parsed))
-                {
-                    foodCount = Mathf.Max(1, parsed);
-                    Debug.Log($"[FeedAnimalLevel] foodCount overridden from NumberModuleData.LevelName = {parsed}");
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            Debug.LogWarning($"[FeedAnimalLevel] Unable to parse LevelName from NumberModuleData: {ex.Message}");
-        }
+        // No dynamic override – use preconfigured foodCount only.
 
         // (Re)generate food objects each time level starts to ensure correct count
         GenerateFoodObjects();

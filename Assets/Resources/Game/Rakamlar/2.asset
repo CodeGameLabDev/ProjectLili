@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 408bc52704756684e8008bb96d18de25, type: 3}
   m_Name: 2
   m_EditorClassIdentifier: 
+  maskotType: 0
   gameLevels:
   - canvasType: 0
     gameObject: {fileID: 5492868739311912133, guid: 42787e1e278c5ea46b9e2f7b0b1677be, type: 3}
@@ -21,5 +22,7 @@ MonoBehaviour:
     gameObject: {fileID: 3904173391876992528, guid: 4c0606d5997bdb0408d8054b74f45f26, type: 3}
   - canvasType: 0
     gameObject: {fileID: 6329391623969076903, guid: c7894173cfb502048aea1850ee3acf1c, type: 3}
-  numberData: {fileID: 11400000, guid: 8bb8a8ee8702384408730c1549d1aefe, type: 2}
+  numberData: {fileID: 11400000, guid: 798cfc81a7919514399f9d6af4d8c1ee, type: 2}
   levelName: 2
+  levelNumber: 2
+  FeedingPrefabName: Level_2

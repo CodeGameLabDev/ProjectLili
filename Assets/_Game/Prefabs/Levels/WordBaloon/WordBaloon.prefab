@@ -187,6 +187,9 @@ MonoBehaviour:
   poolSize: 10
   overlayCanvas: {fileID: 0}
   colorPalette: {fileID: 11400000, guid: 69ce662e1c7493844923ce5bf64f6632, type: 2}
+  onLevelCompleted:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3430327587772995636
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,7 +242,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2385018404471378109
 RectTransform:
   m_ObjectHideFlags: 0

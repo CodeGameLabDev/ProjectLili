@@ -35,6 +35,13 @@ public class FoodItem : MonoBehaviour, IPointerClickHandler
     {
         if (hasMoved) return; // prevent double clicks
         hasMoved = true;
+
+        // Play mascot happy animation upon clicking the food
+        if (GameManager.Instance != null && GameManager.Instance.MaskotManager != null)
+        {
+            GameManager.Instance.MaskotManager.PlayHappyAnimation();
+        }
+
         // Disable further clicks
         var col2d = GetComponent<Collider2D>();
         if (col2d != null) col2d.enabled = false;

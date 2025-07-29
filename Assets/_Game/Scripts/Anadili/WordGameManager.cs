@@ -2,6 +2,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System;
+using UnityEditor.Experimental.GraphView;
 
 public class WordGameManager : Singleton<WordGameManager>, IGameLevel
 {
@@ -25,7 +26,7 @@ public class WordGameManager : Singleton<WordGameManager>, IGameLevel
         string word = "";
 
         AlfabeModuleData alfabeModuleData = GameManager.Instance.GetAlfabeModuleData();
-
+NumberModuleData numberModuleData = GameManager.Instance.GetNumberModuleData();
         if(alfabeModuleData != null){
             if(GameManager.Instance.currentIndex == 0)
             {
@@ -42,11 +43,13 @@ public class WordGameManager : Singleton<WordGameManager>, IGameLevel
                 word = alfabeModuleData.Word;
             }
         }
-        else{
-            NumberModuleData numberModuleData = GameManager.Instance.GetNumberModuleData();
+        else if(numberModuleData != null){
+            
             if(GameManager.Instance.currentIndex == 0)
             {
                 word = numberModuleData.NumberData.letter.ToString();
+                GameManager.Instance.MaskotManager.SetPosition(new Vector2(650, -1500));
+                GameManager.Instance.MaskotManager.EnterScreen(false, new Vector2(650, -350), 0.5f, DG.Tweening.Ease.Linear);
             }
         }
 

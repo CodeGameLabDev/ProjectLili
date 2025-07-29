@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 408bc52704756684e8008bb96d18de25, type: 3}
-  m_Name: 1
+  m_Name: 5
   m_EditorClassIdentifier: 
   maskotType: 0
   gameLevels:
@@ -19,10 +19,10 @@ MonoBehaviour:
   - canvasType: 1
     gameObject: {fileID: 5702487806517644640, guid: 20c56f58f50e46d44a4f5ff9cb7f17ba, type: 3}
   - canvasType: 0
-    gameObject: {fileID: 6329391623969076903, guid: c7894173cfb502048aea1850ee3acf1c, type: 3}
-  - canvasType: 0
     gameObject: {fileID: 3904173391876992528, guid: 4c0606d5997bdb0408d8054b74f45f26, type: 3}
-  numberData: {fileID: 11400000, guid: da95b124e521a5841b681e3fd6c5ce21, type: 2}
-  levelName: 1
-  levelNumber: 1
-  FeedingPrefabName: Level_1
+  - canvasType: 0
+    gameObject: {fileID: 6329391623969076903, guid: c7894173cfb502048aea1850ee3acf1c, type: 3}
+  numberData: {fileID: 11400000, guid: 46b68510a506a08479c15ce74794f81a, type: 2}
+  levelName: 5
+  levelNumber: 5
+  FeedingPrefabName: Level_5
