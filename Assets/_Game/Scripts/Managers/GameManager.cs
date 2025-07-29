@@ -1,5 +1,6 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
+using System.Collections;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -19,7 +20,10 @@ public class GameManager : Singleton<GameManager>
     
     [Header("UI References")]
     public GameObject levelSelectCanvas;
-    
+  [Header("Transition Settings")]
+    [Tooltip("Seconds to wait after a level completes before loading the next level.")]
+    [MinValue(0)]
+    public float levelTransitionDelay = 1.5f;
 
 
     
@@ -71,11 +75,6 @@ public class GameManager : Singleton<GameManager>
     
     private void OnGameComplete()
     {
-<<<<<<< Updated upstream
-        Debug.Log($"Game completed! Moving to next level...");
-        
-        // Event'i kaldır
-=======
         Debug.Log("OnGameComplete"+ ((float)(currentIndex+1) / gameData.GameLevels.Count )+"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"+
         currentIndex+"/"+gameData.GameLevels.Count);
         MaskotManager.UpdateProgress((float)(currentIndex+1) / gameData.GameLevels.Count);
@@ -87,12 +86,11 @@ public class GameManager : Singleton<GameManager>
         Debug.Log($"Game completed! Waiting {levelTransitionDelay:F1}s before next level...");
 
         // Unsubscribe immediately to avoid duplicate calls during delay
->>>>>>> Stashed changes
         if (currentGameLevel != null)
         {
             currentGameLevel.OnGameComplete -= OnGameComplete;
         }
-        
+        yield return new WaitForSeconds(levelTransitionDelay);
         // Mevcut level'i yok et
         DestroyCurrentLevel();
         
