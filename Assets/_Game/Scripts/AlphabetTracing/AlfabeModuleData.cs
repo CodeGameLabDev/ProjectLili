@@ -6,7 +6,9 @@ using System.Collections.Generic;
 public class AlfabeModuleData : ScriptableObject, IGameData
 {
     
-    
+    [TabGroup("Level Settings")]
+    [SerializeField] private MaskotType maskotType;
+
     [TabGroup("Level Settings")]
     [SerializeField] private List<GameClass> gameLevels = new List<GameClass>();
     
@@ -25,10 +27,14 @@ public class AlfabeModuleData : ScriptableObject, IGameData
 
     [TabGroup("Level Settings")]
     [SerializeField] private string levelName = "";
+
+
     
     // IGameData interface implementation
     public string LevelName => levelName;
     public List<GameClass> GameLevels => gameLevels;
+
+    public MaskotType MaskotType => maskotType;
     
     // Alfabe modülüne özel özellikler
     public LetterData UpperCaseLetter => upperCaseLetter;

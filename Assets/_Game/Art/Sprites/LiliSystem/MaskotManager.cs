@@ -19,6 +19,7 @@ public class MaskotManager : MonoBehaviour
 {
     [SerializeField] private List<MaskotData> maskots = new List<MaskotData>();
     [SerializeField, OnValueChanged("ChangeMaskot")] private MaskotType activeMaskotType = MaskotType.Lili;
+    [SerializeField] private UnityEngine.UI.Image progressBar;
     
     private MaskotController currentActiveMaskot;
     private MaskotData currentMaskotData;
@@ -28,11 +29,20 @@ public class MaskotManager : MonoBehaviour
     {
         foreach (var maskot in maskots)
             if (maskot.maskotObject != null) maskot.maskotObject.SetActive(false);
+    }
+    
+
+    public void InitializeMaskot()
+    {
         ChangeMaskot();
-        
-        // Store initial position
         if (currentActiveMaskot?.RectTransform != null)
             lastPosition = currentActiveMaskot.RectTransform.anchoredPosition;
+    }
+    
+    public void HideMaskot()
+    {
+        if (currentMaskotData?.maskotObject != null)
+            currentMaskotData.maskotObject.SetActive(false);
     }
     
     private void ChangeMaskot()
@@ -47,7 +57,7 @@ public class MaskotManager : MonoBehaviour
         // Deactivate current
         if (currentMaskotData?.maskotObject != null)
             currentMaskotData.maskotObject.SetActive(false);
-        
+
         // Activate new
         currentMaskotData = GetMaskotData(activeMaskotType);
         if (currentMaskotData != null)
@@ -120,15 +130,34 @@ public class MaskotManager : MonoBehaviour
     // Maskot Management
     public void SetActiveMaskot(MaskotType newMaskotType)
     {
-        if (activeMaskotType != newMaskotType)
-        {
-            activeMaskotType = newMaskotType;
-            ChangeMaskot();
-        }
+        
+        activeMaskotType = newMaskotType;
+        ChangeMaskot();
+        
     }
     
     public MaskotType GetActiveMaskotType() => activeMaskotType;
     public MaskotController GetActiveMaskotController() => currentActiveMaskot;
+    
+
+    public void SetProgressBar(bool isActive)
+    {
+        progressBar.gameObject.SetActive(isActive);
+    }
+
+    public void UpdateProgress(float amount, float animationDuration = 0.5f, bool setActive = true)
+    {
+        if (progressBar == null) return;
+        
+        if (setActive) progressBar.gameObject.SetActive(true);
+        
+        amount = Mathf.Clamp01(amount);
+        
+        if (animationDuration <= 0f)
+            progressBar.fillAmount = amount;
+        else
+            progressBar.DOFillAmount(amount, animationDuration);
+    }
     
     // Test Buttons
     [Button("Happy", ButtonSizes.Large), GUIColor(0.3f, 1f, 0.3f)]
