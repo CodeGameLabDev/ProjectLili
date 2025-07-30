@@ -1,69 +1,75 @@
+using System;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using System.Collections;
+using Lili.SaveSystem;
 
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField] private IGameData gameData;
 
     public IGameData GameData => gameData;
-    
+
     [SerializeField] private Transform widthParent;
     [SerializeField] private Transform heightParent;
-    
-    [Header("Current State")]
-    [ReadOnly] public int currentIndex = 0;
+
+    [Header("Current State")] [ReadOnly] public int currentIndex = 0;
     [ReadOnly] public GameObject currentGameObject;
     [ReadOnly] public IGameLevel currentGameLevel;
 
     public MaskotManager MaskotManager;
-    
-    [Header("UI References")]
-    public GameObject levelSelectCanvas;
-  [Header("Transition Settings")]
+
+    [Header("UI References")] public GameObject levelSelectCanvas;
+
+    [Header("Transition Settings")]
     [Tooltip("Seconds to wait after a level completes before loading the next level.")]
     [MinValue(0)]
     public float levelTransitionDelay = 1.5f;
 
 
-    
-    
+    private IEnumerator Start()
+    {
+        yield return SaveDataManager.Instance.Initialize();
+    }
+
     private void CreateCurrentLevel()
     {
+        currentIndex = SaveDataManager.Instance.AlphabetDataHandler.GetCurrentLevel();
+
         if (gameData.GameLevels == null || gameData.GameLevels.Count == 0)
         {
             Debug.LogError("No game levels found!");
             return;
         }
-        
+
         if (currentIndex >= gameData.GameLevels.Count)
         {
             Debug.Log("All levels completed!");
             ShowLevelSelectCanvas();
             return;
         }
-        
+
         // Mevcut level'i temizle
         DestroyCurrentLevel();
-        
+
         // Yeni level'i yarat
         var gameClass = gameData.GameLevels[currentIndex];
         Transform parent = gameClass.canvasType == CanvasType.Width ? widthParent : heightParent;
-        
+
         if (parent == null)
         {
             Debug.LogError($"No parent object assigned for {gameClass.canvasType}!");
             return;
         }
-        
+
         currentGameObject = Instantiate(gameClass.gameObject, parent);
         currentGameLevel = currentGameObject.GetComponent<IGameLevel>();
-        
+
         if (currentGameLevel != null)
         {
             currentGameLevel.OnGameComplete += OnGameComplete;
             currentGameLevel.StartGame();
-            
+
             Debug.Log($"Level {currentIndex} created: {currentGameLevel.LevelName}");
             Debug.Log($"Event subscribed for: {currentGameLevel.GetType().Name}");
         }
@@ -72,12 +78,13 @@ public class GameManager : Singleton<GameManager>
             Debug.LogError($"Level prefab doesn't have IGameLevel component!");
         }
     }
-    
+
     private void OnGameComplete()
     {
-        Debug.Log("OnGameComplete"+ ((float)(currentIndex+1) / gameData.GameLevels.Count )+"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"+
-        currentIndex+"/"+gameData.GameLevels.Count);
-        MaskotManager.UpdateProgress((float)(currentIndex+1) / gameData.GameLevels.Count);
+        Debug.Log("OnGameComplete" + ((float)(currentIndex + 1) / gameData.GameLevels.Count) +
+                  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
+                  currentIndex + "/" + gameData.GameLevels.Count);
+        MaskotManager.UpdateProgress((float)(currentIndex + 1) / gameData.GameLevels.Count);
         StartCoroutine(HandleLevelCompleteAfterDelay());
     }
 
@@ -90,17 +97,18 @@ public class GameManager : Singleton<GameManager>
         {
             currentGameLevel.OnGameComplete -= OnGameComplete;
         }
+
         yield return new WaitForSeconds(levelTransitionDelay);
         // Mevcut level'i yok et
         DestroyCurrentLevel();
-        
+
         // Index'i artır
-        currentIndex++;
-        
+        SaveDataManager.Instance.AlphabetDataHandler.SetNewLevel(currentIndex++);
+
         // Sonraki level'i yarat
         CreateCurrentLevel();
     }
-    
+
     private void DestroyCurrentLevel()
     {
         if (currentGameObject != null)
@@ -111,56 +119,56 @@ public class GameManager : Singleton<GameManager>
                 WordGameManager.ResetInstance();
                 return; // ResetInstance zaten destroy ediyor
             }
-            
+
             Destroy(currentGameObject);
             currentGameObject = null;
             currentGameLevel = null;
         }
     }
-    
+
     [Button("Set Game Data")]
     public void SetGameData(IGameData newGameData)
     {
         gameData = newGameData;
         CreateCurrentLevel();
     }
-    
+
     public void StartLevel(IGameData data, GameObject canvas)
     {
         GameManager.Instance.MaskotManager.SetActiveMaskot(data.MaskotType);
         GameManager.Instance.MaskotManager.SetProgressBar(true);
         gameData = data;
         levelSelectCanvas = canvas;
-        currentIndex = 0;
+        currentIndex = SaveDataManager.Instance.AlphabetDataHandler.GetCurrentLevel();
         CreateCurrentLevel();
     }
-    
+
     public void StartLevel(AlfabeModuleData data, GameObject canvas)
     {
         GameManager.Instance.MaskotManager.SetActiveMaskot(data.MaskotType);
         GameManager.Instance.MaskotManager.SetProgressBar(true);
         gameData = data;
         levelSelectCanvas = canvas;
-        currentIndex = 0;
+        currentIndex = SaveDataManager.Instance.AlphabetDataHandler.GetCurrentLevel();
         CreateCurrentLevel();
     }
-    
+
     public void StartLevel(NumberModuleData data, GameObject canvas)
     {
         GameManager.Instance.MaskotManager.SetActiveMaskot(data.MaskotType);
         GameManager.Instance.MaskotManager.SetProgressBar(true);
         gameData = data;
         levelSelectCanvas = canvas;
-        currentIndex = 0;
+        currentIndex = SaveDataManager.Instance.AlphabetDataHandler.GetCurrentLevel();
         CreateCurrentLevel();
     }
-    
+
     private void ShowLevelSelectCanvas()
     {
         MainMenu.Instance.ModuleMenuSetActive(true);
     }
-    
-    
+
+
     private void OnDestroy()
     {
         MaskotManager.SetProgressBar(false);
@@ -170,19 +178,23 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    public AlfabeModuleData GetAlfabeModuleData(){
-        if(GameData is AlfabeModuleData alfabeModuleData){
+    public AlfabeModuleData GetAlfabeModuleData()
+    {
+        if (GameData is AlfabeModuleData alfabeModuleData)
+        {
             return alfabeModuleData;
         }
+
         return null;
     }
 
-    public NumberModuleData GetNumberModuleData(){
-        if(GameData is NumberModuleData numberModuleData){
+    public NumberModuleData GetNumberModuleData()
+    {
+        if (GameData is NumberModuleData numberModuleData)
+        {
             return numberModuleData;
         }
+
         return null;
     }
-
-
-} 
+}
