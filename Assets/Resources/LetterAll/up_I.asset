@@ -20,3 +20,4 @@ MonoBehaviour:
   letterSprite: {fileID: 1041766400, guid: 701eb7af18dd0cc469f906cedde2ab10, type: 3}
   letterShadowSprite: {fileID: 398504784, guid: 664e85c2fe0e22848a09836f0b771733, type: 3}
   letterWidth: 71.96486
+  letterSpinePrefab: {fileID: 0}

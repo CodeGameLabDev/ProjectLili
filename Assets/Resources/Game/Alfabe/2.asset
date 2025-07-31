@@ -21,15 +21,15 @@ MonoBehaviour:
   - canvasType: 0
     gameObject: {fileID: 6329391623969076903, guid: 20fa71b80452bf54897f358091b5e232, type: 3}
   - canvasType: 0
-    gameObject: {fileID: 5492868739311912133, guid: 42787e1e278c5ea46b9e2f7b0b1677be, type: 3}
-  - canvasType: 0
     gameObject: {fileID: 2921741908962000241, guid: d1d9ab6efbe88e947b42757120d47d08, type: 3}
+  - canvasType: 0
+    gameObject: {fileID: 5492868739311912133, guid: 42787e1e278c5ea46b9e2f7b0b1677be, type: 3}
   - canvasType: 0
     gameObject: {fileID: 6329391623969076903, guid: 20fa71b80452bf54897f358091b5e232, type: 3}
   upperCaseLetter: {fileID: 11400000, guid: 7ced9ad00ded5af4995183432143dc88, type: 2}
   lowerCaseLetter: {fileID: 11400000, guid: 5cd58294b3e329f458cf0b2801148aca, type: 2}
-  word: "C\xFCc\u0259"
-  baloonWord: "C\xFCc\u0259"
-  findCompleteLetterWord: "C\xFCc\u0259"
+  word: "C\xDCC\u018F"
+  baloonWord: "C\xDCC\u018F"
+  findCompleteLetterWord: "C\xDCC\u018F"
   levelName: C
   letter: C

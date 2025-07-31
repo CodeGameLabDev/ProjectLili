@@ -16,6 +16,8 @@ public class LetterController : MonoBehaviour, IPointerDownHandler, IDragHandler
     private Canvas canvas;
     private RectTransform rectTransform;
     private bool isDragging, isLocked;
+    private Vector3 targetDragPosition;
+    private const float DRAG_LERP_SPEED = 12f;
 
     void Awake()
     {
@@ -26,6 +28,17 @@ public class LetterController : MonoBehaviour, IPointerDownHandler, IDragHandler
         // DOTween sequence'ları initialize et
         shortSequence = DOTween.Sequence();
         moveSequence = DOTween.Sequence();
+    }
+
+    void Update()
+    {
+        if (isDragging && !isLocked)
+        {
+            // Smooth lerp to target drag position
+            Vector3 currentPos = transform.position;
+            Vector3 newPos = Vector3.Lerp(currentPos, targetDragPosition, Time.deltaTime * DRAG_LERP_SPEED);
+            transform.position = newPos;
+        }
     }
 
     public void SetId(string id) => letterId = id;
@@ -180,6 +193,7 @@ public class LetterController : MonoBehaviour, IPointerDownHandler, IDragHandler
         isDragging = true;
         transform.SetAsLastSibling();
         ReleaseCurrentTarget();
+        targetDragPosition = transform.position; // Initialize target position
 
         ShowSpine();
         HideImage();
@@ -192,7 +206,10 @@ public class LetterController : MonoBehaviour, IPointerDownHandler, IDragHandler
 
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
             canvas.transform as RectTransform, eventData.position, canvas.worldCamera, out var mousePos))
-            transform.position = canvas.transform.TransformPoint(mousePos);
+        {
+            // Set target position for smooth lerp in Update
+            targetDragPosition = canvas.transform.TransformPoint(mousePos);
+        }
     }
 
     public void OnPointerUp(PointerEventData eventData)

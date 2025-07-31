@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ac6817e65790664c9b47c9859c42e62, type: 3}
-  m_Name: 4
+  m_Name: 6
   m_EditorClassIdentifier: 
   maskotType: 0
   gameLevels:
@@ -28,8 +28,8 @@ MonoBehaviour:
     gameObject: {fileID: 6329391623969076903, guid: 20fa71b80452bf54897f358091b5e232, type: 3}
   upperCaseLetter: {fileID: 11400000, guid: 45f9e073842bac14f82dce7272cd42bc, type: 2}
   lowerCaseLetter: {fileID: 11400000, guid: cca214502e0f2c244b81ffcc95a9f4d1, type: 2}
-  word: "Dov\u015Fan"
-  baloonWord: "Dov\u015Fan"
-  findCompleteLetterWord: "Dov\u015Fan"
-  levelName: D
-  letter: D
+  word: "\u018Flc\u0259k"
+  baloonWord: "\u018Flc\u0259k"
+  findCompleteLetterWord: "\u018Flc\u0259k"
+  levelName: "\u018F"
+  letter: "\u018F"
