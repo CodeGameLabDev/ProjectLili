@@ -14,7 +14,7 @@ public class MemoryCard : MonoBehaviour, IPointerClickHandler
     [SerializeField] private TMP_Text labelText;   // Optional label under the image (can be left null)
 
     private MemoryCardManager manager;
-    private Sprite assignedSprite;
+    private CardData cardData;
     private bool isRevealed;
     private bool isMatched;
 
@@ -25,7 +25,7 @@ public class MemoryCard : MonoBehaviour, IPointerClickHandler
     // Stores the final anchored position on the grid panel – used during intro animation
     internal Vector2 TargetAnchoredPos { get; set; }
 
-    public int PairId { get; private set; }
+    public int PairId => cardData?.pairId ?? 0;
     private string originalLabel;
     private Color pairColor;
 
@@ -37,11 +37,18 @@ public class MemoryCard : MonoBehaviour, IPointerClickHandler
 
     #region Setup
 
-    public void Configure(int pairId, Color pairColor, string label)
+    public void Configure(CardData data)
     {
-        PairId = pairId;
-        originalLabel = label;
-        this.pairColor = pairColor;
+        cardData = data;
+        originalLabel = data.displayText;
+        this.pairColor = data.pairColor;
+        
+        // Set sprite if available
+        if (data.cardSprite != null)
+        {
+            frontImage.sprite = data.cardSprite;
+        }
+        
         // Closed visuals
         SetFrontColor(closedFrontColor);
         SetBackColor(closedBackColor);
@@ -75,7 +82,9 @@ public class MemoryCard : MonoBehaviour, IPointerClickHandler
 
     public void SetSprite(Sprite sprite)
     {
-        assignedSprite = sprite;
+        if (cardData != null)
+            cardData.cardSprite = sprite;
+            
         if (frontImage != null)
             frontImage.sprite = sprite;
 
@@ -90,7 +99,7 @@ public class MemoryCard : MonoBehaviour, IPointerClickHandler
 
     public Sprite GetSprite()
     {
-        return assignedSprite;
+        return cardData?.cardSprite;
     }
 
     #endregion
@@ -118,6 +127,7 @@ public class MemoryCard : MonoBehaviour, IPointerClickHandler
             {
                 labelText.text = originalLabel;
                 labelText.color = labelOpenColor;
+                labelText.gameObject.SetActive(cardData?.showText ?? true);
             }
         });
         seq.Append(transform.DORotate(Vector3.zero, flipDuration / 2f).SetEase(Ease.OutCubic));

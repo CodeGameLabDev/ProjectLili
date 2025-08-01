@@ -9,9 +9,21 @@ public class MemoryCardManager : MonoBehaviour, IGameLevel
     [Header("Setup References")]
     [SerializeField] private Transform cardPanel;          // Parent transform with GridLayoutGroup
     [SerializeField] private MemoryCard cardPrefab;        // Card prefab to spawn
+    [SerializeField] private CardDatabase cardDatabase;    // Database for card data
 
     [Header("Gameplay Settings")]
     [SerializeField, Range(0.1f, 5f)] private float hideDelay = 1f; // Delay before flipping back non-matching cards
+    
+    [Header("Card Type Settings")]
+    [SerializeField] public GameMode gameMode = GameMode.Numbers;
+    [SerializeField, Range(1, 10)] public int numberOfPairs = 4;
+    
+    public enum GameMode
+    {
+        Numbers,    // Only number cards (text)
+        Animals,    // Only animal photos
+        Objects     // Only object photos
+    }
 
     [Header("Intro References")]
     [SerializeField] private RectTransform liliTransform;   // Placeholder image for Lili
@@ -90,29 +102,55 @@ public class MemoryCardManager : MonoBehaviour, IGameLevel
             return;
         }
 
-        // Build numbered pairs 1-4, duplicate each, assign random colour per pair
-        var cardInfoList = new List<(int number, Color color)>();
-        for (int n = 1; n <= 4; n++)
+        if (cardDatabase == null)
         {
-            Color pairColor = Random.ColorHSV(0f, 1f, 0.6f, 1f, 0.7f, 1f);
-            cardInfoList.Add((n, pairColor));
-            cardInfoList.Add((n, pairColor));
+            Debug.LogError("MemoryCardManager:: Missing CardDatabase reference");
+            return;
         }
 
-        Shuffle(cardInfoList);
+        // Get card data based on game mode
+        List<CardData> cardDataList = GetCardDataList();
+        
+        // Duplicate each card to create pairs
+        var cardPairs = new List<CardData>();
+        foreach (var cardData in cardDataList)
+        {
+            cardPairs.Add(cardData);
+            cardPairs.Add(cardData); // Duplicate for pair
+        }
 
-        for (int i = 0; i < cardInfoList.Count; i++)
+        Shuffle(cardPairs);
+
+        for (int i = 0; i < cardPairs.Count; i++)
         {
             MemoryCard card = Instantiate(cardPrefab, cardPanel, false);
             card.SetManager(this);
-            card.Configure(cardInfoList[i].number, cardInfoList[i].color, cardInfoList[i].number.ToString());
+            card.Configure(cardPairs[i]);
             card.ForceFaceDown();
 
             spawnedCards.Add(card);
         }
 
-        // Each number appears exactly twice => total pairs = cardInfoList.Count / 2
-        remainingPairs = cardInfoList.Count / 2;
+        // Each card appears exactly twice => total pairs = cardPairs.Count / 2
+        remainingPairs = cardPairs.Count / 2;
+    }
+    
+    private List<CardData> GetCardDataList()
+    {
+        switch (gameMode)
+        {
+            case GameMode.Numbers:
+                return cardDatabase.GetNumberCards(numberOfPairs);
+                
+            case GameMode.Animals:
+                return cardDatabase.GetAnimalCards(numberOfPairs);
+                
+            case GameMode.Objects:
+                return cardDatabase.GetObjectCards(numberOfPairs);
+                
+            default:
+                return cardDatabase.GetNumberCards(numberOfPairs);
+        }
     }
 
     private void Shuffle<T>(IList<T> list)
