@@ -26,10 +26,10 @@ MonoBehaviour:
     gameObject: {fileID: 5492868739311912133, guid: 42787e1e278c5ea46b9e2f7b0b1677be, type: 3}
   - canvasType: 0
     gameObject: {fileID: 6329391623969076903, guid: 20fa71b80452bf54897f358091b5e232, type: 3}
-  upperCaseLetter: {fileID: 11400000, guid: 45f9e073842bac14f82dce7272cd42bc, type: 2}
-  lowerCaseLetter: {fileID: 11400000, guid: cca214502e0f2c244b81ffcc95a9f4d1, type: 2}
-  word: "\xC7anta"
-  baloonWord: "\xC7\xC7\xE7\xE7"
-  findCompleteLetterWord: "\xC7anta"
+  upperCaseLetter: {fileID: 11400000, guid: c9099c5f5cb2da04fb4417eb81438bbe, type: 2}
+  lowerCaseLetter: {fileID: 11400000, guid: 9d4103488b57b304390eb1916bb1f81a, type: 2}
+  word: "\xC7ANTA"
+  baloonWord: "\xC7ANTA"
+  findCompleteLetterWord: "\xC7ANTA"
   levelName: "\xC7"
   letter: "\xC7"

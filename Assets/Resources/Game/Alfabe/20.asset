@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ac6817e65790664c9b47c9859c42e62, type: 3}
-  m_Name: 6
+  m_Name: 20
   m_EditorClassIdentifier: 
   maskotType: 0
   gameLevels:
@@ -26,10 +26,10 @@ MonoBehaviour:
     gameObject: {fileID: 5492868739311912133, guid: 42787e1e278c5ea46b9e2f7b0b1677be, type: 3}
   - canvasType: 0
     gameObject: {fileID: 6329391623969076903, guid: 20fa71b80452bf54897f358091b5e232, type: 3}
-  upperCaseLetter: {fileID: 11400000, guid: 24c512085d93db940ab9769380428ace, type: 2}
-  lowerCaseLetter: {fileID: 11400000, guid: f9815ffe67b23f44eaa59ebdf9dd8b6b, type: 2}
-  word: "\u018FLC\u018FK"
-  baloonWord: "\u018FLC\u018FK"
-  findCompleteLetterWord: "\u018FLC\u018FK"
-  levelName: "\u018F"
-  letter: "\u018F"
+  upperCaseLetter: {fileID: 11400000, guid: be7425edacaceaf429c7be0f5c164eb9, type: 2}
+  lowerCaseLetter: {fileID: 11400000, guid: 9e8a3feeb7a133441b6af44fdc8b01ff, type: 2}
+  word: NAR
+  baloonWord: NAR
+  findCompleteLetterWord: NAR
+  levelName: N
+  letter: N

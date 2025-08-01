@@ -26,10 +26,10 @@ MonoBehaviour:
     gameObject: {fileID: 5492868739311912133, guid: 42787e1e278c5ea46b9e2f7b0b1677be, type: 3}
   - canvasType: 0
     gameObject: {fileID: 6329391623969076903, guid: 20fa71b80452bf54897f358091b5e232, type: 3}
-  upperCaseLetter: {fileID: 11400000, guid: 45f9e073842bac14f82dce7272cd42bc, type: 2}
-  lowerCaseLetter: {fileID: 11400000, guid: cca214502e0f2c244b81ffcc95a9f4d1, type: 2}
-  word: "Eyn\u0259k"
-  baloonWord: "Eyn\u0259k"
-  findCompleteLetterWord: "\u018Flc\u0259k"
+  upperCaseLetter: {fileID: 11400000, guid: 01ff2491c97b4224db55f0e32857cfe9, type: 2}
+  lowerCaseLetter: {fileID: 11400000, guid: 1460b37c06d6e0b4389def665e749a70, type: 2}
+  word: "F\u0130L"
+  baloonWord: "F\u0130L"
+  findCompleteLetterWord: "F\u0130L"
   levelName: F
   letter: F

@@ -29,7 +29,7 @@ MonoBehaviour:
   upperCaseLetter: {fileID: 11400000, guid: 45f9e073842bac14f82dce7272cd42bc, type: 2}
   lowerCaseLetter: {fileID: 11400000, guid: cca214502e0f2c244b81ffcc95a9f4d1, type: 2}
   word: ASLAN
-  baloonWord: Alma
-  findCompleteLetterWord: Alma
+  baloonWord: ASLAN
+  findCompleteLetterWord: ASLAN
   levelName: A
   letter: A

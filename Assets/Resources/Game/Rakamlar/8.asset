@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 408bc52704756684e8008bb96d18de25, type: 3}
+  m_Name: 8
+  m_EditorClassIdentifier: 
+  maskotType: 0
+  gameLevels:
+  - canvasType: 0
+    gameObject: {fileID: 5492868739311912133, guid: 42787e1e278c5ea46b9e2f7b0b1677be, type: 3}
+  - canvasType: 1
+    gameObject: {fileID: 5702487806517644640, guid: 20c56f58f50e46d44a4f5ff9cb7f17ba, type: 3}
+  - canvasType: 0
+    gameObject: {fileID: 3904173391876992528, guid: 4c0606d5997bdb0408d8054b74f45f26, type: 3}
+  - canvasType: 0
+    gameObject: {fileID: 6329391623969076903, guid: c7894173cfb502048aea1850ee3acf1c, type: 3}
+  numberData: {fileID: 11400000, guid: eaf3a892e2d92d9459175b896b770838, type: 2}
+  levelName: 5
+  levelNumber: 8
+  FeedingPrefabName: Level_8
